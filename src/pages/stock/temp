@@ -1,0 +1,26 @@
+<!--
+      <ion-buttons end>
+        <button ion-button icon-only (click)='openModal()'>
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-buttons>
+-->
+
+
+  <!--
+  <h2>Current Products</h2>
+  <ion-list>
+    <ion-card *ngFor="let product of stock" color="primary">     
+      <ion-card-header>
+        {{product.name}}
+      </ion-card-header>      
+      <ion-card-content>
+        <img src={{product.image}}>
+        <p>Price: R {{product.price}}</p>
+        <p>Description: {{product.description}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  
+  -->
+
