@@ -53,7 +53,7 @@ export class StockPage {
             "image":""
         };
         jsonArr.name = value.name;
-        jsonArr.randValue = value.price;
+        jsonArr.price = value.price;
         jsonArr.description = value.description;
         jsonArr.amount = value.amount;
         jsonArr.image = this.imageURI;
