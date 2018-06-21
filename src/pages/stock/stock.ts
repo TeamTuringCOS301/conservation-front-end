@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Http, Headers, RequestOptions} from '@angular/http';
 
 @Component({
   selector: 'page-stock',
@@ -46,8 +47,6 @@ export class StockPage {
         );
 
 
-        // testing
-        var test = new
     }
 
     public requestProductToBeSolled(value: any)
