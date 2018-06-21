@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { AlertPage } from '../alert/alert';
-import { HomePage } from '../home/home';
 import { StockPage } from '../stock/stock';
 
 

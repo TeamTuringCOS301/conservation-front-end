@@ -23,7 +23,6 @@ import { Http } from '../http-api';
   declarations: [
     MyApp,
     AlertPage,
-    HomePage,
     TabsPage,
     LoginPage,
     StockPage
@@ -37,7 +36,6 @@ import { Http } from '../http-api';
   entryComponents: [
     MyApp,
     AlertPage,
-    HomePage,
     TabsPage,
     LoginPage,
     StockPage
