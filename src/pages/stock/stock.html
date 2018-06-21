@@ -6,7 +6,7 @@
 
 <ion-content padding>
 
-  <form (submit)="requestProductToBeSelled(requestProduct.value)" [formGroup]="requestProduct">
+  <form (submit)="requestProductToBeSolled(requestProduct.value)" [formGroup]="requestProduct">
     <ion-list>
       <ion-grid>
         <ion-row>
@@ -45,7 +45,7 @@
           <ion-col col-6>
             <ion-item>
               <ion-label floating>Description</ion-label>
-              <ion-input formControlName="description" type="text"></ion-input>
+              <ion-input formControlName="description" type="textarea"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col col-3></ion-col>
@@ -54,8 +54,18 @@
           <ion-col col-3></ion-col>
           <ion-col col-6>
             <ion-item>
-              <ion-label floating>Image Path</ion-label>
-              <ion-input formControlName="imagePath" type="text"></ion-input>
+              <ion-label floating>Amount in Stock</ion-label>
+              <ion-input formControlName="amount" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-3></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-3></ion-col>
+          <ion-col col-6>
+            <ion-item>
+              <p>{{imageURI}}</p>
+              <button ion-button color="secondary" (click)="getImage()">Select Image</button>
             </ion-item>
           </ion-col>
           <ion-col col-3></ion-col>
@@ -71,7 +81,41 @@
     </ion-list>
   </form>
   
-  
+  <!--
+
+  <h2>Current Products</h2>
+  <ion-list>
+    <ion-card *ngFor="let product of stock" color="primary">     
+      <ion-card-header>
+        {{product.name}}
+      </ion-card-header>      
+      <ion-card-content>
+        <img src={{product.image}}>
+        <p>Price: R {{product.price}}</p>
+        <p>Description: {{product.description}}</p>
+        <p>Amount in Stock: {{product.amount}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  -->
+
+  <h2>Current Products</h2>
+  <ion-list>
+    <ion-card *ngFor="let testee of test" color="primary">     
+      <ion-card-header>
+        {{testee.name}}
+      </ion-card-header>      
+      <ion-card-content>
+        <!--<img src={{testee.image}}> -->
+        <p>Price: R {{testee.price}}</p>
+        <p>Description: {{testee.description}}</p>
+        <p>Amount in Stock: {{testee.amount}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+
   <div padding>
   
   </div>

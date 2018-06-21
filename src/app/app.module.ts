@@ -13,6 +13,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { HttpModule} from '@angular/http';
 import { StockPage } from '../pages/stock/stock';
+import { FilePath } from '@ionic-native/file-path';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,10 @@ import { StockPage } from '../pages/stock/stock';
   providers: [
     StatusBar,
     SplashScreen,
+    FilePath,
+    FileTransfer,
+    File,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
