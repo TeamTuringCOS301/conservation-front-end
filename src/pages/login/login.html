@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>Login</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-3></ion-col>
+        <ion-col col-6>
+          <h2 text-center>Welcome to ERP Coin Portal!</h2>
+        </ion-col>
+        <ion-col col-3></ion-col>
+      </ion-row>
+    </ion-grid>
+    <img src="assets/imgs/erp_logo.png">
+  
+  
+    <form (submit)="loginAdmin(adminUser.value)" [formGroup]="adminUser">
+      <ion-list>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-item>
+                <ion-label floating>Username</ion-label>
+                <ion-input formControlName="user" type="text"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-item>
+                <ion-label floating>Password</ion-label>
+                <ion-input formControlName="pass" type="password"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <button ion-button round outline color="primary" block type="submit">Login</button>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </form>
+  
+  
+  <div padding>
+  
+  </div>
+  
+  </ion-content>
+  
