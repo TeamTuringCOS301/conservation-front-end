@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import { Http, Headers, RequestOptions} from '@angular/http';
 import { FormGroup, FormControl} from '@angular/forms';
+import { Http } from '../../http-api';
 
 @Component({
   selector: 'page-stock',
@@ -24,16 +24,8 @@ export class StockPage {
 
         this.stock = [];
         this.product = {};
-        var jsonArr: any = {};
-        jsonArr.location = "";
-        var param = JSON.stringify(jsonArr);
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
         /*
-
-        let options = new RequestOptions({headers: headers, withCredentials: true});
-        var addr = "http://localhost:8080/stock/list";
-        this.http.get(addr).subscribe
+        this.http.get("/stock/list").subscribe
         (
             (data) => //Success
             {
