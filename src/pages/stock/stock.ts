@@ -2,25 +2,25 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Http, Headers, RequestOptions} from '@angular/http';
+import { Http } from '../../http-api';
 
 @Component({
   selector: 'page-stock',
   templateUrl: 'stock.html'
 })
 export class StockPage {
-    
+
     requestProduct:any;
     stock:any;
-    product:any; 
-    
+    product:any;
+
     imageURI:any;
     imageFileName:any;
 
-    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera) 
-    {        
+    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera)
+    {
         this.requestProduct = new FormGroup({
-            name: new FormControl(), 
+            name: new FormControl(),
             price: new FormControl(),
             description: new FormControl(),
             amount: new FormControl(),
@@ -29,20 +29,13 @@ export class StockPage {
 
         this.stock = [];
         this.product = {};
-        var jsonArr: any = {};
-        jsonArr.location = "";
-        var param = JSON.stringify(jsonArr);
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        let options = new RequestOptions({headers: headers, withCredentials: true});
-        var addr = "http://localhost:8080/stock/list";        
-        this.http.get(addr).subscribe
+        this.http.get("/reward/list/own").subscribe
         (
             (data) => //Success
             {
                 var jsonResp = JSON.parse(data.text());
                 //alert(data.text());
-                this.stock = jsonResp.stock;
+                this.stock = jsonResp.rewards;
             }
         );
 
@@ -60,24 +53,16 @@ export class StockPage {
             "image":""
         };
         jsonArr.name = value.name;
-        jsonArr.price = value.price;
+        jsonArr.randValue = value.price;
         jsonArr.description = value.description;
         jsonArr.amount = value.amount;
         jsonArr.image = this.imageURI;
-        
-        var param = jsonArr;
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        let options = new RequestOptions({headers: headers/*, withCredentials: true*/});
-        this.http.post(addr, param, options).subscribe
+
+        this.http.post("/reward/add", jsonArr).subscribe
         (
             (data) =>
             {
-                var jsonResp = JSON.parse(data.text());
-                if(jsonResp.success)
-                {
-                    //this.presentToast("Successfully Submitted");
-                }
+                //this.presentToast("Successfully Submitted");
             },
             (error) =>
             {
@@ -95,7 +80,7 @@ export class StockPage {
         }
 
         this.camera.getPicture(options).then((imageData) => {
-            //let base64Image = 'data:image/jpeg;base64,' + imageData;            
+            //let base64Image = 'data:image/jpeg;base64,' + imageData;
             this.imageURI = imageData;
         }, (err) => {
             // Handle error
