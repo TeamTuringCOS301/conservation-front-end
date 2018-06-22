@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, ToastController, IonicPage, ModalController} from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ToastController, ModalController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Http } from '../../http-api';
@@ -9,6 +9,8 @@ import { Http } from '../../http-api';
   templateUrl: 'stock.html'
 })
 export class StockPage {
+    //@ViewChild('fileInput') fileInput;
+    @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
     stock:any;
@@ -40,7 +42,7 @@ export class StockPage {
         );
     }
 
-    public requestProductToBeSolled(value: any)
+    public requestProductToBeSold(value: any)
     {
         let addr: any = "http://localhost:8080/conadmin/requestproduct";
         var jsonArr = {
@@ -71,21 +73,62 @@ export class StockPage {
     }
 
     public getPicture() {
+        //
+        this.presentToast("t");
+        //
         if (Camera['installed']()) {
           this.camera.getPicture({
             destinationType: this.camera.DestinationType.DATA_URL,
-            targetWidth: 96,
-            targetHeight: 96
+            //
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE
+            //
           }).then((data) => {
             this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
-            this.presentToast(data);
+            //
+            this.presentToast("t1:" + 'data:image/jpg;base64,' + data);
+            //
           }, (err) => {
             alert('Unable to take photo');
           })
-        } else {
-          //this.fileInput.nativeElement.click();
+        } else {     
+            //this.click();
+            this.fileInput.nativeElement.click();
+            /*
+            setTimeout(() => {
+                this.fileInput.nativeElement = true;
+                if (this.fileInput.nativeElement == true)
+                    this.fileInput.nativeElement.click();
+              }, 3000);
+              */
+
+              
+            /*
+            try{
+                this.fileInput.nativeElement.click();
+            }
+            catch (err)
+            {}*/
         }
+
+        return false;
     }
+
+    public processWebImage(event) {
+
+        this.presentToast("t1");
+
+        let reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          let imageData = (readerEvent.target as any).result;
+
+          this.presentToast("t: " + imageData);
+
+          this.requestProduct.patchValue({ 'image': imageData });
+        };
+    
+        reader.readAsDataURL(event.target.files[0]);
+      }
 
     public getImage()
     {

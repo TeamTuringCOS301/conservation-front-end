@@ -59,3 +59,12 @@
     }
 
 */
+
+
+
+<!--
+              <ion-input type="file">
+                <button (click)="getPicture()">Select Image</button>
+              </ion-input>
+              -->
+              <!--<button ion-button color="secondary" (click)="getImage()">Select Image</button>-->
