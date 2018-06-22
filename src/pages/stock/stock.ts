@@ -38,8 +38,6 @@ export class StockPage {
                 this.stock = jsonResp.rewards;
             }
         );
-
-
     }
 
     public requestProductToBeSolled(value: any)
