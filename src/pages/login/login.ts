@@ -24,29 +24,34 @@ export class LoginPage {
     jsonArr.username = value.user;
     jsonArr.password = value.pass;
 
-    /*
     this.http.post("/admin/login", jsonArr).subscribe
     (
       (data) =>
-      {
+      {        
+        //this.presentToast("t");
+
         var jsonResp = JSON.parse(data.text());
         if(jsonResp.success)
         {
-          this.presentToast("Logged in!")
+          this.presentToast("Logged in!");
           this.navCtrl.push(TabsPage);
+        }
+        else
+        {
+          this.presentToast("no");
+          //
+          this.navCtrl.push(TabsPage);
+          //
         }
       },
       (error) =>
       {
-        alert("Error: " + error);
+        alert("Error: " + error); 
+        //       
+        this.navCtrl.push(TabsPage);
+        //
       }
-    );*/
-
-    this.presentToast("Logged in!")
-    this.navCtrl.push(TabsPage);
-
-    //
-
+    );
   }
 
   presentToast(text){
