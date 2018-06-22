@@ -14,7 +14,10 @@ export class AlertPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   polygonPoints: any = [];
+  midpoint: any;
   mapObj: any;
+  markers: any = [];
+  mapMarkers: any = [];
   //midpoint: any = [];
 
   constructor(public navCtrl: NavController) {
@@ -23,19 +26,29 @@ export class AlertPage {
 
   ionViewDidLoad(){
       this.LoadMap();
-      this.getPolygon()
+      this.getPolygon();
       this.showPolygon();
       this.setZoom();
       this.getMarkers();
       this.displayMarkers();
   }
 
-  getMarkers(){
-    return;
+  displayMarkers(){
+    for (let entry of this.markers) {
+        this.mapMarkers.push(new google.maps.Marker({
+        position: entry.location,
+        map: this.map,
+        title: entry.description
+      }));
+    }
   }
 
-  displayMarkers(){
-    return;
+  getMarkers(){
+    this.markers = [{description: "marker1", location: {lat: -25.75392, lng: 28.23217}},
+                    {description: "marker2", location: {lat: -25.7623, lng: 28.22973}},
+                    {description: "marker3", location: {lat: -25.75565, lng: 28.23938}},
+                    {description: "marker4", location: {lat: -25.76424, lng: 28.2375}}]
+
   }
 
   setZoom(){
