@@ -4,10 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AlertPage } from '../pages/alert/alert';
-<<<<<<< HEAD
-
-=======
->>>>>>> a05fd7434bbc7799c5de069c7f56200ba7066c8b
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
