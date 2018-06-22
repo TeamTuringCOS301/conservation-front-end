@@ -15,7 +15,7 @@ export class AlertPage {
   map: any;
   polygonPoints: any = [];
   mapObj: any;
-  //midpoint: any = [];
+  midpoint: any = [];
 
   constructor(public navCtrl: NavController) {
 

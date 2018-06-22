@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, IonicPage, ModalController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Http } from '../../http-api';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { GalleryPage } from '../gallery/gallery';
 
 @Component({
   selector: 'page-stock',
@@ -19,7 +17,7 @@ export class StockPage {
     imageURI:any;
     imageFileName:any;
 
-    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public imagePicker: ImagePicker)
+    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public modalCtrl: ModalController)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -56,7 +54,7 @@ export class StockPage {
         jsonArr.price = value.price;
         jsonArr.description = value.description;
         jsonArr.amount = value.amount;
-        jsonArr.image = this.imageURI;        
+        jsonArr.image = value.image;        
 
         this.http.post("/reward/add", jsonArr).subscribe
         (
@@ -72,23 +70,23 @@ export class StockPage {
         );
     }
 
-    public openGallery (): void {
-        let options = {
-          maximumImagesCount: 1,
-          width: 500,
-          height: 500,
-          quality: 75
+    public getPicture() {
+        if (Camera['installed']()) {
+          this.camera.getPicture({
+            destinationType: this.camera.DestinationType.DATA_URL,
+            targetWidth: 96,
+            targetHeight: 96
+          }).then((data) => {
+            this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
+            this.presentToast(data);
+          }, (err) => {
+            alert('Unable to take photo');
+          })
+        } else {
+          //this.fileInput.nativeElement.click();
         }
-      
-        ImagePicker.getPictures(options).then(
-          file_uris => this._navCtrl.push(GalleryPage, {images: file_uris}),
-          err => console.log('uh oh')
-        );
-      }
+    }
 
-
-
-    
     public getImage()
     {
         const options: CameraOptions = {

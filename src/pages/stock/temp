@@ -43,3 +43,19 @@
     });
   }
 
+/*
+    public openGallery (): void {
+        let options = {
+          maximumImagesCount: 1,
+          width: 500,
+          height: 500,
+          quality: 75
+        }
+      
+        ImagePicker.getPictures(options).then(
+          file_uris => this.navCtrl.push(GalleryPage, {images: file_uris}),
+          err => console.log('uh oh')
+        );
+    }
+
+*/

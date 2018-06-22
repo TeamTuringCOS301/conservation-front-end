@@ -16,6 +16,9 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
+import { Transfer, TransferObject } from '@ionic-native/transfer';
+
+
 import { Http } from '../http-api';
 
 @NgModule({
@@ -46,6 +49,7 @@ import { Http } from '../http-api';
     FileTransfer,
     File,
     Camera,
+    Transfer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Http
   ]
