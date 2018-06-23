@@ -42,9 +42,7 @@ export class AlertPage {
         title:  '<p>Description: '+entry.description+'</p>' +
                 '<p>Date: '+entry.date+'</p>' +
                 '<p>Time: '+entry.time+'</p>' +
-                '<p>Severity: '+entry.severity+'</p>' +
-                '<p><button click="AlertPage.deleteMarker()"> Delete </button></p>' +
-                '<p><button click="AlertPage.broadcastMarker()"> Broadcast </button></p>'
+                '<p>Severity: '+entry.severity+'</p>'
       }));
       if (entry.severity == 0){
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
