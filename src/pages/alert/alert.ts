@@ -1,6 +1,5 @@
 import { NavController } from 'ionic-angular';
 import { Http, RequestOptions, Headers } from '@angular/http';
-import { Storage } from '@ionic/storage';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
 declare var google;
@@ -18,7 +17,8 @@ export class AlertPage {
   mapObj: any;
   markers: any = [];
   mapMarkers: any = [];
-  //midpoint: any = [];
+  infoWindows: any = [];
+  openMarker: any;
 
   constructor(public navCtrl: NavController) {
 
@@ -34,21 +34,72 @@ export class AlertPage {
   }
 
   displayMarkers(){
+    var i = 0;
     for (let entry of this.markers) {
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title: entry.description
+        title:  '<p>Description: '+entry.description+'</p>' +
+                '<p>Date: '+entry.date+'</p>' +
+                '<p>Time: '+entry.time+'</p>' +
+                '<p>Severity: '+entry.severity+'</p>' +
+                '<p><button click="AlertPage.deleteMarker()"> Delete </button></p>' +
+                '<p><button click="AlertPage.broadcastMarker()"> Broadcast </button></p>'
       }));
+      if (entry.severity == 0){
+        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+      }
+      else if (entry.severity == 1){
+        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+      }
+      else{
+        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+      }
+      i++;
+    }
+    for (let entry of this.mapMarkers) {
+      this.closeAllInfoWindows();
+      this.addInfoWindowToMarker(entry);
+    }
+  }
+
+  deleteMarker(){
+    this.openMarker.setMap(null);
+  }
+
+  broadcastMarker(){
+    return;
+  }
+
+  addInfoWindowToMarker(marker) {
+    var infoWindowContent = marker.title+'</p>'
+
+    var infoWindow = new google.maps.InfoWindow({
+      content: infoWindowContent
+    });
+    marker.addListener('click', () => {
+      infoWindow.open(this.map, marker);
+      this.openMarker = marker;
+    });
+    marker.addListener('click', () => {
+      this.closeAllInfoWindows();
+      infoWindow.open(this.map, marker);
+    });
+    this.infoWindows.push(infoWindow);
+  }
+
+  closeAllInfoWindows() {
+    for(let window of this.infoWindows) {
+      window.close();
     }
   }
 
   getMarkers(){
-    this.markers = [{description: "marker1", location: {lat: -25.75392, lng: 28.23217}},
-                    {description: "marker2", location: {lat: -25.7623, lng: 28.22973}},
-                    {description: "marker3", location: {lat: -25.75565, lng: 28.23938}},
-                    {description: "marker4", location: {lat: -25.76424, lng: 28.2375}}]
-
+    this.markers = [{description: "Darius Spotted", location: {lat: -25.75592, lng: 28.23217}, date: "20/09/2018", time: "19:40", broadcasted: false, severity: 0},
+                    {description: "Darius Spotted", location: {lat: -25.75392, lng: 28.22917}, date: "20/09/2018", time: "19:40", broadcasted: true, severity: 1},
+                    {description: "Rhino's Mating", location: {lat: -25.7613, lng: 28.23573}, date: "21/09/2018", time: "19:30", broadcasted: false, severity: 2},
+                    {description: "Endangered Darius attacked Elephant", location: {lat: -25.75765, lng: 28.23338}, date: "24/09/2018", time: "19:10", broadcasted: false, severity: 1},
+                    {description: "The beast is released", location: {lat: -25.76124, lng: 28.2305}, date: "29/09/2018", time: "19:15", broadcasted: true, severity: 0}]
   }
 
   setZoom(){
@@ -98,8 +149,6 @@ export class AlertPage {
   }
 
   LoadMap() {
-    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
-
     let mapOptions = {
       center: {lat: -25.75565, lng: 28.23938},
       zoom: 11,
