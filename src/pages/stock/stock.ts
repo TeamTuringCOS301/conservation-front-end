@@ -36,10 +36,48 @@ export class StockPage {
             (data) => //Success
             {
                 var jsonResp = JSON.parse(data.text());
-                //alert(data.text());
                 this.stock = jsonResp.rewards;
+                this.stock.forEach(el => {
+                    
+                    alert("el.name: " + " p " + el.image);
+                    
+                    let dataBlob = this.getBlob(el.image);
+                    let urlCreator = window.URL; // || window.webkitURL;                    
+                    let imageUrl = urlCreator.createObjectURL(dataBlob);
+
+                    el.image = imageUrl;
+                    
+                    alert("el.name: " + " o " + el.image); //    blob:http://localhost:8100/ hex...
+                });
+                
             }
         );
+    }
+
+    public getBlob (b64Data)
+    {
+        let contentType = '';
+        let sliceSize = 512;
+
+        b64Data = b64Data.replace(/data\:image\/(jpeg|jpg|png)\;base64\,/gi, '');
+
+        let byteCharacters = atob(b64Data);
+        let byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+          let slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+          let byteNumbers = new Array(slice.length);
+          for (let i = 0; i < slice.length; i++) {
+              byteNumbers[i] = slice.charCodeAt(i);
+          }
+    
+          let byteArray = new Uint8Array(byteNumbers);
+          byteArrays.push(byteArray);
+        }
+
+        let blob = new Blob(byteArrays, {type: contentType});
+        return blob;
     }
 
     public requestProductToBeSold(value: any)
@@ -67,7 +105,6 @@ export class StockPage {
             (error) =>
             {
                 this.presentToast("Error: " + error);
-                alert("Error: " + error);
             }
         );
     }
@@ -112,42 +149,35 @@ export class StockPage {
         return false;
     }
 
-    public processWebImage(event) {
+    public processWebImage(event)
+    {
         let reader = new FileReader();
         reader.onload = (readerEvent) => {
           let imageData = (readerEvent.target as any).result;
-
-          this.presentToast("t: " + imageData);
-
           imageData = imageData.substring('data:image/jpeg;base64,'.length);
-          alert("t2: " + imageData);
 
           this.requestProduct.patchValue({ 'image': imageData });
         };
     
         reader.readAsDataURL(event.target.files[0]);
-      }
+    }
 
-    public getImage()
+    public deleteProduct(product)
     {
-        const options: CameraOptions = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.FILE_URI,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-        }
+        let index = this.stock.indexOf(product);
+        this.stock.splice(index,1);
 
-        this.camera.getPicture(options).then((imageData) => {
-            //let base64Image = 'data:image/jpeg;base64,' + imageData;
-            this.imageURI = imageData;
-            this.presentToast(this.imageURI);
-            this.presentToast("ok");
-        }, (err) => {
-            // Handle error
-            this.presentToast("Fail to load image: " + err);
-            this.imageURI = "jnasnansjknsjnajd";
-        });
-        
-        return false;
+        this.http.post("/reward/remove/" + product.id, null).subscribe
+        (
+            (data) =>
+            {
+                this.presentToast("Successfully Deleted");
+            },
+            (error) =>
+            {
+                this.presentToast("Error: " + error);
+            }
+        );
     }
 
     presentToast(text)
@@ -162,5 +192,4 @@ export class StockPage {
         );
         toast.present();
     }
-
 }

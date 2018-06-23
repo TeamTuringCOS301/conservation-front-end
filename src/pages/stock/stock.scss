@@ -4,12 +4,9 @@ page-stock {
     text-align: center;
   }
   
-    img {
-      height: 10% !important;
-      width: 10% !important;
-      display: block;
-      margin: auto;
-      align-items: center;
-      object-fit: contain;;
-    }
+
+  #cardImage {
+    height: 50px;
+    width: 50px;
   }
+}

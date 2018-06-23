@@ -68,3 +68,5 @@
               </ion-input>
               -->
               <!--<button ion-button color="secondary" (click)="getImage()">Select Image</button>-->
+
+              class="cardImage">

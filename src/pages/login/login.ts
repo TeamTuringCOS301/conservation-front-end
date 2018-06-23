@@ -27,9 +27,7 @@ export class LoginPage {
     this.http.post("/admin/login", jsonArr).subscribe
     (
       (data) =>
-      {        
-        //this.presentToast("t");
-
+      {      
         var jsonResp = JSON.parse(data.text());
         if(jsonResp.success)
         {
@@ -38,18 +36,12 @@ export class LoginPage {
         }
         else
         {
-          this.presentToast("no");
-          //
-          this.navCtrl.push(TabsPage);
-          //
+          alert("Invalid Login. Try Again.");
         }
       },
       (error) =>
       {
-        alert("Error: " + error); 
-        //       
-        this.navCtrl.push(TabsPage);
-        //
+        alert("Error: " + error);         
       }
     );
   }
