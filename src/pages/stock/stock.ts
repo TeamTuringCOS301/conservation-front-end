@@ -47,15 +47,15 @@ export class StockPage {
         let addr: any = "http://localhost:8080/conadmin/requestproduct";
         var jsonArr = {
             "name":"",
-            "price":0,
+            "randValue":0,
             "description":"",
             "amount":0,
             "image":""
         };
         jsonArr.name = value.name;
-        jsonArr.price = value.price;
+        jsonArr.randValue = parseInt(value.price);
         jsonArr.description = value.description;
-        jsonArr.amount = value.amount;
+        jsonArr.amount = parseInt(value.amount);
         jsonArr.image = value.image;        
 
         this.http.post("/reward/add", jsonArr).subscribe
@@ -85,9 +85,7 @@ export class StockPage {
             //
           }).then((data) => {
             this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
-            //
-            this.presentToast("t1:" + 'data:image/jpg;base64,' + data);
-            //
+            
           }, (err) => {
             alert('Unable to take photo');
           })
@@ -115,14 +113,14 @@ export class StockPage {
     }
 
     public processWebImage(event) {
-
-        this.presentToast("t1");
-
         let reader = new FileReader();
         reader.onload = (readerEvent) => {
           let imageData = (readerEvent.target as any).result;
 
           this.presentToast("t: " + imageData);
+
+          imageData = imageData.substring('data:image/jpeg;base64,'.length);
+          alert("t2: " + imageData);
 
           this.requestProduct.patchValue({ 'image': imageData });
         };
