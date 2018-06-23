@@ -15,6 +15,7 @@ export class StockPage {
     requestProduct:any;
     stock:any;
     product:any;
+    base64Data:any;
 
     imageURI:any;
     imageFileName:any;
@@ -29,6 +30,11 @@ export class StockPage {
             image: new FormControl()//this.imageURI
         });
 
+        this.updateProductList();
+    }
+
+    public updateProductList()
+    {
         this.stock = [];
         this.product = {};
         this.http.get("/reward/list/own").subscribe
@@ -37,47 +43,13 @@ export class StockPage {
             {
                 var jsonResp = JSON.parse(data.text());
                 this.stock = jsonResp.rewards;
-                this.stock.forEach(el => {
-                    
-                    alert("el.name: " + " p " + el.image);
-                    
-                    let dataBlob = this.getBlob(el.image);
-                    let urlCreator = window.URL; // || window.webkitURL;                    
-                    let imageUrl = urlCreator.createObjectURL(dataBlob);
-
-                    el.image = imageUrl;
-                    
-                    alert("el.name: " + " o " + el.image); //    blob:http://localhost:8100/ hex...
-                });
-                
+                this.stock.forEach(el =>
+                {
+                    this.base64Data = el.image;
+                    el.image = "data:image/jpeg;base64," + this.base64Data;
+                });                
             }
         );
-    }
-
-    public getBlob (b64Data)
-    {
-        let contentType = '';
-        let sliceSize = 512;
-
-        b64Data = b64Data.replace(/data\:image\/(jpeg|jpg|png)\;base64\,/gi, '');
-
-        let byteCharacters = atob(b64Data);
-        let byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-          let slice = byteCharacters.slice(offset, offset + sliceSize);
-    
-          let byteNumbers = new Array(slice.length);
-          for (let i = 0; i < slice.length; i++) {
-              byteNumbers[i] = slice.charCodeAt(i);
-          }
-    
-          let byteArray = new Uint8Array(byteNumbers);
-          byteArrays.push(byteArray);
-        }
-
-        let blob = new Blob(byteArrays, {type: contentType});
-        return blob;
     }
 
     public requestProductToBeSold(value: any)
@@ -107,6 +79,12 @@ export class StockPage {
                 this.presentToast("Error: " + error);
             }
         );
+
+        this.requestProduct.reset();
+
+        setTimeout(() => {
+            this.updateProductList();
+        }, 1000);       
     }
 
     public getPicture() {
@@ -145,7 +123,6 @@ export class StockPage {
             catch (err)
             {}*/
         }
-
         return false;
     }
 
@@ -153,10 +130,10 @@ export class StockPage {
     {
         let reader = new FileReader();
         reader.onload = (readerEvent) => {
-          let imageData = (readerEvent.target as any).result;
-          imageData = imageData.substring('data:image/jpeg;base64,'.length);
+            let imageData = (readerEvent.target as any).result;
+            imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
-          this.requestProduct.patchValue({ 'image': imageData });
+            this.requestProduct.patchValue({ 'image': imageData });
         };
     
         reader.readAsDataURL(event.target.files[0]);
@@ -167,7 +144,7 @@ export class StockPage {
         let index = this.stock.indexOf(product);
         this.stock.splice(index,1);
 
-        this.http.post("/reward/remove/" + product.id, null).subscribe
+        this.http.get("/reward/remove/" + product.id).subscribe
         (
             (data) =>
             {
@@ -178,6 +155,8 @@ export class StockPage {
                 this.presentToast("Error: " + error);
             }
         );
+
+        //this.updateProductList();
     }
 
     presentToast(text)
