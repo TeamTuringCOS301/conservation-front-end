@@ -22,7 +22,7 @@ export class AlertPage {
   infoWindows: any = [];
   openMarker: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
 
   }
 
