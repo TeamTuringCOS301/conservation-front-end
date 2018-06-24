@@ -1,6 +1,6 @@
 import { NavController } from 'ionic-angular';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ToastController, ModalController} from 'ionic-angular';
+import { ToastController} from 'ionic-angular';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 
