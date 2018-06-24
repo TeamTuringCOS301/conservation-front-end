@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Add New Product</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="cancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form (submit)="requestProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
+        <ion-list>        
+            <ion-item>
+                <p>Request ERP to allow your product to be available to ERPCoin users.</p>
+            </ion-item>       
+            <ion-item>
+                <ion-label floating>Name</ion-label>
+                <ion-input formControlName="name" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Price in Rand</ion-label>
+                <ion-input formControlName="price" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Description</ion-label>
+                <ion-input formControlName="description" type="textarea"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Amount in Stock</ion-label>
+                <ion-input formControlName="amount" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Select Image</ion-label>
+                <input item-end type="file" (change)="processWebImage($event)"/>
+            </ion-item>
+            <button ion-button round outline color="primary" block type="submit">Submit</button>
+        </ion-list>
+    </form>
+
+    <div padding>
+
+    </div>
+
+
+</ion-content>

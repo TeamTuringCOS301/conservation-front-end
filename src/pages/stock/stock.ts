@@ -4,6 +4,7 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
+import { StockAddPage} from '../stock-add/stock-add';
 
 @Component({
   selector: 'page-stock',
@@ -28,10 +29,41 @@ export class StockPage {
             price: new FormControl(),
             description: new FormControl(),
             amount: new FormControl(),
-            image: new FormControl()//this.imageURI
+            image: new FormControl()
         });
 
         this.updateProductList();
+    }
+
+    public addProduct()
+    {
+        let gotSomething:any;
+        let addModal = this.modalCtrl.create(StockAddPage);
+        addModal.onDidDismiss(gotSomething => {
+            if (gotSomething) {
+                setTimeout(() => {
+                    this.updateProductList();
+                }, 1000); 
+            }
+          })
+        addModal.present();
+    }
+
+    public logOut()
+    {
+        this.http.get("/admin/logout").subscribe
+        (
+            (data) =>
+            {
+                this.navCtrl.push(LoginPage);
+                this.presentToast("Logged Out");
+            },
+            (error) =>
+            {
+                this.navCtrl.push(LoginPage);
+                //alert("Error: " + error);
+            }            
+        );        
     }
 
     public updateProductList()
@@ -60,7 +92,6 @@ export class StockPage {
 
     public requestProductToBeSold(value: any)
     {
-        let addr: any = "http://localhost:8080/conadmin/requestproduct";
         var jsonArr = {
             "name":"",
             "randValue":0,
@@ -134,14 +165,13 @@ export class StockPage {
 
     public deleteProduct(product)
     {
-        let index = this.stock.indexOf(product);
-        this.stock.splice(index,1);
-
         this.http.get("/reward/remove/" + product.id).subscribe
         (
             (data) =>
             {
                 this.presentToast("Successfully Deleted");
+                let index = this.stock.indexOf(product);
+                this.stock.splice(index,1);        
             },
             (error) =>
             {
@@ -165,24 +195,5 @@ export class StockPage {
         toast.present();
     }
 
-    public addProduct()
-    {
 
-    }
-
-    public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                this.navCtrl.push(LoginPage);
-                this.presentToast("Logged Out");
-            },
-            (error) =>
-            {
-                alert("Error: " + error);
-            }            
-        );        
-    }
 }

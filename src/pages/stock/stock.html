@@ -2,16 +2,13 @@
     <ion-navbar>
       <ion-title>Rewards</ion-title>
       <ion-buttons end>
-        <button ion-button icon-only (click)="addProduct()">
-          <ion-icon name="add"></ion-icon>
-        </button>
+        <button ion-button color="primary" (click)="addProduct()">Add Product</button>
         <button ion-button color="primary" (click)="logOut()">Log Out</button>
       </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
   <form (submit)="requestProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
     <ion-list>
       <ion-grid>
