@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Add New Product</ion-title>
+        <ion-title>Edit Product</ion-title>
         <ion-buttons start>
             <button ion-button (click)="cancel()">
                 <ion-icon name="close"></ion-icon>
@@ -8,32 +8,33 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-
+    
 <ion-content padding>
-    <form (submit)="requestProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
+    <form (submit)="requestEdittedProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
         <ion-list>        
             <ion-item>
-                <p>Request ERP to allow your product to be available to ERP Coin users.</p>
+                <p>Edit your product.  Any new configurations will have to be verified by</p>
+                <p> ERP Admin first, before being set available to public</p>                
             </ion-item>       
             <ion-item>
                 <ion-label floating>Name</ion-label>
-                <ion-input formControlName="name" type="text"></ion-input>
+                <ion-input formControlName="name" type="text" value={{product.name}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Price in Rand</ion-label>
-                <ion-input formControlName="price" type="number"></ion-input>
+                <ion-input formControlName="price" type="number" value={{product.randValue}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Description</ion-label>
-                <ion-input formControlName="description" type="textarea"></ion-input>
+                <ion-input formControlName="description" type="textarea" value={{product.description}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Amount in Stock</ion-label>
-                <ion-input formControlName="amount" type="text"></ion-input>
+                <ion-input formControlName="amount" type="text" value={{product.amount}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>Select Image</ion-label>
-                <input item-end type="file" (change)="processWebImage($event)"/>
+                <input item-end type="file" (change)="processWebImage($event)" />
             </ion-item>
             <button ion-button round outline color="primary" block type="submit">Submit</button>
         </ion-list>

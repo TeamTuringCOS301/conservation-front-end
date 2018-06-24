@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { StockAddPage} from '../pages/stock-add/stock-add';
+import { StockEditPage} from '../pages/stock-edit/stock-edit';
 import { HttpModule} from '@angular/http';
 import { StockPage } from '../pages/stock/stock';
 import { FilePath } from '@ionic-native/file-path';
@@ -25,7 +26,8 @@ import { Http } from '../http-api';
     TabsPage,
     LoginPage,
     StockPage,
-    StockAddPage
+    StockAddPage,
+    StockEditPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { Http } from '../http-api';
     TabsPage,
     LoginPage,
     StockPage,
-    StockAddPage
+    StockAddPage,
+    StockEditPage
   ],
   providers: [
     StatusBar,

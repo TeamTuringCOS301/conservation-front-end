@@ -9,87 +9,13 @@
 </ion-header>
 
 <ion-content padding>
-  <form (submit)="requestProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
-    <ion-list>
-      <ion-grid>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-              <h1>Add New Product</h1>
-              <p>
-                Request ERP to allow your product to be available to ERPCoin users.
-              </p>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-              <ion-label floating>Name</ion-label>
-              <ion-input formControlName="name" type="text"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-              <ion-label floating>Price in Rand</ion-label>
-              <ion-input formControlName="price" type="number"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-              <ion-label floating>Description</ion-label>
-              <ion-input formControlName="description" type="textarea"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-              <ion-label floating>Amount in Stock</ion-label>
-              <ion-input formControlName="amount" type="text"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <ion-item>
-                <label>Select Image</label>
-                <input type="file" (change)="processWebImage($event)"/>
-            </ion-item>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-3></ion-col>
-          <ion-col col-6>
-            <button ion-button round outline color="primary" block type="submit">Submit</button>
-          </ion-col>
-          <ion-col col-3></ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-  </form>
-
   <h2>Current Products</h2>
   <ion-list>
     <ion-card class="product card" *ngFor="let product of stock" color="primary">
       <ion-card-header>  
         <ion-item color="primary">
           <ion-label item-start><h1>{{product.name}}</h1></ion-label>
+          <button item-end ion-button (click)="editProduct(product)">Edit</button>
           <button item-end ion-button (click)="deleteProduct(product)">Delete</button>   
         </ion-item>              
       </ion-card-header>

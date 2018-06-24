@@ -1,19 +1,22 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 
 @Component({
-  selector: 'page-stock-add',
-  templateUrl: 'stock-add.html'
+  selector: 'page-stock-edit',
+  templateUrl: 'stock-edit.html'
 })
-export class StockAddPage {
+export class StockEditPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
 
-    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
+    product:any;
+
+    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
+         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -22,14 +25,11 @@ export class StockAddPage {
             amount: new FormControl(),
             image: new FormControl()
         });
+
+        this.product = this.params.get('product');
     }
 
-    public cancel()
-    {
-        this.viewCtrl.dismiss(null);     
-    }
-
-    public requestProductToBeSold(value: any)
+    public requestEdittedProductToBeSold(value: any)
     {
         var jsonArr = {
             "name":"",
@@ -49,12 +49,14 @@ export class StockAddPage {
             alert("Please complete form.");
             return false;
         }
-        
+
         jsonArr.name = value.name;
         jsonArr.randValue = parseInt(value.price);
         jsonArr.description = value.description;
         jsonArr.amount = parseInt(value.amount);
         jsonArr.image = value.image;        
+
+        this.deleteProduct(this.product);
 
         this.http.post("/reward/add", jsonArr).subscribe
         (
@@ -68,8 +70,29 @@ export class StockAddPage {
             }
         );
 
-        this.requestProduct.reset();
         this.viewCtrl.dismiss(this.requestProduct);
+    }
+
+    public deleteProduct(product)
+    {
+        this.http.get("/reward/remove/" + product.id).subscribe
+        (
+            (data) =>
+            {
+                    
+            },
+            (error) =>
+            {
+                this.presentToast("Error: " + error);
+            }
+        );
+    }
+
+    public cancel()
+    {
+        this.product = this.params.get('product');
+        
+        this.viewCtrl.dismiss(null);                  
     }
 
     public processWebImage(event)
@@ -88,29 +111,6 @@ export class StockAddPage {
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    public getPicture() {
-        //
-        this.presentToast("t");
-        //
-        if (Camera['installed']()) {
-          this.camera.getPicture({
-            destinationType: this.camera.DestinationType.DATA_URL,
-            //
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
-            //
-          }).then((data) => {
-            this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
-            
-          }, (err) => {
-            alert('Unable to take photo');
-          })
-        } else {     
-            this.fileInput.nativeElement.click();  
-        }
-        return false;
-    }
-
     presentToast(text)
     {
         let toast = this.toastCtrl.create(
@@ -123,4 +123,5 @@ export class StockAddPage {
         );
         toast.present();
     }
+
 }
