@@ -28,11 +28,23 @@ export class AlertPage {
 
   ionViewDidLoad(){
       this.LoadMap();
-      this.getPolygon();
-      this.showPolygon();
-      this.setZoom();
-      this.getMarkers();
-      this.displayMarkers();
+  }
+
+  getInfo(){
+    this.http.get("/admin/info").subscribe
+    (
+        (data) => //Success
+        {
+            var jsonResp = JSON.parse(data.text());
+            this.conArea = jsonResp.area;
+            //alert(this.conArea)
+            this.getPolygon();
+        },
+        (error) =>
+        {
+          alert("Error: " + error);
+        }
+    );
   }
 
   displayMarkers(){
@@ -101,7 +113,6 @@ export class AlertPage {
         {
             var jsonResp = JSON.parse(data.text());
             this.markers = jsonResp.alerts;
-            alert(data.text);
             this.displayMarkers();
         },
         (error) =>
@@ -144,7 +155,12 @@ export class AlertPage {
             var jsonResp = JSON.parse(data.text());
             this.polygonPoints = jsonResp.border;
             this.midpoint = jsonResp.middle;
+            //alert(data.text);
             this.showPolygon();
+        },
+        (error) =>
+        {
+          alert("Error: " + error);
         }
     );
 
@@ -187,7 +203,7 @@ export class AlertPage {
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
+    this.getInfo();
   }
 
   presentToast(text){
