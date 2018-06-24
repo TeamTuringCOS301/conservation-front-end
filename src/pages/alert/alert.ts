@@ -38,7 +38,6 @@ export class AlertPage {
         {
             var jsonResp = JSON.parse(data.text());
             this.conArea = jsonResp.area;
-            //alert(this.conArea)
             this.getPolygon();
         },
         (error) =>
@@ -56,7 +55,7 @@ export class AlertPage {
         map: this.map,
         title:  '<p><u> '+entry.title+'</u></p>' +
                 '<p>Description: '+entry.description+'</p>' +
-                '<p>Time: '+entry.time+'</p>' +
+                '<p>Date & Time: '+new Date(entry.time)+'</p>' +
                 '<p>Severity: '+entry.severity+'</p>'
       }));
       if (entry.severity == 0){
@@ -121,14 +120,6 @@ export class AlertPage {
           alert("Error: " + error);
         }
     );
-
-    //this.markers = [{description: "Darius Spotted", location: {lat: -25.75592, lng: 28.23217}, date: "20/09/2018", time: "19:40", broadcasted: false, severity: 0},
-    //                {description: "Darius Spotted", location: {lat: -25.75392, lng: 28.22917}, date: "20/09/2018", time: "19:40", broadcasted: true, severity: 1},
-    //                {description: "Rhino's Mating", location: {lat: -25.7613, lng: 28.23573}, date: "21/09/2018", time: "19:30", broadcasted: false, severity: 2},
-    //                {description: "Endangered Darius attacked Elephant", location: {lat: -25.75765, lng: 28.23338}, date: "24/09/2018", time: "19:10", broadcasted: false, severity: 1},
-    //                {description: "The beast is released", location: {lat: -25.76124, lng: 28.2305}, date: "29/09/2018", time: "19:15", broadcasted: true, severity: 0}]
-    //
-    //                this.displayMarkers();
   }
 
   setZoom(){
@@ -156,7 +147,6 @@ export class AlertPage {
             var jsonResp = JSON.parse(data.text());
             this.polygonPoints = jsonResp.border;
             this.midpoint = jsonResp.middle;
-            //alert(data.text);
             this.showPolygon();
         },
         (error) =>
@@ -164,20 +154,6 @@ export class AlertPage {
           alert("Error: " + error);
         }
     );
-
-      //to be replaced with server request here
-
-      //this.polygonPoints = [
-			//{lat: -25.75565, lng: 28.23938},	//to be replaced with server request
-			//{lat: -25.75392, lng: 28.23217},
-			//{lat: -25.75136, lng: 28.22908},
-			//{lat: -25.75565, lng: 28.22479},
-			//{lat: -25.75654, lng: 28.23114},
-			//{lat: -25.7623, lng: 28.22973},
-			//{lat: -25.76424, lng: 28.2375},
-      //  ];
-
-      //this.midpoint = {lat: -25.76424, lng: 28.2375};
   }
 
   showPolygon(){
@@ -219,7 +195,6 @@ export class AlertPage {
             (error) =>
             {
                 this.navCtrl.push(LoginPage);
-                //alert("Error: " + error);
             }
         );
     }
