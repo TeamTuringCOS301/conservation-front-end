@@ -1,6 +1,7 @@
-import { NavController } from 'ionic-angular';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { NavController, ToastController } from 'ionic-angular';
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Http } from '../../http-api';
+import { LoginPage } from '../login/login';
 
 declare var google;
 
@@ -20,7 +21,7 @@ export class AlertPage {
   infoWindows: any = [];
   openMarker: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public http: Http, public toastCtrl: ToastController) {
 
   }
 
@@ -156,4 +157,34 @@ export class AlertPage {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
   }
+
+  public logOut()
+    {
+        this.http.get("/admin/logout").subscribe
+        (
+            (data) =>
+            {
+                this.navCtrl.push(LoginPage);
+                this.presentToast("Logged Out");
+            },
+            (error) =>
+            {
+                this.navCtrl.push(LoginPage);
+                //alert("Error: " + error);
+            }            
+        );        
+    }
+
+    presentToast(text)
+    {
+        let toast = this.toastCtrl.create(
+            {
+            message: text,
+            duration: 1500,
+            position: 'bottom',
+            dismissOnPageChange: false
+            }
+        );
+        toast.present();
+    }
 }
