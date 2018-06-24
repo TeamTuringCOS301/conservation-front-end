@@ -18,6 +18,8 @@ import { Camera } from '@ionic-native/camera';
 
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 
+import { IonicImageViewerModule } from 'ionic-img-viewer';
+
 
 import { Http } from '../http-api';
 
@@ -32,7 +34,8 @@ import { Http } from '../http-api';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    IonicImageViewerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-stock',
@@ -47,6 +48,11 @@ export class StockPage {
                 {
                     this.base64Data = el.image;
                     el.image = "data:image/jpeg;base64," + this.base64Data;
+
+                    if (el.verified == false)
+                        el.verified = "Not Verified";                        
+                    else
+                        el.verified = "Verified";
                 });                
             }
         );
@@ -105,29 +111,16 @@ export class StockPage {
             alert('Unable to take photo');
           })
         } else {     
-            //this.click();
-            this.fileInput.nativeElement.click();
-            /*
-            setTimeout(() => {
-                this.fileInput.nativeElement = true;
-                if (this.fileInput.nativeElement == true)
-                    this.fileInput.nativeElement.click();
-              }, 3000);
-              */
-
-              
-            /*
-            try{
-                this.fileInput.nativeElement.click();
-            }
-            catch (err)
-            {}*/
+            this.fileInput.nativeElement.click();  
         }
         return false;
     }
 
     public processWebImage(event)
     {
+        if (event.target.files[0] == null)
+            return false;
+
         let reader = new FileReader();
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
@@ -170,5 +163,26 @@ export class StockPage {
             }
         );
         toast.present();
+    }
+
+    public addProduct()
+    {
+
+    }
+
+    public logOut()
+    {
+        this.http.get("/admin/logout").subscribe
+        (
+            (data) =>
+            {
+                this.navCtrl.push(LoginPage);
+                this.presentToast("Logged Out");
+            },
+            (error) =>
+            {
+                alert("Error: " + error);
+            }            
+        );        
     }
 }

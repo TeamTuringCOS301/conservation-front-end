@@ -108,3 +108,19 @@
                     
 
         //this.navCtrl.setRoot(this.navCtrl.getActive().component);
+
+        /*
+            setTimeout(() => {
+                this.fileInput.nativeElement = true;
+                if (this.fileInput.nativeElement == true)
+                    this.fileInput.nativeElement.click();
+              }, 3000);
+              */
+
+              
+            /*
+            try{
+                this.fileInput.nativeElement.click();
+            }
+            catch (err)
+            {}*/
