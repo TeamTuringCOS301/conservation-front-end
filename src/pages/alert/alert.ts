@@ -206,15 +206,33 @@ export class AlertPage {
     this.getInfo();
   }
 
-  presentToast(text){
-    let toast = this.toastCtrl.create(
-      {
-        message: text,
-        duration: 1500,
-        position: 'bottom',
-        dismissOnPageChange: false
-      }
-    );
-    toast.present();
-  }
+  public logOut()
+    {
+        this.http.get("/admin/logout").subscribe
+        (
+            (data) =>
+            {
+                this.navCtrl.push(LoginPage);
+                this.presentToast("Logged Out");
+            },
+            (error) =>
+            {
+                this.navCtrl.push(LoginPage);
+                //alert("Error: " + error);
+            }
+        );
+    }
+
+    presentToast(text)
+    {
+        let toast = this.toastCtrl.create(
+            {
+            message: text,
+            duration: 1500,
+            position: 'bottom',
+            dismissOnPageChange: false
+            }
+        );
+        toast.present();
+    }
 }
