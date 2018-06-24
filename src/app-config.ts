@@ -1,3 +1,3 @@
 export let CONFIG = {
-    url: "http://localhost:8080"
+    url: "https://10.0.2.47:8080"
 }

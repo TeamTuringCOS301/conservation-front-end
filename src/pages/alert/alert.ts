@@ -1,6 +1,7 @@
 import { NavController } from 'ionic-angular';
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ToastController, ModalController} from 'ionic-angular';
+import { Http } from '../../http-api';
 
 declare var google;
 
@@ -12,6 +13,7 @@ export class AlertPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  conArea: any;
   polygonPoints: any = [];
   midpoint: any;
   mapObj: any;
@@ -39,8 +41,8 @@ export class AlertPage {
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  '<p>Description: '+entry.description+'</p>' +
-                '<p>Date: '+entry.date+'</p>' +
+        title:  '<p><u> '+entry.title+'</u></p>' +
+                '<p>Description: '+entry.description+'</p>' +
                 '<p>Time: '+entry.time+'</p>' +
                 '<p>Severity: '+entry.severity+'</p>'
       }));
@@ -93,11 +95,28 @@ export class AlertPage {
   }
 
   getMarkers(){
-    this.markers = [{description: "Darius Spotted", location: {lat: -25.75592, lng: 28.23217}, date: "20/09/2018", time: "19:40", broadcasted: false, severity: 0},
-                    {description: "Darius Spotted", location: {lat: -25.75392, lng: 28.22917}, date: "20/09/2018", time: "19:40", broadcasted: true, severity: 1},
-                    {description: "Rhino's Mating", location: {lat: -25.7613, lng: 28.23573}, date: "21/09/2018", time: "19:30", broadcasted: false, severity: 2},
-                    {description: "Endangered Darius attacked Elephant", location: {lat: -25.75765, lng: 28.23338}, date: "24/09/2018", time: "19:10", broadcasted: false, severity: 1},
-                    {description: "The beast is released", location: {lat: -25.76124, lng: 28.2305}, date: "29/09/2018", time: "19:15", broadcasted: true, severity: 0}]
+    this.http.get("/alert/list/"+this.conArea+"/0").subscribe
+    (
+        (data) => //Success
+        {
+            var jsonResp = JSON.parse(data.text());
+            this.markers = jsonResp.alerts;
+            alert(data.text);
+            this.displayMarkers();
+        },
+        (error) =>
+        {
+          alert("Error: " + error);
+        }
+    );
+
+    //this.markers = [{description: "Darius Spotted", location: {lat: -25.75592, lng: 28.23217}, date: "20/09/2018", time: "19:40", broadcasted: false, severity: 0},
+    //                {description: "Darius Spotted", location: {lat: -25.75392, lng: 28.22917}, date: "20/09/2018", time: "19:40", broadcasted: true, severity: 1},
+    //                {description: "Rhino's Mating", location: {lat: -25.7613, lng: 28.23573}, date: "21/09/2018", time: "19:30", broadcasted: false, severity: 2},
+    //                {description: "Endangered Darius attacked Elephant", location: {lat: -25.75765, lng: 28.23338}, date: "24/09/2018", time: "19:10", broadcasted: false, severity: 1},
+    //                {description: "The beast is released", location: {lat: -25.76124, lng: 28.2305}, date: "29/09/2018", time: "19:15", broadcasted: true, severity: 0}]
+    //
+    //                this.displayMarkers();
   }
 
   setZoom(){
@@ -117,19 +136,31 @@ export class AlertPage {
   }
 
   getPolygon(){
+
+    this.http.get("/area/info/"+this.conArea).subscribe
+    (
+        (data) => //Success
+        {
+            var jsonResp = JSON.parse(data.text());
+            this.polygonPoints = jsonResp.border;
+            this.midpoint = jsonResp.middle;
+            this.showPolygon();
+        }
+    );
+
       //to be replaced with server request here
 
-      this.polygonPoints = [
-			{lat: -25.75565, lng: 28.23938},	//to be replaced with server request
-			{lat: -25.75392, lng: 28.23217},
-			{lat: -25.75136, lng: 28.22908},
-			{lat: -25.75565, lng: 28.22479},
-			{lat: -25.75654, lng: 28.23114},
-			{lat: -25.7623, lng: 28.22973},
-			{lat: -25.76424, lng: 28.2375},
-        ];
+      //this.polygonPoints = [
+			//{lat: -25.75565, lng: 28.23938},	//to be replaced with server request
+			//{lat: -25.75392, lng: 28.23217},
+			//{lat: -25.75136, lng: 28.22908},
+			//{lat: -25.75565, lng: 28.22479},
+			//{lat: -25.75654, lng: 28.23114},
+			//{lat: -25.7623, lng: 28.22973},
+			//{lat: -25.76424, lng: 28.2375},
+      //  ];
 
-      this.midpoint = {lat: -25.76424, lng: 28.2375};
+      //this.midpoint = {lat: -25.76424, lng: 28.2375};
   }
 
   showPolygon(){
@@ -144,6 +175,8 @@ export class AlertPage {
     this.mapObj.setMap(this.map);
 
     this.map.setCenter(this.midpoint);
+    this.setZoom();
+    this.getMarkers();
   }
 
   LoadMap() {
@@ -155,5 +188,17 @@ export class AlertPage {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
+  }
+
+  presentToast(text){
+    let toast = this.toastCtrl.create(
+      {
+        message: text,
+        duration: 1500,
+        position: 'bottom',
+        dismissOnPageChange: false
+      }
+    );
+    toast.present();
   }
 }
