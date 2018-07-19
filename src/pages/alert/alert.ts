@@ -1,9 +1,9 @@
 import { NavController } from 'ionic-angular';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ToastController} from 'ionic-angular';
+import { ToastController, ModalController} from 'ionic-angular';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
-
+import { AlertPopupPage} from '../alert-popup/alert-popup';
 declare var google;
 
 @Component({
@@ -23,12 +23,18 @@ export class AlertPage {
   infoWindows: any = [];
   openMarker: any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
 
   }
 
   ionViewDidLoad(){
       this.LoadMap();
+  }
+
+  public alertPopup()
+  {
+      let addModal = this.modalCtrl.create(AlertPopupPage);
+      addModal.present();
   }
 
   getInfo(){
@@ -120,6 +126,7 @@ export class AlertPage {
           alert("Error: " + error);
         }
     );
+    this.alertPopup();
   }
 
   setZoom(){

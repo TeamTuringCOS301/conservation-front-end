@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Alert</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="cancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form (submit)="requestProductToBeSold(requestProduct.value)" [formGroup]="requestProduct">
+        <ion-list>
+            <ion-item>
+                <p>image goes here</p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Description</ion-label>
+                <ion-input formControlName="description" type="textarea"></ion-input>
+            </ion-item>
+            <ion-item>
+                <div #map id="map"></div>
+            </ion-item>
+            <button ion-button round outline color="primary" block type="submit">Broadcast</button>
+        </ion-list>
+    </form>
+
+    <div padding>
+
+    </div>
+
+
+</ion-content>

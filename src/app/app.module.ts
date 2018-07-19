@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { StockAddPage} from '../pages/stock-add/stock-add';
+import { AlertPopupPage} from '../pages/alert-popup/alert-popup';
 import { StockEditPage} from '../pages/stock-edit/stock-edit';
 import { HttpModule} from '@angular/http';
 import { StockPage } from '../pages/stock/stock';
@@ -28,6 +29,7 @@ import { Http } from '../http-api';
     LoginPage,
     StockPage,
     StockAddPage,
+    AlertPopupPage,
     StockEditPage,
     BroadcastPage
   ],
@@ -45,6 +47,7 @@ import { Http } from '../http-api';
     LoginPage,
     StockPage,
     StockAddPage,
+    AlertPopupPage,
     StockEditPage,
     BroadcastPage
   ],
