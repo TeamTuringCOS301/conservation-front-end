@@ -16,24 +16,24 @@
                 <p>Request ERP to allow your product to be available to ERP Coin users.</p>
             </ion-item>       
             <ion-item>
-                <ion-label floating>Name</ion-label>
+                <ion-label floating>Name<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="name" type="text"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Price in Rand</ion-label>
+                <ion-label floating>Price in Rand<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="price" type="number"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Description</ion-label>
+                <ion-label floating>Description<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="description" type="textarea"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Amount in Stock</ion-label>
+                <ion-label floating>Amount in Stock<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="amount" type="text"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label>Select Image</ion-label>
-                <input item-end type="file" (change)="processWebImage($event)"/>
+                <ion-label>Select Image<span style="color:red">*</span></ion-label>
+                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
             </ion-item>
             <button ion-button round outline color="primary" block type="submit">Submit</button>
         </ion-list>

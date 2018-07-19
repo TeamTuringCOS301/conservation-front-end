@@ -1,11 +1,12 @@
 import { Component, } from '@angular/core';
-import { NavController, ToastController, ModalController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 import { StockAddPage} from '../stock-add/stock-add';
 import { StockEditPage} from '../stock-edit/stock-edit';
+import { CONFIG } from '../../app-config';
 
 @Component({
   selector: 'page-stock',
@@ -21,7 +22,10 @@ export class StockPage {
     imageURI:any;
     imageFileName:any;
 
-    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public modalCtrl: ModalController)
+    alertConfrimed:boolean;
+
+    constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
+         public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -31,6 +35,7 @@ export class StockPage {
             image: new FormControl()
         });
 
+        //var interval = self.setInterval(this.updateProductList(), 30000);
         this.updateProductList();
     }
 
@@ -48,16 +53,21 @@ export class StockPage {
     }
 
     public addProduct()
-    {       
+    {               
         let addModal = this.modalCtrl.create(StockAddPage);
         addModal.onDidDismiss(gotSomething => {
-            if (gotSomething) {
+            if (gotSomething) {                        
                 setTimeout(() => {
                     this.updateProductList();
-                }, 1000); 
+                }, 1000);             
             }
           })
         addModal.present();
+    }
+
+    public refresh()
+    {
+        this.updateProductList();
     }
 
     public logOut()
@@ -66,6 +76,7 @@ export class StockPage {
         (
             (data) =>
             {
+                //document.querySelector("ion-tabbar")['style'].display = 'none'
                 this.navCtrl.push(LoginPage);
                 this.presentToast("Logged Out");
             },
@@ -89,8 +100,7 @@ export class StockPage {
                 this.stock = jsonResp.rewards;
                 this.stock.forEach(el =>
                 {
-                    this.base64Data = el.image;
-                    el.image = "data:image/jpeg;base64," + this.base64Data;
+                    el.image = CONFIG.url + "/reward/image/" + el.id;
 
                     if (el.verified == false)
                         el.verified = "Not Verified";                        
@@ -116,6 +126,28 @@ export class StockPage {
                 this.presentToast("Error: " + error);
             }
         );
+    }
+
+    public presentDeleteConfirm(product) {
+        let alert = this.alertCtrl.create({
+            title: 'Delete',
+            message: 'Are you sure you want to delete this product?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {                    
+                    }
+                },
+                {
+                    text: 'Delete',
+                    handler: () => {
+                        this.deleteProduct(product);
+                    }
+                }
+            ]
+        });
+        alert.present();
     }
 
     presentToast(text)

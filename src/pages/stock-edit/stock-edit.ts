@@ -41,7 +41,7 @@ export class StockEditPage {
 
         if (value == null)
         {
-            if (value.name == null || value.price == null || value.description == null || value.amount == null || value.image == null)
+            if (value.name == null || value.price == null || value.description == null || value.amount == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -53,12 +53,12 @@ export class StockEditPage {
         jsonArr.name = value.name;
         jsonArr.randValue = parseInt(value.price);
         jsonArr.description = value.description;
-        jsonArr.amount = parseInt(value.amount);
-        jsonArr.image = value.image;        
+        jsonArr.amount = parseInt(value.amount);                
 
-        this.deleteProduct(this.product);
+        if (value.image != null)
+            jsonArr.image = value.image;
 
-        this.http.post("/reward/add", jsonArr).subscribe
+        this.http.post("/reward/update/" + this.product.id, jsonArr).subscribe
         (
             (data) =>
             {
@@ -71,21 +71,6 @@ export class StockEditPage {
         );
 
         this.viewCtrl.dismiss(this.requestProduct);
-    }
-
-    public deleteProduct(product)
-    {
-        this.http.get("/reward/remove/" + product.id).subscribe
-        (
-            (data) =>
-            {
-                    
-            },
-            (error) =>
-            {
-                this.presentToast("Error: " + error);
-            }
-        );
     }
 
     public cancel()

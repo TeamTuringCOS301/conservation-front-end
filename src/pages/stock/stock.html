@@ -2,6 +2,7 @@
     <ion-navbar>
       <ion-title>Rewards</ion-title>
       <ion-buttons end>
+        <button ion-button color="primary" (click)="refresh()"><ion-icon name="refresh"></ion-icon></button>
         <button ion-button color="primary" (click)="addProduct()">Add Product</button>
         <button ion-button color="primary" (click)="logOut()">Log Out</button>
       </ion-buttons>
@@ -16,7 +17,7 @@
         <ion-item color="primary">
           <ion-label item-start><h1>{{product.name}}</h1></ion-label>
           <button item-end ion-button (click)="editProduct(product)">Edit</button>
-          <button item-end ion-button (click)="deleteProduct(product)">Delete</button>   
+          <button item-end ion-button (click)="presentDeleteConfirm(product)">Delete</button>   
         </ion-item>              
       </ion-card-header>
       <ion-card-content>   

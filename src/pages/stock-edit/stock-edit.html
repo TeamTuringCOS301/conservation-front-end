@@ -14,26 +14,27 @@
         <ion-list>        
             <ion-item>
                 <p>Edit your product.  Any new configurations will have to be verified by</p>
-                <p> ERP Admin first, before being set available to public</p>                
+                <p> ERP Admin first, before being set available to public. Image will remain</p>
+                <p> unchanged if no image is selected</p>                
             </ion-item>       
             <ion-item>
-                <ion-label floating>Name</ion-label>
+                <ion-label floating>Name<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="name" type="text" value={{product.name}}></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Price in Rand</ion-label>
+                <ion-label floating>Price in Rand<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="price" type="number" value={{product.randValue}}></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Description</ion-label>
+                <ion-label floating>Description<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="description" type="textarea" value={{product.description}}></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Amount in Stock</ion-label>
+                <ion-label floating>Amount in Stock<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="amount" type="text" value={{product.amount}}></ion-input>
             </ion-item>
-            <ion-item>
-                <ion-label>Select Image</ion-label>
+            <ion-item>               
+                <ion-label>Change Image</ion-label>
                 <input item-end type="file" (change)="processWebImage($event)" />
             </ion-item>
             <button ion-button round outline color="primary" block type="submit">Submit</button>
