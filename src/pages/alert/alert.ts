@@ -98,6 +98,8 @@ export class AlertPage {
     marker.addListener('click', () => {
       infoWindow.open(this.map, marker);
       this.openMarker = marker;
+      //this.alertPopup();
+
     });
     marker.addListener('click', () => {
       this.closeAllInfoWindows();
@@ -126,7 +128,7 @@ export class AlertPage {
           alert("Error: " + error);
         }
     );
-    this.alertPopup();
+    //this.alertPopup();
   }
 
   setZoom(){
