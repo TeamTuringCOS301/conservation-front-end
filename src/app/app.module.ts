@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AlertPage } from '../pages/alert/alert';
 import { TabsPage } from '../pages/tabs/tabs';
+import { BroadcastPage } from '../pages/broadcast/broadcast';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
@@ -27,7 +28,8 @@ import { Http } from '../http-api';
     LoginPage,
     StockPage,
     StockAddPage,
-    StockEditPage
+    StockEditPage,
+    BroadcastPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { Http } from '../http-api';
     LoginPage,
     StockPage,
     StockAddPage,
-    StockEditPage
+    StockEditPage,
+    BroadcastPage
   ],
   providers: [
     StatusBar,
