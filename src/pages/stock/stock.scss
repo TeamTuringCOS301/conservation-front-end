@@ -1,10 +1,16 @@
 page-stock {
-    img {
-      height: 10% !important;
-      width: 10% !important;
-      display: block;
-      margin: auto;
-      align-items: center;
-      object-fit: contain;;
-    }
+
+  ion-title{
+    text-align: center;
   }
+
+  .cardImage {
+    height: 175px !important;
+    width: 175px !important;
+  }
+
+  .itemContent
+  {
+    
+  }
+}
