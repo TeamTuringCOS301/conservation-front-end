@@ -9,7 +9,6 @@ import { Http } from '../../http-api';
   templateUrl: 'alert-popup.html'
 })
 export class AlertPopupPage {
-    @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
 
@@ -29,13 +28,12 @@ export class AlertPopupPage {
         this.viewCtrl.dismiss(null);
     }
 
-    public requestProductToBeSold(value: any)
+    public requestAddAlert(value: any)
     {
         var jsonArr = {
-            "name":"",
-            "randValue":0,
+            "title":"",
             "description":"",
-            "amount":0,
+            "severity":"",
             "image":""
         };
 
@@ -50,13 +48,12 @@ export class AlertPopupPage {
             return false;
         }
 
-        jsonArr.name = value.name;
-        jsonArr.randValue = parseInt(value.price);
+        jsonArr.title = value.title;
         jsonArr.description = value.description;
-        jsonArr.amount = parseInt(value.amount);
+        jsonArr.severity = value.severity;
         jsonArr.image = value.image;
 
-        this.http.post("/reward/add", jsonArr).subscribe
+        this.http.post("/alert/add/", jsonArr).subscribe
         (
             (data) =>
             {
@@ -86,29 +83,6 @@ export class AlertPopupPage {
         };
 
         reader.readAsDataURL(event.target.files[0]);
-    }
-
-    public getPicture() {
-        //
-        this.presentToast("t");
-        //
-        if (Camera['installed']()) {
-          this.camera.getPicture({
-            destinationType: this.camera.DestinationType.DATA_URL,
-            //
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
-            //
-          }).then((data) => {
-            this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
-
-          }, (err) => {
-            alert('Unable to take photo');
-          })
-        } else {
-            this.fileInput.nativeElement.click();
-        }
-        return false;
     }
 
     presentToast(text)

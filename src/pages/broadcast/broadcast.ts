@@ -1,8 +1,9 @@
 import { NavController } from 'ionic-angular';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ToastController} from 'ionic-angular';
+import { ToastController, ModalController} from 'ionic-angular';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
+import { AlertPopupPage} from '../alert-popup/alert-popup';
 
 declare var google;
 
@@ -23,7 +24,7 @@ export class BroadcastPage {
   infoWindows: any = [];
   openMarker: any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
 
   }
 
@@ -185,6 +186,19 @@ export class BroadcastPage {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.getInfo();
+  }
+
+  public addAlert()
+  {
+    let addModal = this.modalCtrl.create(AlertPopupPage);
+    addModal.onDidDismiss(gotSomething => {
+        if (gotSomething) {
+            setTimeout(() => {
+            }, 1000);
+        }
+      })
+    addModal.present();
+
   }
 
   public logOut()

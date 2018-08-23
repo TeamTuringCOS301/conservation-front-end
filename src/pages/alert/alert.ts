@@ -99,7 +99,14 @@ export class AlertPage {
       infoWindow.open(this.map, marker);
       this.openMarker = marker;
       //this.alertPopup();
-
+      let addModal = this.modalCtrl.create(AlertPopupPage);
+      addModal.onDidDismiss(gotSomething => {
+          if (gotSomething) {
+              setTimeout(() => {
+              }, 1000);
+          }
+        })
+      addModal.present();
     });
     marker.addListener('click', () => {
       this.closeAllInfoWindows();
