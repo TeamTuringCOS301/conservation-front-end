@@ -80,7 +80,7 @@ export class BroadcastPage {
   }
 
   clearMarkers(){
-    
+
   }
 
   broadcastMarker(){
@@ -113,7 +113,7 @@ export class BroadcastPage {
   getMarkers(){
     this.http.get("/alert/list/"+this.conArea+"/0").subscribe
     (
-        (data) => //Success
+        (data) => //Success1
         {
             var jsonResp = JSON.parse(data.text());
             this.markers = jsonResp.alerts;
