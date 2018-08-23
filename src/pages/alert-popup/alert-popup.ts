@@ -1,45 +1,45 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 
 @Component({
-  selector: 'page-alert-popup',
+  selector: 'alert-popup',
   templateUrl: 'alert-popup.html'
 })
 export class AlertPopupPage {
+    @ViewChild('fileInput') private fileInput: any;
 
-    requestProduct:any;
+    requestAlert:FormGroup;
 
-    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
+    alert:any;
+
+    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
+         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
     {
-        this.requestProduct = new FormGroup({
-            name: new FormControl(),
-            price: new FormControl(),
+        this.requestAlert = new FormGroup({
+            title: new FormControl(),
             description: new FormControl(),
-            amount: new FormControl(),
+            severity: new FormControl(),
             image: new FormControl()
         });
-    }
 
-    public cancel()
-    {
-        this.viewCtrl.dismiss(null);
+        this.alert = this.params.get('alert');
     }
 
     public requestAddAlert(value: any)
     {
         var jsonArr = {
-            "title":"",
+            "title":"a",
             "description":"",
-            "severity":"",
+            "severity":0,
             "image":""
         };
 
         if (value == null)
         {
-            if (value.name == null || value.price == null || value.description == null || value.amount == null || value.image == null)
+            if (value.title == null || value.description == null || value.severity == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -50,10 +50,14 @@ export class AlertPopupPage {
 
         jsonArr.title = value.title;
         jsonArr.description = value.description;
-        jsonArr.severity = value.severity;
-        jsonArr.image = value.image;
+        jsonArr.severity = parseInt(value.severity);
+        jsonArr.broadcast = FALSE;
+        jsonArr.location = null;   //////////////////////////
 
-        this.http.post("/alert/add/", jsonArr).subscribe
+        if (value.image != null)
+            jsonArr.image = value.image;
+
+        this.http.post("/alert/add/" + this.product.id, jsonArr).subscribe
         (
             (data) =>
             {
@@ -66,7 +70,14 @@ export class AlertPopupPage {
         );
 
         this.requestProduct.reset();
-        this.viewCtrl.dismiss(this.requestProduct);
+        this.viewCtrl.dismiss(value);
+    }
+
+    public cancel()
+    {
+        this.product = this.params.get('product');
+
+        this.viewCtrl.dismiss(null);
     }
 
     public processWebImage(event)
@@ -88,13 +99,14 @@ export class AlertPopupPage {
     presentToast(text)
     {
         let toast = this.toastCtrl.create(
-            {
+        {
             message: text,
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-            }
+        }
         );
         toast.present();
     }
+
 }

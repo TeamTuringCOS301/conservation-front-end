@@ -27,6 +27,19 @@ export class AlertPage {
 
   }
 
+  public editAlert(alert)
+  {
+      let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
+      addModal.onDidDismiss(newRequestedProduct => {
+      //    if (newRequestedProduct) {
+      //        if (newRequestedProduct.image != null) {
+      //            product.image = newRequestedProduct.image
+      //        }
+      //    }
+        })
+      addModal.present();
+  }
+
   ionViewDidLoad(){
       this.LoadMap();
   }
@@ -62,7 +75,8 @@ export class AlertPage {
         title:  '<p><u> '+entry.title+'</u></p>' +
                 '<p>Description: '+entry.description+'</p>' +
                 '<p>Date & Time: '+new Date(entry.time)+'</p>' +
-                '<p>Severity: '+entry.severity+'</p>'
+                '<p>Severity: '+entry.severity+'</p>',
+        aObject: entry
       }));
       if (entry.severity == 0){
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
@@ -96,21 +110,10 @@ export class AlertPage {
       content: infoWindowContent
     });
     marker.addListener('click', () => {
-      infoWindow.open(this.map, marker);
+      //this.closeAllInfoWindows();
+      //infoWindow.open(this.map, marker);
       this.openMarker = marker;
-      //this.alertPopup();
-      let addModal = this.modalCtrl.create(AlertPopupPage);
-      addModal.onDidDismiss(gotSomething => {
-          if (gotSomething) {
-              setTimeout(() => {
-              }, 1000);
-          }
-        })
-      addModal.present();
-    });
-    marker.addListener('click', () => {
-      this.closeAllInfoWindows();
-      infoWindow.open(this.map, marker);
+      this.editAlert(this.openMarker.aObject);
     });
     this.infoWindows.push(infoWindow);
   }
