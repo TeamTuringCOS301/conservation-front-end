@@ -113,7 +113,7 @@ export class BroadcastPage {
   getMarkers(){
     this.http.get("/alert/list/"+this.conArea+"/0").subscribe
     (
-        (data) => //Success1
+        (data) => //Success12
         {
             var jsonResp = JSON.parse(data.text());
             this.markers = jsonResp.alerts;
