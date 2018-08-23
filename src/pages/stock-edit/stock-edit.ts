@@ -69,8 +69,9 @@ export class StockEditPage {
                 this.presentToast("Error: " + error);
             }
         );
-
-        this.viewCtrl.dismiss(this.requestProduct);
+        
+        this.requestProduct.reset();
+        this.viewCtrl.dismiss(value);
     }
 
     public cancel()
@@ -99,12 +100,12 @@ export class StockEditPage {
     presentToast(text)
     {
         let toast = this.toastCtrl.create(
-            {
+        {
             message: text,
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-            }
+        }
         );
         toast.present();
     }

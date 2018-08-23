@@ -42,11 +42,11 @@ export class StockPage {
     public editProduct(product)
     {
         let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
-        addModal.onDidDismiss(gotSomething => {
-            if (gotSomething) {
-                setTimeout(() => {
-                    this.updateProductList();
-                }, 1000); 
+        addModal.onDidDismiss(newRequestedProduct => {
+            if (newRequestedProduct) {
+                if (newRequestedProduct.image != null) {
+                    product.image = newRequestedProduct.image
+                }
             }
           })
         addModal.present();
@@ -76,14 +76,19 @@ export class StockPage {
         (
             (data) =>
             {
-                //document.querySelector("ion-tabbar")['style'].display = 'none'
+                let elements = document.querySelectorAll(".tabbar");
+
+                if (elements != null) {
+                    Object.keys(elements).map((key) => {
+                        elements[key].style.display = 'none';
+                    });
+                }
                 this.navCtrl.push(LoginPage);
                 this.presentToast("Logged Out");
             },
             (error) =>
             {
-                this.navCtrl.push(LoginPage);
-                //alert("Error: " + error);
+                alert("Error: " + error);
             }            
         );        
     }

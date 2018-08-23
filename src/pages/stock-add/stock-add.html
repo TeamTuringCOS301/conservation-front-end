@@ -29,11 +29,11 @@
             </ion-item>
             <ion-item>
                 <ion-label floating>Amount in Stock<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="amount" type="text"></ion-input>
+                <ion-input formControlName="amount" type="number"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>Select Image<span style="color:red">*</span></ion-label>
-                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
+                <input formControlName="image" item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
             </ion-item>
             <button ion-button round outline color="primary" block type="submit">Submit</button>
         </ion-list>

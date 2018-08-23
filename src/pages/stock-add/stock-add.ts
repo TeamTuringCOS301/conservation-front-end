@@ -13,7 +13,8 @@ export class StockAddPage {
 
     requestProduct:any;
 
-    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
+    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController,
+        public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -86,29 +87,6 @@ export class StockAddPage {
         };
     
         reader.readAsDataURL(event.target.files[0]);
-    }
-
-    public getPicture() {
-        //
-        this.presentToast("t");
-        //
-        if (Camera['installed']()) {
-          this.camera.getPicture({
-            destinationType: this.camera.DestinationType.DATA_URL,
-            //
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
-            //
-          }).then((data) => {
-            this.requestProduct.patchValue({ 'image': 'data:image/jpg;base64,' + data });
-            
-          }, (err) => {
-            alert('Unable to take photo');
-          })
-        } else {     
-            this.fileInput.nativeElement.click();  
-        }
-        return false;
     }
 
     presentToast(text)
