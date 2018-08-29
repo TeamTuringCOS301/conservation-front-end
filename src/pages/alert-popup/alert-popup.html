@@ -10,28 +10,29 @@
 </ion-header>
 
 <ion-content padding>
-    <form (submit)="requestAddAlert(alert.value)" [formGroup]="alert">
+    <form (submit)="requestEditAlert(requestAlert.value)" [formGroup]="requestAlert">
         <ion-list>
             <ion-item>
-                <p>Add Alert.</p>
+                <p>{{alert.time}}.</p>
             </ion-item>
             <ion-item>
                 <ion-label floating>Title<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="title" type="text"></ion-input>
+                <ion-input formControlName="title" type="text" value={{alert.title}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Description<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="description" type="number"></ion-input>
+                <ion-input formControlName="description" type="text" value={{alert.description}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Severity<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="severity" type="number"></ion-input>
+                <ion-input formControlName="severity" type="number" value={{alert.severity}}></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label>Select Image<span style="color:red">*</span></ion-label>
                 <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
             </ion-item>
-            <button ion-button round outline color="primary" block type="submit">Submit</button>
+              <button ion-button round outline color="primary" block type="submit">Broadcast Alert</button>
+              <button ion-button round outline color="primary" click="deleteAlert()">Delete Alert</button>
         </ion-list>
     </form>
 

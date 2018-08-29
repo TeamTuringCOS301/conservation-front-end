@@ -4,6 +4,7 @@ import { ToastController, ModalController} from 'ionic-angular';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 import { AlertPopupPage} from '../alert-popup/alert-popup';
+import { FormGroup, FormControl} from '@angular/forms';
 declare var google;
 
 @Component({
@@ -23,21 +24,39 @@ export class AlertPage {
   infoWindows: any = [];
   openMarker: any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  requestAlert:any;
 
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+    this.requestAlert = new FormGroup({
+        title: new FormControl(),
+        description: new FormControl(),
+        severity: new FormControl(),
+        image: new FormControl(),
+        broadcast: new FormControl()
+    });
   }
 
   public editAlert(alert)
   {
-      let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
-      addModal.onDidDismiss(newRequestedProduct => {
+    let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
+    addModal.onDidDismiss(newEditedAlert => {
+        if (newEditedAlert) {
+            if (newEditedAlert.image != null) {
+                alert.image = newEditedAlert.image
+            }
+        }
+      })
+    addModal.present();
+
+      //let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
+      //addModal.onDidDismiss(newRequestedProduct => {
       //    if (newRequestedProduct) {
       //        if (newRequestedProduct.image != null) {
       //            product.image = newRequestedProduct.image
       //        }
       //    }
-        })
-      addModal.present();
+      //  })
+      //addModal.present();
   }
 
   ionViewDidLoad(){

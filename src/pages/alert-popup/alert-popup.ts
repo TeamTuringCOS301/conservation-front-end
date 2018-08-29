@@ -28,12 +28,18 @@ export class AlertPopupPage {
         this.alert = this.params.get('alert');
     }
 
-    public requestAddAlert(value: any)
+    public deleteAlert(){
+
+    }
+
+    public requestEditAlert(value: any)
     {
         var jsonArr = {
-            "title":"a",
+            "title":"",
             "description":"",
             "severity":0,
+            "broadcast":"",
+            "location":"",
             "image":""
         };
 
@@ -51,13 +57,13 @@ export class AlertPopupPage {
         jsonArr.title = value.title;
         jsonArr.description = value.description;
         jsonArr.severity = parseInt(value.severity);
-        jsonArr.broadcast = FALSE;
-        jsonArr.location = null;   //////////////////////////
+        jsonArr.broadcast = this.alert.broadcast;
+        jsonArr.location = this.alert.location;   //////////////////////////
 
         if (value.image != null)
             jsonArr.image = value.image;
 
-        this.http.post("/alert/add/" + this.product.id, jsonArr).subscribe
+        this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
             (data) =>
             {
@@ -69,13 +75,13 @@ export class AlertPopupPage {
             }
         );
 
-        this.requestProduct.reset();
+        this.requestAlert.reset();
         this.viewCtrl.dismiss(value);
     }
 
     public cancel()
     {
-        this.product = this.params.get('product');
+        this.alert = this.params.get('alert');
 
         this.viewCtrl.dismiss(null);
     }
@@ -90,7 +96,7 @@ export class AlertPopupPage {
             let imageData = (readerEvent.target as any).result;
             imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
-            this.requestProduct.patchValue({ 'image': imageData });
+            this.requestAlert.patchValue({ 'image': imageData });
         };
 
         reader.readAsDataURL(event.target.files[0]);
