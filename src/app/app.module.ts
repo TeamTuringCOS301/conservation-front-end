@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { StockAddPage} from '../pages/stock-add/stock-add';
 import { AlertPopupPage} from '../pages/alert-popup/alert-popup';
+import { BroadcastPopupPage} from '../pages/broadcast-popup/broadcast-popup';
 import { StockEditPage} from '../pages/stock-edit/stock-edit';
 import { HttpModule} from '@angular/http';
 import { StockPage } from '../pages/stock/stock';
@@ -20,8 +21,8 @@ import { Camera } from '@ionic-native/camera';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
-import { ProfilePage } from "../pages/profile/profile"; 
-import { ProfileEditPage } from "../pages/profile-edit/profile-edit"; 
+import { ProfilePage } from "../pages/profile/profile";
+import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
+    BroadcastPopupPage,
     ProfilePage,
     ProfileEditPage
   ],
@@ -54,6 +56,7 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
+    BroadcastPopupPage,
     ProfilePage,
     ProfileEditPage
   ],
