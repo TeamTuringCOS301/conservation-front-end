@@ -88,7 +88,7 @@ export class AlertPage {
   displayMarkers(){
     var i = 0;
     for (let entry of this.markers) {
-      if (entry.broadcast){
+      if (!entry.broadcast){
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
