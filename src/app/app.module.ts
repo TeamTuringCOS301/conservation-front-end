@@ -20,6 +20,8 @@ import { Camera } from '@ionic-native/camera';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
+import { ProfilePage } from "../pages/profile/profile"; 
+import { ProfileEditPage } from "../pages/profile-edit/profile-edit"; 
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { Http } from '../http-api';
     StockAddPage,
     AlertPopupPage,
     StockEditPage,
-    BroadcastPage
+    BroadcastPage,
+    ProfilePage,
+    ProfileEditPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,9 @@ import { Http } from '../http-api';
     StockAddPage,
     AlertPopupPage,
     StockEditPage,
-    BroadcastPage
+    BroadcastPage,
+    ProfilePage,
+    ProfileEditPage
   ],
   providers: [
     StatusBar,
