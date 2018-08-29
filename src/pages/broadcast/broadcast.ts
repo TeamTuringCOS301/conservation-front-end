@@ -51,13 +51,12 @@ export class BroadcastPage {
   displayMarkers(){
     var i = 0;
     for (let entry of this.markers) {
+      if (entry.broadcast){
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  '<p><u> '+entry.title+'</u></p>' +
-                '<p>Description: '+entry.description+'</p>' +
-                '<p>Date & Time: '+new Date(entry.time)+'</p>' +
-                '<p>Severity: '+entry.severity+'</p>'
+        title:  entry.title + "   " + new Date(entry.time),
+        aObject: entry
       }));
       if (entry.severity == 0){
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
@@ -69,7 +68,7 @@ export class BroadcastPage {
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
       }
       i++;
-    }
+    }}
     for (let entry of this.mapMarkers) {
       this.closeAllInfoWindows();
       this.addInfoWindowToMarker(entry);

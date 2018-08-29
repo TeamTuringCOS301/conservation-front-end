@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController, ViewController, NavPar
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { CONFIG } from '../../app-config';
 
 @Component({
   selector: 'alert-popup',
@@ -26,10 +27,23 @@ export class AlertPopupPage {
         });
 
         this.alert = this.params.get('alert');
+
+        this.alert.image = CONFIG.url + "/reward/image/" + this.alert.id;
     }
 
     public deleteAlert(){
-
+      this.http.get("/alert/remove/" + this.alert.id).subscribe
+      (
+          (data) =>
+          {
+              this.presentToast("Successfully Submitted");
+          },
+          (error) =>
+          {
+              this.presentToast("Error: " + error);
+          }
+      );
+      this.cancel();
     }
 
     public requestEditAlert(value: any)

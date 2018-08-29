@@ -13,6 +13,7 @@
     <form (submit)="requestEditAlert(requestAlert.value)" [formGroup]="requestAlert">
         <ion-list>
             <ion-item>
+                <img src= {{alert.image}} imageViewer/>
                 <p>{{alert.time}}.</p>
             </ion-item>
             <ion-item>
@@ -27,12 +28,12 @@
                 <ion-label floating>Severity<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="severity" type="number" value={{alert.severity}}></ion-input>
             </ion-item>
-            <ion-item>
+            <!--<ion-item>
                 <ion-label>Select Image<span style="color:red">*</span></ion-label>
                 <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
-            </ion-item>
+            </ion-item>-->
               <button ion-button round outline color="primary" block type="submit">Broadcast Alert</button>
-              <button ion-button round outline color="primary" click="deleteAlert()">Delete Alert</button>
+              <button ion-button round outline color="primary" block type = "button" (click)="deleteAlert()">Remove Alert</button>
         </ion-list>
     </form>
 

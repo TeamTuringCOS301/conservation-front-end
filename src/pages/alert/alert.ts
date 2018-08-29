@@ -40,11 +40,11 @@ export class AlertPage {
   {
     let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
-        if (newEditedAlert) {
-            if (newEditedAlert.image != null) {
-                alert.image = newEditedAlert.image
-            }
-        }
+      //  if (newEditedAlert) {
+      //      if (newEditedAlert.image != null) {
+      //          alert.image = newEditedAlert.image
+      //      }
+      //  }
       })
     addModal.present();
 
@@ -88,13 +88,11 @@ export class AlertPage {
   displayMarkers(){
     var i = 0;
     for (let entry of this.markers) {
+      if (entry.broadcast){
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  '<p><u> '+entry.title+'</u></p>' +
-                '<p>Description: '+entry.description+'</p>' +
-                '<p>Date & Time: '+new Date(entry.time)+'</p>' +
-                '<p>Severity: '+entry.severity+'</p>',
+        title:  entry.title + "   " + new Date(entry.time),
         aObject: entry
       }));
       if (entry.severity == 0){
@@ -107,7 +105,7 @@ export class AlertPage {
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
       }
       i++;
-    }
+    }}
     for (let entry of this.mapMarkers) {
       this.closeAllInfoWindows();
       this.addInfoWindowToMarker(entry);
