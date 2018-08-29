@@ -112,6 +112,10 @@ export class StockPage {
                     else
                         el.verified = "Verified";
                 });                
+            },
+            (error) =>
+            {
+                alert("Error" + error);
             }
         );
     }
