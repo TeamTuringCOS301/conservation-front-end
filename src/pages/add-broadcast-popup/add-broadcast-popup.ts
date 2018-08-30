@@ -38,7 +38,8 @@ export class AddBroadcastPopupPage {
             "description":"",
             "severity":0,
             "broadcast":false,
-            "location":""
+            "location":"",
+            "image":""
         };
 
         if (value == null)
@@ -58,8 +59,8 @@ export class AddBroadcastPopupPage {
         jsonArr.broadcast = true;
         jsonArr.location = this.latlng;
 
-//        if (value.image != null)
-//            jsonArr.image = value.image;
+        if (value.image != null)
+            jsonArr.image = value.image;
 
         this.http.get("/admin/info/").subscribe
         (
