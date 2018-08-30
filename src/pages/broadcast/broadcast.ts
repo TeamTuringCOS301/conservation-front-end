@@ -6,6 +6,7 @@ import { LoginPage } from '../login/login';
 import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
 import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
+import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 declare var google;
 
 @Component({
@@ -219,14 +220,7 @@ export class BroadcastPage {
 
   public addAlert()
   {
-    let addModal = this.modalCtrl.create(AlertPopupPage);
-    addModal.onDidDismiss(gotSomething => {
-        if (gotSomething) {
-            setTimeout(() => {
-            }, 1000);
-        }
-      })
-    addModal.present();
+    //---------------------------------------------------------------------------------
 
   }
 

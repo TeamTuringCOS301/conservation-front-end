@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Add Broadcasted Alert</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="cancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form (submit)="requestAddAlert(requestAlert.value)" [formGroup]="requestAlert">
+        <ion-list>
+            <ion-item>
+                <p>{{alert.time}}.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Title<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="title" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Description<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="description" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Severity<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="severity" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Select Image<span style="color:red">*</span></ion-label>
+                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
+            </ion-item>
+              <button ion-button round outline color="primary" block type="submit">Confirm</button>
+              <button ion-button round outline color="primary" block type = "button" (click)="cancel()">Cancel</button>
+        </ion-list>
+    </form>
+
+    <div padding>
+
+    </div>
+
+
+</ion-content>

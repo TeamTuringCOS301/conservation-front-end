@@ -23,6 +23,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { ProfilePage } from "../pages/profile/profile";
 import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
+import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    ProfileEditPage
+    ProfileEditPage,
+    AddBroadcastPopupPage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    ProfileEditPage
+    ProfileEditPage,
+    AddBroadcastPopupPage
   ],
   providers: [
     StatusBar,

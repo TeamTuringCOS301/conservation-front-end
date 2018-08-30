@@ -6,10 +6,10 @@ import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 
 @Component({
-  selector: 'alert-popup',
-  templateUrl: 'alert-popup.html'
+  selector: 'broadcast-popup',
+  templateUrl: 'broadcast-popup.html'
 })
-export class AlertPopupPage {
+export class BroadcastPopupPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
@@ -70,11 +70,11 @@ export class AlertPopupPage {
         jsonArr.title = value.title;
         jsonArr.description = value.description;
         jsonArr.severity = parseInt(value.severity);
-        jsonArr.broadcast = true;
+        jsonArr.broadcast = this.alert.broadcast;
         jsonArr.location = this.alert.location;
 
-        //if (value.image != null)
-        //    jsonArr.image = value.image;
+        if (value.image != null)
+            jsonArr.image = value.image;
 
         this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
