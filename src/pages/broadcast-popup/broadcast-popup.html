@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Broadcasted Alerts</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="cancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form (submit)="requestEditAlert(requestAlert.value)" [formGroup]="requestAlert">
+        <ion-list>
+            <ion-item>
+                <img src= {{alert.image}} imageViewer/>
+                <p>{{alert.time}}.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Title<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="title" type="text" value={{alert.title}}></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Description<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="description" type="text" value={{alert.description}}></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Severity<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="severity" type="number" value={{alert.severity}}></ion-input>
+            </ion-item>
+            <!--<ion-item>
+                <ion-label>Select Image<span style="color:red">*</span></ion-label>
+                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
+            </ion-item>-->
+              <button ion-button round outline color="primary" block type="submit">Confirm Edits</button>
+              <button ion-button round outline color="primary" block type = "button" (click)="deleteAlert()">Remove Alert</button>
+        </ion-list>
+    </form>
+
+    <div padding>
+
+    </div>
+
+
+</ion-content>
