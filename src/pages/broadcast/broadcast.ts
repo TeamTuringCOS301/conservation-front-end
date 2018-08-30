@@ -40,15 +40,15 @@ export class BroadcastPage {
 
   public editAlert(alert)
   {
-    let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
-    addModal.onDidDismiss(newEditedAlert => {
+    //let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
+    //addModal.onDidDismiss(newEditedAlert => {
       //  if (newEditedAlert) {
       //      if (newEditedAlert.image != null) {
       //          alert.image = newEditedAlert.image
       //      }
       //  }
-      })
-    addModal.present();
+    //  })
+  //  addModal.present();
 
       //let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
       //addModal.onDidDismiss(newRequestedProduct => {
