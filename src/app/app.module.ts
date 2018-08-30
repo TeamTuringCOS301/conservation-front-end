@@ -22,7 +22,7 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { ProfilePage } from "../pages/profile/profile";
-import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
+import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast-popup';
 
 @NgModule({
   declarations: [

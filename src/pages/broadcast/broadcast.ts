@@ -5,7 +5,7 @@ import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
-import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
+//import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 declare var google;
 
