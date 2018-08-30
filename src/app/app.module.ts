@@ -39,13 +39,8 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
-<<<<<<< HEAD
-    ProfilePage
-=======
     BroadcastPopupPage,
-    ProfilePage,
-    ProfileEditPage
->>>>>>> 5d7a8f58cdd1a63c9f847993ad786d58cc26b0b3
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -64,13 +59,8 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
-<<<<<<< HEAD
-    ProfilePage
-=======
     BroadcastPopupPage,
-    ProfilePage,
-    ProfileEditPage
->>>>>>> 5d7a8f58cdd1a63c9f847993ad786d58cc26b0b3
+    ProfilePage
   ],
   providers: [
     StatusBar,
