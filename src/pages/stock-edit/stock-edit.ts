@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController, ViewController, NavPar
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { StockPage } from '../stock/stock';
 
 @Component({
   selector: 'page-stock-edit',
@@ -10,7 +11,6 @@ import { Http } from '../../http-api';
 })
 export class StockEditPage {
     @ViewChild('fileInput') private fileInput: any;
-
     requestProduct:any;
 
     product:any;
@@ -58,20 +58,7 @@ export class StockEditPage {
         if (value.image != null)
             jsonArr.image = value.image;
 
-        this.http.post("/reward/update/" + this.product.id, jsonArr).subscribe
-        (
-            (data) =>
-            {
-                this.presentToast("Successfully Submitted");
-            },
-            (error) =>
-            {
-                this.presentToast("Error: " + error);
-            }
-        );
-        
-        this.requestProduct.reset();
-        this.viewCtrl.dismiss(value);
+        this.viewCtrl.dismiss(jsonArr);
     }
 
     public cancel()

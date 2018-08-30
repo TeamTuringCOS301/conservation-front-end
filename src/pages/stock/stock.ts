@@ -22,8 +22,6 @@ export class StockPage {
     imageURI:any;
     imageFileName:any;
 
-    alertConfrimed:boolean;
-
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
          public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController)
     {
@@ -42,26 +40,41 @@ export class StockPage {
     public editProduct(product)
     {
         let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
-        addModal.onDidDismiss(newRequestedProduct => {
-            if (newRequestedProduct) {
-                if (newRequestedProduct.image != null) {
-                    product.image = newRequestedProduct.image
+        addModal.onDidDismiss(result => {
+            this.http.post("/reward/update/" + product.id, result).subscribe
+            (
+                (data) =>
+                {
+                    this.presentToast("Successfully Submitted");
+                    this.updateProductList();
+                },
+                (error) =>
+                {
+                    this.presentToast("Error: " + error);
                 }
-            }
-          })
+            );
+        });
         addModal.present();
     }
 
     public addProduct()
     {               
         let addModal = this.modalCtrl.create(StockAddPage);
-        addModal.onDidDismiss(gotSomething => {
-            if (gotSomething) {                        
-                setTimeout(() => {
-                    this.updateProductList();
-                }, 1000);             
+        addModal.onDidDismiss(result => {
+            if (result) {                        
+                this.http.post("/reward/add", result).subscribe
+                (
+                    (data) =>
+                    {
+                        this.presentToast("Successfully Submitted");
+                    },
+                    (error) =>
+                    {
+                        this.presentToast("Error: " + error);
+                    }
+                );            
             }
-          })
+        });
         addModal.present();
     }
 

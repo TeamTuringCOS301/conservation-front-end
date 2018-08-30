@@ -57,20 +57,8 @@ export class StockAddPage {
         jsonArr.amount = parseInt(value.amount);
         jsonArr.image = value.image;        
 
-        this.http.post("/reward/add", jsonArr).subscribe
-        (
-            (data) =>
-            {
-                this.presentToast("Successfully Submitted");
-            },
-            (error) =>
-            {
-                this.presentToast("Error: " + error);
-            }
-        );
-
         this.requestProduct.reset();
-        this.viewCtrl.dismiss(this.requestProduct);
+        this.viewCtrl.dismiss(jsonArr);
     }
 
     public processWebImage(event)

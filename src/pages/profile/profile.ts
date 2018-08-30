@@ -1,9 +1,9 @@
 import { Component, } from '@angular/core';
 import { NavController, ToastController, ModalController} from 'ionic-angular';
+import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
-import { ProfileEditPage } from '../profile-edit/profile-edit';
 
 @Component({
   selector: 'page-profile',
@@ -14,144 +14,112 @@ export class ProfilePage {
     profile:any;
 
     editMode:boolean = false;
+    editPasswordMode:boolean = false;
+    edittedProfile:any;
 
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
         public camera: Camera, public modalCtrl: ModalController)
     {
+        this.edittedProfile = new FormGroup({
+            name: new FormControl(),
+            surname: new FormControl(),
+            email: new FormControl(),
+            oldPassword: new FormControl(),
+            newPassword: new FormControl(),
+            confirmNewPassword: new FormControl()
+        });
         this.profile = {};  
         this.getInformation();      
     }
 
-    public editName()
+    public changePasswordToggle()
     {
-        let jsonSend = {
-            detail: this.profile.name,
-            infoType: "Name",
-            password: false
-        };
-        let addModal = this.modalCtrl.create(ProfileEditPage, {'jsonReceived': jsonSend});
-        addModal.onDidDismiss(value => {
-            if (value) 
-            {              
-                let jsonObj = {
-                    name: value.infoDetail,
-                    surname: this.profile.surname,
-                    email: this.profile.email
-                };                     
-                this.http.post('/admin/update/', jsonObj).subscribe
-                (
-                    (data) =>
-                    {
-                        this.presentToast("Successfully Submitted");
-                        this.getInformation();
-                    },
-                    (error) =>
-                    {
-                        this.presentToast("Error: " + error);
-                    }
-                );
-            }
-          });
-        addModal.present();
+        if (!this.editPasswordMode)
+            this.editPasswordMode = true;
+        else
+            this.editPasswordMode = false;
     }
 
-    public editSurname()
+    public editToggle()
     {
-        let jsonSend = {
-            detail: this.profile.surname,
-            infoType: "Surname",
-            password: false
-        };
-        let addModal = this.modalCtrl.create(ProfileEditPage, {'jsonReceived': jsonSend});
-        addModal.onDidDismiss(value => {
-            if (value) 
-            {           
-                let jsonObj = {
-                    name: this.profile.name,
-                    surname: value.infoDetail,
-                    email: this.profile.email
-                };                     
-                this.http.post('/admin/update/', jsonObj).subscribe
-                (
-                    (data) =>
-                    {
-                        this.presentToast("Successfully Submitted");
-                        this.getInformation();
-                    },
-                    (error) =>
-                    {
-                        this.presentToast("Error: " + error);
-                    }
-                );
-            }
-          });
-        addModal.present();
+        if (!this.editMode)
+        {
+            this.edittedProfile.reset();
+            this.editMode = true;
+        }
+        else
+            this.editMode = false;
     }
 
-    public editEmail()
+    public edit(value)
     {
-        let jsonSend = {
-            detail: this.profile.email,
-            infoType: "Email",
-            password: false
+        let jsonInfoSend = {
+            name: value.name,
+            surname: value.surname,
+            email: value.email
         };
-        let addModal = this.modalCtrl.create(ProfileEditPage, {'jsonReceived': jsonSend});
-        addModal.onDidDismiss(value => {
-            if (value) 
-            {           
-                let jsonObj = {
-                    name: this.profile.name,
-                    surname: this.profile.surname,
-                    email: value.infoDetail
-                };                     
-                this.http.post('/admin/update/', jsonObj).subscribe
+        
+        if (this.editPasswordMode)
+        {
+            if (value.newPassword !== value.confirmNewPassword)
+            {
+                this.presentToast("New password and confrim password do not password");
+            }
+            else
+            {
+                let jsonPasswordSend = {
+                    old: value.oldPassword,
+                    new: value.newPassword
+                };
+                this.http.post('/admin/password', jsonPasswordSend).subscribe
                 (
                     (data) =>
                     {
-                        this.presentToast("Successfully Submitted");
-                        this.getInformation();
+                        var jsonResp = JSON.parse(data.text());
+                        alert("dat: " + jsonResp.success);
+                        if (!jsonResp.success)    
+                            this.presentToast("Old password Incorrect");
+                        else
+                        {
+                            this.http.post('/admin/update', jsonInfoSend).subscribe
+                            (
+                                (data) =>
+                                {
+                                    this.presentToast("Successfully Submitted");
+                                    this.editMode = false;
+                                    this.editPasswordMode = false;
+                                    this.getInformation();   
+                                },
+                                (error) =>
+                                {
+                                    this.presentToast("Error: " + error);
+                                }
+                            );                             
+                        }
                     },
                     (error) =>
                     {
-                        this.presentToast("Error: " + error);
+                        alert("Error: " + error);
                     }
-                );
+                );                                 
             }
-          });
-        addModal.present();
-    }
-
-    public changePassword()
-    {
-        let jsonSend = {
-            detail: this.profile.password,
-            infoType: "Password",
-            password: true
-        };
-        let addModal = this.modalCtrl.create(ProfileEditPage, {'jsonReceived': jsonSend});
-        addModal.onDidDismiss(value => {
-            if (value) 
-            {           
-                let jsonObj = {
-                    name: this.profile.name,
-                    surname: this.profile.surname,
-                    email: value.infoDetail
-                };                     
-                this.http.post('/admin/update/', jsonObj).subscribe
-                (
-                    (data) =>
-                    {
-                        this.presentToast("Successfully Submitted");
-                        this.getInformation();
-                    },
-                    (error) =>
-                    {
-                        this.presentToast("Error: " + error);
-                    }
-                );
-            }
-          });
-        addModal.present();
+        }
+        else
+        {
+            this.http.post('/admin/update', jsonInfoSend).subscribe
+            (
+                (data) =>
+                {
+                    this.presentToast("Successfully Submitted");
+                    this.editMode = false;
+                    this.getInformation();   
+                },
+                (error) =>
+                {
+                    this.presentToast("Error: " + error);
+                }
+            );
+        }        
     }
 
     public logOut()
@@ -184,6 +152,10 @@ export class ProfilePage {
             (data) =>
             {
                 this.profile = JSON.parse(data.text());           
+            },
+            (error) =>
+            {
+                alert("Error: " + error);
             }
         );
     }
