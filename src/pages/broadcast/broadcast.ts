@@ -5,7 +5,7 @@ import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
-//import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
+import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 declare var google;
 
@@ -40,15 +40,15 @@ export class BroadcastPage {
 
   public editAlert(alert)
   {
-    //let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
-    //addModal.onDidDismiss(newEditedAlert => {
+    let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
+    addModal.onDidDismiss(newEditedAlert => {
       //  if (newEditedAlert) {
       //      if (newEditedAlert.image != null) {
       //          alert.image = newEditedAlert.image
       //      }
       //  }
-    //  })
-  //  addModal.present();
+      })
+    addModal.present();
 
       //let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
       //addModal.onDidDismiss(newRequestedProduct => {
@@ -199,6 +199,7 @@ export class BroadcastPage {
       strokeWeight: 2,
       fillColor: '#0000ff',
       fillOpacity: 0.2,
+      clickable: false
     });
     this.mapObj.setMap(this.map);
 
@@ -218,9 +219,26 @@ export class BroadcastPage {
     this.getInfo();
   }
 
-  public addAlert()
+  public addAlert(latlng)
   {
-    //---------------------------------------------------------------------------------
+    let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
+    addModal.onDidDismiss(newEditedAlert => {
+      //  if (newEditedAlert) {
+      //      if (newEditedAlert.image != null) {
+      //          alert.image = newEditedAlert.image
+      //      }
+      //  }
+      })
+    addModal.present();
+  }
+
+  public enableAddAlert()
+  {
+      google.maps.event.addListenerOnce(this.map, 'click', e => {
+        console.log(e);
+        console.log(e.latLng);
+      this.addAlert(e.latLng);
+    });
 
   }
 

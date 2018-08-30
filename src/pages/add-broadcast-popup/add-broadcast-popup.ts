@@ -14,7 +14,8 @@ export class AddBroadcastPopupPage {
 
     requestAlert:FormGroup;
 
-    alert:any;
+    latlng:any;
+    conArea:any;
 
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
          public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
@@ -26,27 +27,11 @@ export class AddBroadcastPopupPage {
             image: new FormControl()
         });
 
-        this.alert = this.params.get('alert');
-
-        this.alert.image = CONFIG.url + "/alert/image/" + this.alert.id;
+        this.latlng = this.params.get('latlng');
     }
 
-    public deleteAlert(){
-      this.http.get("/alert/remove/" + this.alert.id).subscribe
-      (
-          (data) =>
-          {
-              this.presentToast("Successfully Submitted");
-          },
-          (error) =>
-          {
-              this.presentToast("Error: " + error);
-          }
-      );
-      this.cancel();
-    }
 
-    public requestEditAlert(value: any)
+    public requestAddAlert(value: any)
     {
         var jsonArr = {
             "title":"",
@@ -70,23 +55,36 @@ export class AddBroadcastPopupPage {
         jsonArr.title = value.title;
         jsonArr.description = value.description;
         jsonArr.severity = parseInt(value.severity);
-        jsonArr.broadcast = this.alert.broadcast;
-        jsonArr.location = this.alert.location;
+        jsonArr.broadcast = true;
+        jsonArr.location = this.latlng;
 
 //        if (value.image != null)
 //            jsonArr.image = value.image;
 
-        this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
+        this.http.get("/admin/info/").subscribe
         (
-            (data) =>
-            {
-                this.presentToast("Successfully Submitted");
-            },
-            (error) =>
-            {
-                this.presentToast("Error: " + error);
-            }
-        );
+          (data) => //Success
+          {
+              var jsonResp = JSON.parse(data.text());
+              this.conArea = jsonResp.area;
+
+              this.http.post("/alert/add/" + this.conArea, jsonArr).subscribe
+              (
+                  (data) =>
+                  {
+                      this.presentToast("Successfully Submitted");
+                  },
+                  (error) =>
+                  {
+                      this.presentToast("Error: " + error);
+                  }
+              );
+          },
+          (error) =>
+          {
+            alert("Error: " + error);
+          }
+        )
 
         this.requestAlert.reset();
         this.viewCtrl.dismiss(value);
@@ -94,8 +92,6 @@ export class AddBroadcastPopupPage {
 
     public cancel()
     {
-        this.alert = this.params.get('alert');
-
         this.viewCtrl.dismiss(null);
     }
 
