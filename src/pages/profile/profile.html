@@ -8,31 +8,72 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>My Profile</h2>
-  <ion-list>
-    <ion-item>
-        <ion-label item-start>Username: {{profile.username}}</ion-label> 
-    </ion-item>
-    <ion-item>
-        <ion-label item-start>Name: {{profile.name}}</ion-label>        
-        <button item-end ion-button (click)="editName()">Edit</button>
-    </ion-item>
-    <ion-item>
-        <ion-label item-start>Surname: {{profile.surname}}</ion-label>        
-        <button item-end ion-button (click)="editSurname()">Edit</button>
-    </ion-item>
-    <ion-item>
-        <ion-label item-start>Email: {{profile.email}}</ion-label>        
-        <button item-end ion-button (click)="editEmail()">Edit</button>
-    </ion-item>
-    <ion-item>       
-        <button ion-button (click)="changePassword()">Change Password</button>
-    </ion-item>
-  </ion-list>
+    <div *ngIf="!editMode">
+        <h2>My Profile</h2>
+        <ion-list>
+            <ion-item>
+                <ion-label item-start>Username: {{profile.username}}</ion-label> 
+            </ion-item>
+            <ion-item>
+                <ion-label item-start>Name: {{profile.name}}</ion-label>  
+            </ion-item>
+            <ion-item>
+                <ion-label item-start>Surname: {{profile.surname}}</ion-label> 
+            </ion-item>
+            <ion-item>
+                <ion-label item-start>Email: {{profile.email}}</ion-label> 
+            </ion-item>
+            <ion-item> 
+                <button ion-button (click)="editToggle()">Edit</button>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div *ngIf="editMode">
+        <h2>Edit Profile</h2>
+        <form (submit)="edit(edittedProfile.value)" [formGroup]="edittedProfile">
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>Name: </ion-label>
+                    <ion-input formControlName="name" type="text" value={{profile.name}}></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Surame: </ion-label>
+                    <ion-input formControlName="surname" type="text" value={{profile.surname}}></ion-input>    
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Email: </ion-label>
+                    <ion-input formControlName="email" type="text" value={{profile.email}}></ion-input>    
+                </ion-item>
+                <div *ngIf="!editPasswordMode">
+                    <button ion-button (click)="changePasswordToggle()">Change Password</button>
+                </div>   
+                <div *ngIf="editPasswordMode">
+                    <button ion-button (click)="changePasswordToggle()">Cancel Changing Password</button>
+                </div>             
+                <div *ngIf="editPasswordMode">
+                    <p>Change Password</p>
+                    <ion-item>
+                        <ion-label floating>Old Password</ion-label>
+                        <ion-input formControlName="oldPassword" type="password"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>New Password</ion-label>
+                        <ion-input formControlName="newPassword" type="password"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Confirm new Password</ion-label>
+                        <ion-input formControlName="confirmNewPassword" type="password"></ion-input>
+                    </ion-item>
+                </div>
+                <button ion-button round outline color="primary" block type="submit">Submit</button>
+                <button ion-button round outline color="primary" block (click)="editToggle()">Cancel</button>
+            </ion-list>
+        </form>
+    </div>
 
-  <div padding>
+    <div padding>
 
-  </div>
+    </div>
 
 
 </ion-content>

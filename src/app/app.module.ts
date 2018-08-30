@@ -21,7 +21,6 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { ProfilePage } from "../pages/profile/profile"; 
-import { ProfileEditPage } from "../pages/profile-edit/profile-edit"; 
 
 @NgModule({
   declarations: [
@@ -34,8 +33,7 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
-    ProfilePage,
-    ProfileEditPage
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -54,8 +52,7 @@ import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
     AlertPopupPage,
     StockEditPage,
     BroadcastPage,
-    ProfilePage,
-    ProfileEditPage
+    ProfilePage
   ],
   providers: [
     StatusBar,
