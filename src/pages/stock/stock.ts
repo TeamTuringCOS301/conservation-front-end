@@ -21,6 +21,7 @@ export class StockPage {
 
     imageURI:any;
     imageFileName:any;
+    imageTag:any;
 
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
          public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController)
@@ -33,7 +34,7 @@ export class StockPage {
             image: new FormControl()
         });
 
-        //var interval = self.setInterval(this.updateProductList(), 30000);
+        this.imageTag = 0;
         this.updateProductList();
     }
 
@@ -41,18 +42,22 @@ export class StockPage {
     {
         let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
         addModal.onDidDismiss(result => {
-            this.http.post("/reward/update/" + product.id, result).subscribe
-            (
-                (data) =>
-                {
-                    this.presentToast("Successfully Submitted");
-                    this.updateProductList();
-                },
-                (error) =>
-                {
-                    this.presentToast("Error: " + error);
-                }
-            );
+            if (result)
+            {
+                this.http.post("/reward/update/" + product.id, result).subscribe
+                (
+                    (data) =>
+                    {
+                        this.presentToast("Successfully Submitted");
+                        this.imageTag += 1;
+                        this.updateProductList();
+                    },
+                    (error) =>
+                    {
+                        this.presentToast("Error: " + error);
+                    }
+                );
+            }
         });
         addModal.present();
     }
@@ -67,6 +72,7 @@ export class StockPage {
                     (data) =>
                     {
                         this.presentToast("Successfully Submitted");
+                        this.updateProductList();
                     },
                     (error) =>
                     {
@@ -112,13 +118,13 @@ export class StockPage {
         this.product = {};
         this.http.get("/reward/list/own").subscribe
         (
-            (data) => //Success
+            (data) => 
             {
                 var jsonResp = JSON.parse(data.text());
                 this.stock = jsonResp.rewards;
                 this.stock.forEach(el =>
                 {
-                    el.image = CONFIG.url + "/reward/image/" + el.id;
+                    el.image = CONFIG.url + "/reward/image/" + el.id + "?" + this.imageTag;
 
                     if (el.verified == false)
                         el.verified = "Not Verified";                        
