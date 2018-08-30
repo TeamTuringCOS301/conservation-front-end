@@ -21,12 +21,7 @@ import { Camera } from '@ionic-native/camera';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
-<<<<<<< HEAD
 import { ProfilePage } from "../pages/profile/profile"; 
-=======
-import { ProfilePage } from "../pages/profile/profile";
-import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
->>>>>>> 5d7a8f58cdd1a63c9f847993ad786d58cc26b0b3
 
 @NgModule({
   declarations: [
