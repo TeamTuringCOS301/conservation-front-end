@@ -22,7 +22,6 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { ProfilePage } from "../pages/profile/profile";
-import { ProfileEditPage } from "../pages/profile-edit/profile-edit";
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 
 @NgModule({
@@ -38,7 +37,6 @@ import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    ProfileEditPage,
     AddBroadcastPopupPage
   ],
   imports: [
@@ -60,7 +58,6 @@ import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    ProfileEditPage,
     AddBroadcastPopupPage
   ],
   providers: [

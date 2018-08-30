@@ -6,10 +6,10 @@ import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 
 @Component({
-  selector: 'broadcast-popup',
-  templateUrl: 'broadcast-popup.html'
+  selector: 'add-broadcast-popup',
+  templateUrl: 'add-broadcast-popup.html'
 })
-export class BroadcastPopupPage {
+export class AddBroadcastPopupPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
