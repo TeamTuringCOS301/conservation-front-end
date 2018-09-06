@@ -24,9 +24,14 @@
                 <ion-label floating>Description<span style="color:red">*</span></ion-label>
                 <ion-input formControlName="description" type="text" value={{alert.description}}></ion-input>
             </ion-item>
+            <p></p>
             <ion-item>
-                <ion-label floating>Severity<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="severity" type="number" value={{alert.severity}}></ion-input>
+              <ion-label>Severity</ion-label>
+              <ion-select formControlName="severity">
+                <ion-option value="0" selected={{alert.isZero}}>Animal Sighting</ion-option>
+                <ion-option value="1" selected={{alert.isOne}}>Warning</ion-option>
+                <ion-option value="2" selected={{alert.isTwo}}>Critical Alert</ion-option>
+              </ion-select>
             </ion-item>
             <!--<ion-item>
                 <ion-label>Select Image<span style="color:red">*</span></ion-label>

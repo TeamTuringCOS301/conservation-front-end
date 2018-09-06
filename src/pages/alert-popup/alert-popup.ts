@@ -28,8 +28,23 @@ export class AlertPopupPage {
 
         this.alert = this.params.get('alert');
 
+        this.alert.isZero = false;
+        this.alert.isOne = false;
+        this.alert.isTwo = false;
+
+        if (this.alert.severity == '0'){
+          this.alert.isZero = true;
+        }
+        else if (this.alert.severity == '1'){
+          this.alert.isOne = true;
+        }
+        else {
+          this.alert.isTwo = true;
+        }
+
         this.alert.image = CONFIG.url + "/alert/image/" + this.alert.id;
     }
+
 
     public deleteAlert(){
       this.http.get("/alert/remove/" + this.alert.id).subscribe
