@@ -40,7 +40,7 @@ export class AlertPage {
   {
     this.clearAll();
     this.mapMarkers = [];
-    this.getMarkers());
+    this.getMarkers();
   }
 
   deleteMarker(){
