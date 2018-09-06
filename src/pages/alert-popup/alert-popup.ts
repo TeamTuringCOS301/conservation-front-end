@@ -73,7 +73,7 @@ export class AlertPopupPage {
 
         if (value == null)
         {
-            if (value.title == null || value.description == null || value.severity == null)
+            if (value.title == null || value.description == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -82,9 +82,15 @@ export class AlertPopupPage {
             return false;
         }
 
+        if (value.severity == null){
+            jsonArr.severity = this.alert.severity;
+        }
+        else{
+          jsonArr.severity = parseInt(value.severity);
+        }
+
         jsonArr.title = value.title;
         jsonArr.description = value.description;
-        jsonArr.severity = parseInt(value.severity);
         jsonArr.broadcast = true;
         jsonArr.location = this.alert.location;
 

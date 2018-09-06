@@ -72,7 +72,7 @@ export class BroadcastPopupPage {
 
         if (value == null)
         {
-            if (value.title == null || value.description == null || value.severity == null)
+            if (value.title == null || value.description == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -81,9 +81,15 @@ export class BroadcastPopupPage {
             return false;
         }
 
+        if (value.severity == null){
+            jsonArr.severity = this.alert.severity;
+        }
+        else{
+          jsonArr.severity = parseInt(value.severity);
+        }
+
         jsonArr.title = value.title;
         jsonArr.description = value.description;
-        jsonArr.severity = parseInt(value.severity);
         jsonArr.broadcast = this.alert.broadcast;
         jsonArr.location = this.alert.location;
 

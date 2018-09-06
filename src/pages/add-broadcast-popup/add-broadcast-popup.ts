@@ -44,7 +44,7 @@ export class AddBroadcastPopupPage {
 
         if (value == null)
         {
-            if (value.title == null || value.description == null || value.severity == null)
+            if (value.title == null || value.description == null)
             {
                 alert("Please complete form.");
                 return false;
