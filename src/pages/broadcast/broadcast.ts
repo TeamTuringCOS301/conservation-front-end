@@ -52,17 +52,6 @@ export class BroadcastPage {
       this.refresh();
       })
     addModal.present();
-
-      //let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
-      //addModal.onDidDismiss(newRequestedProduct => {
-      //    if (newRequestedProduct) {
-      //        if (newRequestedProduct.image != null) {
-      //            product.image = newRequestedProduct.image
-      //        }
-      //    }
-      //  })
-      //addModal.present();
-
   }
 
   ionViewDidLoad(){
@@ -131,8 +120,6 @@ export class BroadcastPage {
       content: infoWindowContent
     });
     marker.addListener('click', () => {
-      //this.closeAllInfoWindows();
-      //infoWindow.open(this.map, marker);
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
@@ -148,7 +135,7 @@ export class BroadcastPage {
   getMarkers(){
     this.http.get("/alert/list/"+this.conArea+"/0").subscribe
     (
-        (data) => //Success12
+        (data) => //Success
         {
             var jsonResp = JSON.parse(data.text());
             this.markers = jsonResp.alerts;

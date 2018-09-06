@@ -61,16 +61,6 @@ export class AlertPage {
       this.refresh();
       })
     addModal.present();
-
-      //let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
-      //addModal.onDidDismiss(newRequestedProduct => {
-      //    if (newRequestedProduct) {
-      //        if (newRequestedProduct.image != null) {
-      //            product.image = newRequestedProduct.image
-      //        }
-      //    }
-      //  })
-      //addModal.present();
   }
 
   ionViewDidLoad(){
@@ -133,8 +123,6 @@ export class AlertPage {
       content: infoWindowContent
     });
     marker.addListener('click', () => {
-      //this.closeAllInfoWindows();
-      //infoWindow.open(this.map, marker);
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
@@ -161,7 +149,6 @@ export class AlertPage {
           alert("Error: " + error);
         }
     );
-    //this.alertPopup();
   }
 
   setZoom(){
