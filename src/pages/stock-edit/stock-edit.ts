@@ -53,7 +53,7 @@ export class StockEditPage {
         jsonArr.name = value.name;
         jsonArr.randValue = parseInt(value.price);
         jsonArr.description = value.description;
-        jsonArr.amount = parseInt(value.amount);                
+        jsonArr.amount = parseInt(value.amount);
 
         if (value.image != null)
             jsonArr.image = value.image;
@@ -64,8 +64,8 @@ export class StockEditPage {
     public cancel()
     {
         this.product = this.params.get('product');
-        
-        this.viewCtrl.dismiss(null);                  
+
+        this.viewCtrl.dismiss(null);
     }
 
     public processWebImage(event)
@@ -80,7 +80,7 @@ export class StockEditPage {
 
             this.requestProduct.patchValue({ 'image': imageData });
         };
-    
+
         reader.readAsDataURL(event.target.files[0]);
     }
 

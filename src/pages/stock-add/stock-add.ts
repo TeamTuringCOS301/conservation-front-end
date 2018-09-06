@@ -27,7 +27,7 @@ export class StockAddPage {
 
     public cancel()
     {
-        this.viewCtrl.dismiss(null);     
+        this.viewCtrl.dismiss(null);
     }
 
     public requestProductToBeSold(value: any)
@@ -50,12 +50,12 @@ export class StockAddPage {
             alert("Please complete form.");
             return false;
         }
-        
+
         jsonArr.name = value.name;
         jsonArr.randValue = parseInt(value.price);
         jsonArr.description = value.description;
         jsonArr.amount = parseInt(value.amount);
-        jsonArr.image = value.image;        
+        jsonArr.image = value.image;
 
         this.requestProduct.reset();
         this.viewCtrl.dismiss(jsonArr);
@@ -73,7 +73,7 @@ export class StockAddPage {
 
             this.requestProduct.patchValue({ 'image': imageData });
         };
-    
+
         reader.readAsDataURL(event.target.files[0]);
     }
 

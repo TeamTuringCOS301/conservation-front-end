@@ -70,13 +70,13 @@ export class BroadcastPopupPage {
             "location":""
         };
 
-        if (value.title == null || value.description == null || value.severity == null)
+        if (value == null)
         {
-            alert("Please complete form.");
-            return false;
-        }
-        if (value.title == "" || value.description == "")
-        {
+            if (value.title == null || value.description == null || value.severity == null)
+            {
+                alert("Please complete form.");
+                return false;
+            }
             alert("Please complete form.");
             return false;
         }
@@ -86,9 +86,6 @@ export class BroadcastPopupPage {
         jsonArr.severity = parseInt(value.severity);
         jsonArr.broadcast = this.alert.broadcast;
         jsonArr.location = this.alert.location;
-
-        if (value.image != null)
-            jsonArr.image = value.image;
 
         this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
