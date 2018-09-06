@@ -88,8 +88,8 @@ export class AlertPopupPage {
         jsonArr.broadcast = true;
         jsonArr.location = this.alert.location;
 
-        //if (value.image != null)
-        //    jsonArr.image = value.image;
+        if (value.image != null)
+            jsonArr.image = value.image;
 
         this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
