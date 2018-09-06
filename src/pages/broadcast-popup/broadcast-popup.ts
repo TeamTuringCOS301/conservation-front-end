@@ -70,13 +70,13 @@ export class BroadcastPopupPage {
             "location":""
         };
 
-        if (value == null)
+        if (value.title == null || value.description == null || value.severity == null)
         {
-            if (value.title == null || value.description == null || value.severity == null)
-            {
-                alert("Please complete form.");
-                return false;
-            }
+            alert("Please complete form.");
+            return false;
+        }
+        if (value.title == "" || value.description == "")
+        {
             alert("Please complete form.");
             return false;
         }
