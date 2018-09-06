@@ -38,15 +38,18 @@ export class BroadcastPage {
     });
   }
 
+  public refresh()
+  {
+    this.clearAll();
+    this.mapMarkers = [];
+    this.getMarkers();
+  }
+
   public editAlert(alert)
   {
     let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
-      //  if (newEditedAlert) {
-      //      if (newEditedAlert.image != null) {
-      //          alert.image = newEditedAlert.image
-      //      }
-      //  }
+      this.refresh();
       })
     addModal.present();
 
@@ -59,6 +62,7 @@ export class BroadcastPage {
       //    }
       //  })
       //addModal.present();
+
   }
 
   ionViewDidLoad(){
@@ -91,6 +95,7 @@ export class BroadcastPage {
         title:  entry.title + "   " + new Date(entry.time),
         aObject: entry
       }));
+      console.log(entry.severity);
       if (entry.severity == 0){
         this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
       }
@@ -112,12 +117,11 @@ export class BroadcastPage {
     this.openMarker.setMap(null);
   }
 
-  clearMarkers(){
-
-  }
-
-  broadcastMarker(){
-    return;
+  clearAll(){
+      for (let entry of this.mapMarkers){
+        this.openMarker = entry;
+        this.deleteMarker();
+      }
   }
 
   addInfoWindowToMarker(marker) {
@@ -223,11 +227,7 @@ export class BroadcastPage {
   {
     let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
     addModal.onDidDismiss(newEditedAlert => {
-      //  if (newEditedAlert) {
-      //      if (newEditedAlert.image != null) {
-      //          alert.image = newEditedAlert.image
-      //      }
-      //  }
+      this.refresh();
       })
     addModal.present();
   }

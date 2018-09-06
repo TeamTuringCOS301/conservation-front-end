@@ -36,15 +36,29 @@ export class AlertPage {
     });
   }
 
+  public refresh()
+  {
+    this.clearAll();
+    this.mapMarkers = [];
+    this.getMarkers());
+  }
+
+  deleteMarker(){
+    this.openMarker.setMap(null);
+  }
+
+  clearAll(){
+      for (let entry of this.mapMarkers){
+        this.openMarker = entry;
+        this.deleteMarker();
+      }
+  }
+
   public editAlert(alert)
   {
     let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
-      //  if (newEditedAlert) {
-      //      if (newEditedAlert.image != null) {
-      //          alert.image = newEditedAlert.image
-      //      }
-      //  }
+      this.refresh();
       })
     addModal.present();
 
@@ -110,14 +124,6 @@ export class AlertPage {
       this.closeAllInfoWindows();
       this.addInfoWindowToMarker(entry);
     }
-  }
-
-  deleteMarker(){
-    this.openMarker.setMap(null);
-  }
-
-  broadcastMarker(){
-    return;
   }
 
   addInfoWindowToMarker(marker) {
