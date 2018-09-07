@@ -5,6 +5,8 @@ import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
 declare var google;
 
 @Component({
@@ -26,7 +28,7 @@ export class AlertPage {
 
   requestAlert:any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
@@ -188,10 +190,10 @@ export class AlertPage {
   showPolygon(){
     this.mapObj = new google.maps.Polygon({
       paths: this.polygonPoints,
-      strokeColor: '#0000FF',
+      strokeColor: '#6c7bfe',
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: '#0000ff',
+      fillColor: '#6c7bfe',
       fillOpacity: 0.2,
     });
     this.mapObj.setMap(this.map);
@@ -239,5 +241,11 @@ export class AlertPage {
             }
         );
         toast.present();
+    }
+
+    presentPopover()
+    {
+      const popover = this.popoverCtrl.create(PopoverPage);
+      popover.present();
     }
 }

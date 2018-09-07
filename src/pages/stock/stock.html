@@ -1,36 +1,54 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>Rewards</ion-title>
-      <ion-buttons end>
-        <button ion-button color="primary" (click)="refresh()"><ion-icon name="refresh"></ion-icon></button>
-        <button ion-button color="primary" (click)="addProduct()">Add Reward</button>
-        <button ion-button color="primary" (click)="logOut()">Log Out</button>
-      </ion-buttons>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title><b>Rewards</b></ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only round outline (click)="refresh()"><ion-icon name="refresh"></ion-icon></button>
+      <button ion-button round outline (click)="addProduct()">Add Reward<ion-icon name="add"></ion-icon></button>
+      <button ion-button round outline (click)="logOut()">Log Out<ion-icon name="log-out"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Current Products</h2>
   <ion-list>
-    <ion-card class="product card" *ngFor="let product of stock" color="primary">
-      <ion-card-header>  
-        <ion-item color="primary">
-          <ion-label item-start><h1>{{product.name}}</h1></ion-label>
-          <button item-end ion-button (click)="editProduct(product)">Edit</button>
-          <button item-end ion-button (click)="presentDeleteConfirm(product)">Delete</button>   
-        </ion-item>              
-      </ion-card-header>
-      <ion-card-content>   
-        <ion-item color="primary">          
-          <img item-start src={{product.image}} class="cardImage" imageViewer/>                         
-          <p>Price: R {{product.randValue}}</p>
-          <p>Price in coin: E {{product.coinValue}}</p>
-          <p>Description: {{product.description}}</p>
-          <p>Amount in Stock: {{product.amount}}</p>
-          <p>{{product.verified}}</p>
-        </ion-item>             
-      </ion-card-content>
-    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let product of stock" col-12 col-sm-9 col-md-6 col-lg-4>
+        <ion-card>
+          <ion-card-content>
+            <img src={{product.image}} class="cardImage" imageViewer/>
+            <ion-card-title>
+              <b>{{product.name}}</b>
+            </ion-card-title>
+            <p padding><b>{{product.description}}</b></p>
+            <ion-item>
+                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
+                Value
+                <ion-badge item-end color="primary">{{product.randValue}} Rand</ion-badge>
+            </ion-item>
+            <ion-item>
+                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
+                Coin Price
+                <ion-badge item-end color="secondary">{{product.coinValue}} ERP</ion-badge>
+            </ion-item>
+            <ion-item>
+                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
+                Stock
+                <ion-badge item-end color="tertiary">{{product.amount}} Units</ion-badge>
+            </ion-item>
+            <ion-item>
+                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
+                {{product.verified}}
+                <ion-icon name="checkmark-circle" item-end [hidden]="product.verified == 'Unverified'" color="safe"></ion-icon>
+                <ion-icon name="close-circle" item-end [hidden]="product.verified == 'Verified'" color="danger"></ion-icon>
+            </ion-item>
+            <button ion-button round (click)="editProduct(product)" color="orange">Edit</button>
+            <button ion-button round (click)="presentDeleteConfirm(product)" color="danger">Delete</button>
+          </ion-card-content>
+        </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 
   <div padding>
