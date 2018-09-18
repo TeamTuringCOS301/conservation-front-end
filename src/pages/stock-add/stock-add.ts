@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController, ViewController} from '
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 
 @Component({
   selector: 'page-stock-add',
@@ -14,7 +15,8 @@ export class StockAddPage {
     requestProduct:any;
 
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController,
-        public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
+        public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
+        public ng2ImgToolsService: Ng2ImgToolsService)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -42,7 +44,7 @@ export class StockAddPage {
 
         if (value == null)
         {
-            if (value.name == null || value.price == null || value.description == null || value.amount == null || value.image == null)
+            if (value.name.length == 0 || value.price == 0 || value.description.length == 0 || value.amount == 0 || value.image == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -61,7 +63,7 @@ export class StockAddPage {
         this.viewCtrl.dismiss(jsonArr);
     }
 
-    public processWebImage(event)
+    public processWebImage1(event)
     {
         if (event.target.files[0] == null)
             return false;
@@ -69,12 +71,39 @@ export class StockAddPage {
         let reader = new FileReader();
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
 
             this.requestProduct.patchValue({ 'image': imageData });
         };
 
         reader.readAsDataURL(event.target.files[0]);
+    }
+
+    public processWebImage(event) {
+
+        if (event.target.files[0] == null)
+            return false;
+        let reader = new FileReader();
+        reader.onload = (readerEvent) => 
+        {
+            let imageData = (readerEvent.target as any).result;
+
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
+            this.requestProduct.patchValue({ 'image': imageData });
+        };
+        this.ng2ImgToolsService.resize([event.target.files[0]], 500, 540).subscribe
+        (
+            (res) => 
+            {
+                reader.readAsDataURL(res);
+            }, 
+            (error) => 
+            {
+                alert("Error" + error);
+            }
+        );
     }
 
     presentToast(text)

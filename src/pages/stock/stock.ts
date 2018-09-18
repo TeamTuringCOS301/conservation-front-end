@@ -7,6 +7,8 @@ import { LoginPage } from '../login/login';
 import { StockAddPage} from '../stock-add/stock-add';
 import { StockEditPage} from '../stock-edit/stock-edit';
 import { CONFIG } from '../../app-config';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
 
 @Component({
   selector: 'page-stock',
@@ -24,7 +26,8 @@ export class StockPage {
     imageTag:any;
 
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
-         public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController)
+         public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController,
+         public popoverCtrl: PopoverController)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -125,11 +128,6 @@ export class StockPage {
                 this.stock.forEach(el =>
                 {
                     el.image = CONFIG.url + "/reward/image/" + el.id + "?" + this.imageTag;
-
-                    if (el.verified == false)
-                        el.verified = "Not Verified";                        
-                    else
-                        el.verified = "Verified";
                 });                
             },
             (error) =>
@@ -189,6 +187,11 @@ export class StockPage {
             }
         );
         toast.present();
+    }
+
+    public presentPopover() {
+        const popover = this.popoverCtrl.create(PopoverPage);
+        popover.present();
     }
 
 

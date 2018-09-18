@@ -23,6 +23,9 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { ProfilePage } from "../pages/profile/profile";
 import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast-popup';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../pages/popover/popover';
+import { Ng2ImgToolsModule } from 'ng2-img-tools';
 
 @NgModule({
   declarations: [
@@ -37,13 +40,15 @@ import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    AddBroadcastPopupPage
+    AddBroadcastPopupPage,
+    PopoverPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    IonicImageViewerModule
+    IonicImageViewerModule,
+    Ng2ImgToolsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -58,7 +63,8 @@ import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast
     BroadcastPage,
     BroadcastPopupPage,
     ProfilePage,
-    AddBroadcastPopupPage
+    AddBroadcastPopupPage,
+    PopoverPage
   ],
   providers: [
     StatusBar,
@@ -68,6 +74,7 @@ import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast
     File,
     Camera,
     Transfer,
+    PopoverController,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Http
   ]
