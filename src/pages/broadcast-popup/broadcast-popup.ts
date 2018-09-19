@@ -70,23 +70,23 @@ export class BroadcastPopupPage {
             "location":""
         };
 
-        if (value == null)
+        if (value.title == null || value.title == "")
         {
-            if (value.title == null || value.description == null)
-            {
-                alert("Please complete form.");
-                return false;
-            }
-            alert("Please complete form.");
+            alert("Title empty, please complete form.");
             return false;
         }
-
+        if (value.description == null || value.description == "")
+        {
+            alert("Description empty, please complete form.");
+            return false;
+        }
         if (value.severity == null){
             jsonArr.severity = this.alert.severity;
         }
         else{
           jsonArr.severity = parseInt(value.severity);
         }
+
 
         jsonArr.title = value.title;
         jsonArr.description = value.description;
