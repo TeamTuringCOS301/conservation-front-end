@@ -178,21 +178,30 @@ export class StockPage {
 
     presentToast(text)
     {
-        let toast = this.toastCtrl.create(
-            {
+        let toast = this.toastCtrl.create
+        ({
             message: text,
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-            }
-        );
+        });
         toast.present();
     }
 
-    public presentPopover() {
-        const popover = this.popoverCtrl.create(PopoverPage);
-        popover.present();
+    public presentPopover(myEvent) {
+        let popover = this.popoverCtrl.create(PopoverPage);
+        popover.present({
+            ev: myEvent
+        });
+        popover.onDidDismiss(data =>
+        {
+            if (data == null)
+                return;
+            else if (data.option == 1)
+                this.refresh();
+            else if (data.option == 2)
+                this.logOut();
+            
+        })
     }
-
-
 }
