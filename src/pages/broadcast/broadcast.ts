@@ -7,6 +7,8 @@ import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
 import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
 declare var google;
 
 @Component({
@@ -28,7 +30,7 @@ export class BroadcastPage {
 
   requestAlert:any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
@@ -257,4 +259,21 @@ export class BroadcastPage {
         );
         toast.present();
     }
+
+    public presentPopover(myEvent) {
+      let popover = this.popoverCtrl.create(PopoverPage);
+      popover.present({
+          ev: myEvent
+      });
+      popover.onDidDismiss(data =>
+      {
+          if (data == null)
+              return;
+          else if (data.option == 1)
+              this.refresh();
+          else if (data.option == 2)
+              this.logOut();
+          
+      })
+  }
 }

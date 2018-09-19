@@ -243,9 +243,20 @@ export class AlertPage {
         toast.present();
     }
 
-    presentPopover()
-    {
-      const popover = this.popoverCtrl.create(PopoverPage);
-      popover.present();
-    }
+    public presentPopover(myEvent) {
+      let popover = this.popoverCtrl.create(PopoverPage);
+      popover.present({
+          ev: myEvent
+      });
+      popover.onDidDismiss(data =>
+      {
+          if (data == null)
+              return;
+          else if (data.option == 1)
+              this.refresh();
+          else if (data.option == 2)
+              this.logOut();
+          
+      })
+  }
 }
