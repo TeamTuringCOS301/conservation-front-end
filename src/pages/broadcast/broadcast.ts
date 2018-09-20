@@ -218,12 +218,7 @@ export class BroadcastPage {
 
   public addAlert(latlng)
   {
-<<<<<<< HEAD
     let addModal = this.modalCtrl.create('AddBroadcastPopupPage', {'latlng': latlng});
-=======
-    this.addAlertControl = true;
-    let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
->>>>>>> 559a5ccd2329d5a4353847823b6b61e73411bfd9
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
