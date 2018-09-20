@@ -72,12 +72,12 @@ export class BroadcastPopupPage {
 
         if (value.title == null || value.title == "")
         {
-            alert("Title empty, please complete form.");
+            this.presentToast("Title empty, please complete form.");
             return false;
         }
         if (value.description == null || value.description == "")
         {
-            alert("Description empty, please complete form.");
+            this.presentToast("Description empty, please complete form.");
             return false;
         }
         if (value.severity == null){
