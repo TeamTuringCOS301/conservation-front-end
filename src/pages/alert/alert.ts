@@ -25,7 +25,6 @@ export class AlertPage {
   mapObj: any;
   markers: any = [];
   mapMarkers: any = [];
-  infoWindows: any = [];
   openMarker: any;
 
   requestAlert:any;
@@ -100,7 +99,7 @@ export class AlertPage {
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  entry.title + "   " + new Date(entry.time),
+        title:  entry.title,
         aObject: entry
       }));
       if (entry.severity == 0){
@@ -114,29 +113,17 @@ export class AlertPage {
       }
       i++;
     }}
+    
     for (let entry of this.mapMarkers) {
-      this.closeAllInfoWindows();
-      this.addInfoWindowToMarker(entry);
+      this.addListenerToMarker(entry);
     }
   }
 
-  addInfoWindowToMarker(marker) {
-    var infoWindowContent = marker.title+'</p>'
-
-    var infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
+  addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
-    this.infoWindows.push(infoWindow);
-  }
-
-  closeAllInfoWindows() {
-    for(let window of this.infoWindows) {
-      window.close();
-    }
   }
 
   getMarkers(){
@@ -258,7 +245,7 @@ export class AlertPage {
               this.refresh();
           else if (data.option == 2)
               this.logOut();
-          
+
       })
   }
 }
