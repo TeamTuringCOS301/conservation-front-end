@@ -50,7 +50,7 @@ export class BroadcastPopupPage {
     public deleteAlert(){
       this.http.get("/alert/remove/" + this.alert.id).subscribe
       (
-          (data) =>
+          (data) => //Success
           {
               this.presentToast("Successfully Submitted");
           },
@@ -89,7 +89,6 @@ export class BroadcastPopupPage {
           jsonArr.severity = parseInt(value.severity);
         }
 
-
         jsonArr.title = value.title;
         jsonArr.description = value.description;
         jsonArr.broadcast = this.alert.broadcast;
@@ -127,7 +126,6 @@ export class BroadcastPopupPage {
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
             imageData = imageData.substring('data:image/jpeg;base64,'.length);
-
             this.requestAlert.patchValue({ 'image': imageData });
         };
 
@@ -142,8 +140,7 @@ export class BroadcastPopupPage {
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-        }
-        );
+        });
         toast.present();
     }
 

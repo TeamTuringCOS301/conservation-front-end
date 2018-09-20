@@ -27,7 +27,6 @@ export class BroadcastPage {
   mapObj: any;
   markers: any = [];
   mapMarkers: any = [];
-  infoWindows: any = [];
   openMarker: any;
   addAlertControl: boolean;
 
@@ -67,11 +66,11 @@ export class BroadcastPage {
   getInfo(){
     this.http.get("/admin/info").subscribe
     (
-        (data) => //Success
+        (data) =>
         {
-            var jsonResp = JSON.parse(data.text());
-            this.conArea = jsonResp.area;
-            this.getPolygon();
+          var jsonResp = JSON.parse(data.text());
+          this.conArea = jsonResp.area;
+          this.getPolygon();
         },
         (error) =>
         {
@@ -84,27 +83,28 @@ export class BroadcastPage {
     var i = 0;
     for (let entry of this.markers) {
       if (entry.broadcast){
+
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  entry.title + "   " + new Date(entry.time),
+        title:  entry.title,
         aObject: entry
-      }));
-      console.log(entry.severity);
-      if (entry.severity == 0){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        }));
+
+        if (entry.severity == 0){
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        }
+        else if (entry.severity == 1){
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+        }
+        else{
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+        }
+        i++;
       }
-      else if (entry.severity == 1){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
-      }
-      else{
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
-      }
-      i++;
-    }}
+    }
     for (let entry of this.mapMarkers) {
-      this.closeAllInfoWindows();
-      this.addInfoWindowToMarker(entry);
+      this.addListenerToMarker(entry);
     }
   }
 
@@ -119,23 +119,11 @@ export class BroadcastPage {
       }
   }
 
-  addInfoWindowToMarker(marker) {
-    var infoWindowContent = marker.title+'</p>'
-
-    var infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
+  addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
-    this.infoWindows.push(infoWindow);
-  }
-
-  closeAllInfoWindows() {
-    for(let window of this.infoWindows) {
-      window.close();
-    }
   }
 
   getMarkers(){
@@ -227,19 +215,20 @@ export class BroadcastPage {
 
   public enableAddAlert()
   {
-    let toast = this.toastCtrl.create(
-        {
-        message: "Click anywhere in the Conservation Area to add Alert.",
-        duration: 2300,
-        position: 'bottom',
-        dismissOnPageChange: false
-        }
-    );
-    toast.present();
     if (this.addAlertControl == true){
+      let toast = this.toastCtrl.create(
+          {
+          message: "Click anywhere in the Conservation Area to add Alert.",
+          duration: 2300,
+          position: 'bottom',
+          dismissOnPageChange: false
+          }
+      );
+      toast.present();
       this.addAlertControl = false;
       google.maps.event.addListenerOnce(this.map, 'click', e => {
         if (google.maps.geometry.poly.containsLocation(e.latLng, this.mapObj)){
+          this.addAlertControl = true;
           this.addAlert(e.latLng);
         }
         else{
