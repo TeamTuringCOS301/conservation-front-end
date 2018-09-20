@@ -27,6 +27,7 @@ export class BroadcastPage {
   mapMarkers: any = [];
   infoWindows: any = [];
   openMarker: any;
+  addAlertControl: boolean;
 
   requestAlert:any;
 
@@ -38,6 +39,7 @@ export class BroadcastPage {
         image: new FormControl(),
         broadcast: new FormControl()
     });
+    this.addAlertControl = true;
   }
 
   public refresh()
@@ -214,6 +216,7 @@ export class BroadcastPage {
 
   public addAlert(latlng)
   {
+    this.addAlertControl = true;
     let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
@@ -223,12 +226,27 @@ export class BroadcastPage {
 
   public enableAddAlert()
   {
+    let toast = this.toastCtrl.create(
+        {
+        message: "Click anywhere in the Conservation Area to add Alert.",
+        duration: 2300,
+        position: 'bottom',
+        dismissOnPageChange: false
+        }
+    );
+    toast.present();
+    if (this.addAlertControl == true){
+      this.addAlertControl = false;
       google.maps.event.addListenerOnce(this.map, 'click', e => {
-        console.log(e);
-        console.log(e.latLng);
-      this.addAlert(e.latLng);
+        if (google.maps.geometry.poly.containsLocation(e.latLng, this.mapObj)){
+          this.addAlert(e.latLng);
+        }
+        else{
+          this.presentToast("Cannot add Alert outside of Conservation area.");
+          this.addAlertControl = true;
+        }
     });
-
+  }
   }
 
   public logOut()
@@ -273,7 +291,7 @@ export class BroadcastPage {
               this.refresh();
           else if (data.option == 2)
               this.logOut();
-          
+
       })
   }
 }
