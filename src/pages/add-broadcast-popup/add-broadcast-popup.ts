@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 
+@IonicPage({})
 @Component({
   selector: 'add-broadcast-popup',
   templateUrl: 'add-broadcast-popup.html'

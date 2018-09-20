@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, ViewController, IonicPage} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
 
+@IonicPage({})
 @Component({
   selector: 'page-stock-add',
   templateUrl: 'stock-add.html'
@@ -13,7 +14,7 @@ export class StockAddPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
-
+    enableSubmit:boolean = true;
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController,
         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
         public ng2ImgToolsService: Ng2ImgToolsService)
@@ -63,24 +64,10 @@ export class StockAddPage {
         this.viewCtrl.dismiss(jsonArr);
     }
 
-    public processWebImage1(event)
+    public processWebImage(event) 
     {
-        if (event.target.files[0] == null)
-            return false;
-
-        let reader = new FileReader();
-        reader.onload = (readerEvent) => {
-            let imageData = (readerEvent.target as any).result;
-            var position = imageData.indexOf(",");
-            imageData = imageData.slice(position+1);
-
-            this.requestProduct.patchValue({ 'image': imageData });
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
-    public processWebImage(event) {
+        alert("okA");
+        this.enableSubmit = false;
 
         if (event.target.files[0] == null)
             return false;
@@ -93,15 +80,17 @@ export class StockAddPage {
             imageData = imageData.slice(position+1);
             this.requestProduct.patchValue({ 'image': imageData });
         };
-        this.ng2ImgToolsService.resize([event.target.files[0]], 500, 540).subscribe
+        this.ng2ImgToolsService.resize([event.target.files[0]], 10000, 540).subscribe
         (
             (res) => 
             {
                 reader.readAsDataURL(res);
+                this.enableSubmit = true;
             }, 
             (error) => 
             {
                 alert("Error" + error);
+                this.enableSubmit = true;
             }
         );
     }

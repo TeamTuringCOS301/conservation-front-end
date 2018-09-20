@@ -21,3 +21,21 @@
         }
         return false;
     }
+
+    
+    public processWebImage1(event)
+    {
+        if (event.target.files[0] == null)
+            return false;
+
+        let reader = new FileReader();
+        reader.onload = (readerEvent) => {
+            let imageData = (readerEvent.target as any).result;
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
+
+            this.requestProduct.patchValue({ 'image': imageData });
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+    }

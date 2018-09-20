@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { TabsPage } from '../tabs/tabs';
 import { Http } from '../../http-api';
 
+@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -32,7 +33,7 @@ export class LoginPage {
         if(jsonResp.success)
         {
           this.presentToast("Logged in!");
-          this.navCtrl.push(TabsPage);
+          this.navCtrl.push('TabsPage');
         }
         else
         {

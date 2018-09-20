@@ -4,7 +4,9 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 
+@IonicPage({})
 @Component({
   selector: 'alert-popup',
   templateUrl: 'alert-popup.html'

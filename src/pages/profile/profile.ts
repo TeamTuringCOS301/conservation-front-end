@@ -1,10 +1,11 @@
 import { Component, } from '@angular/core';
-import { NavController, ToastController, ModalController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, IonicPage} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 
+@IonicPage({})
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
@@ -145,7 +146,7 @@ export class ProfilePage {
                         elements[key].style.display = 'none';
                     });
                 }
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>

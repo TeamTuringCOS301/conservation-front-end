@@ -9,8 +9,10 @@ import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 declare var google;
 
+@IonicPage({})
 @Component({
   selector: 'page-broadcast',
   templateUrl: 'broadcast.html'
@@ -49,7 +51,7 @@ export class BroadcastPage {
 
   public editAlert(alert)
   {
-    let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
+    let addModal = this.modalCtrl.create('BroadcastPopupPage', {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -214,7 +216,7 @@ export class BroadcastPage {
 
   public addAlert(latlng)
   {
-    let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
+    let addModal = this.modalCtrl.create('AddBroadcastPopupPage', {'latlng': latlng});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -237,12 +239,12 @@ export class BroadcastPage {
         (
             (data) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
             }
         );
     }
@@ -261,7 +263,7 @@ export class BroadcastPage {
     }
 
     public presentPopover(myEvent) {
-      let popover = this.popoverCtrl.create(PopoverPage);
+      let popover = this.popoverCtrl.create('PopoverPage');
       popover.present({
           ev: myEvent
       });

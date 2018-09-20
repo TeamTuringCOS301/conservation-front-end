@@ -7,8 +7,10 @@ import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 declare var google;
 
+@IonicPage({})
 @Component({
   selector: 'page-alert',
   templateUrl: 'alert.html'
@@ -58,7 +60,7 @@ export class AlertPage {
 
   public editAlert(alert)
   {
-    let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
+    let addModal = this.modalCtrl.create('AlertPopupPage', {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -71,7 +73,7 @@ export class AlertPage {
 
   public alertPopup()
   {
-      let addModal = this.modalCtrl.create(AlertPopupPage);
+      let addModal = this.modalCtrl.create('AlertPopupPage');
       addModal.present();
   }
 
@@ -220,12 +222,12 @@ export class AlertPage {
         (
             (data) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
             }
         );
     }
@@ -244,7 +246,7 @@ export class AlertPage {
     }
 
     public presentPopover(myEvent) {
-      let popover = this.popoverCtrl.create(PopoverPage);
+      let popover = this.popoverCtrl.create('PopoverPage');
       popover.present({
           ev: myEvent
       });

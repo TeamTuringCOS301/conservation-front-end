@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, ModalController, ViewController, NavParams, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
-import { StockPage } from '../stock/stock';
 
+@IonicPage({})
 @Component({
   selector: 'page-stock-edit',
   templateUrl: 'stock-edit.html'

@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
+import { IonicPage, NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
@@ -10,6 +10,8 @@ import { CONFIG } from '../../app-config';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
 
+@IonicPage({
+  })
 @Component({
   selector: 'page-stock',
   templateUrl: 'stock.html'
@@ -43,7 +45,7 @@ export class StockPage {
 
     public editProduct(product)
     {
-        let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
+        let addModal = this.modalCtrl.create('StockEditPage', {'product': product});
         addModal.onDidDismiss(result => {
             if (result)
             {
@@ -67,7 +69,7 @@ export class StockPage {
 
     public addProduct()
     {               
-        let addModal = this.modalCtrl.create(StockAddPage);
+        let addModal = this.modalCtrl.create('StockAddPage');
         addModal.onDidDismiss(result => {
             if (result) {                        
                 this.http.post("/reward/add", result).subscribe
@@ -105,7 +107,7 @@ export class StockPage {
                         elements[key].style.display = 'none';
                     });
                 }
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
@@ -189,7 +191,7 @@ export class StockPage {
     }
 
     public presentPopover(myEvent) {
-        let popover = this.popoverCtrl.create(PopoverPage);
+        let popover = this.popoverCtrl.create('PopoverPage');
         popover.present({
             ev: myEvent
         });
