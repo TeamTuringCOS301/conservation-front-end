@@ -66,7 +66,6 @@ export class StockAddPage {
 
     public processWebImage(event) 
     {
-        alert("okA");
         this.enableSubmit = false;
 
         if (event.target.files[0] == null)
