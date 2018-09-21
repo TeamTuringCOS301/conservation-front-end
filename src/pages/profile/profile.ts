@@ -1,10 +1,11 @@
 import { Component, } from '@angular/core';
-import { NavController, ToastController, ModalController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, IonicPage} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
 
+@IonicPage({})
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
@@ -58,10 +59,21 @@ export class ProfilePage {
             surname: value.surname,
             email: value.email
         };
-        
-        if (this.editPasswordMode)
+        var regexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (value.name.length == 0 || value.surname.length == 0 || value.email.length == 0)
         {
-            if (value.newPassword !== value.confirmNewPassword)
+            this.presentToast("Please dont leave any field empty");
+        }
+        else if (!regexEmail.test(value.email)) {
+            this.presentToast("Please enter a valid email address");
+        }
+        else if (this.editPasswordMode)
+        {
+            if (value.newPassword == null || value.password.length == 0)
+            {
+                this.presentToast("Please enter a password");
+            }
+            else if (value.newPassword !== value.confirmNewPassword)
             {
                 this.presentToast("New password and confrim password do not password");
             }
@@ -76,7 +88,6 @@ export class ProfilePage {
                     (data) =>
                     {
                         var jsonResp = JSON.parse(data.text());
-                        alert("dat: " + jsonResp.success);
                         if (!jsonResp.success)    
                             this.presentToast("Old password Incorrect");
                         else
@@ -135,7 +146,7 @@ export class ProfilePage {
                         elements[key].style.display = 'none';
                     });
                 }
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>

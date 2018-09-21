@@ -4,7 +4,9 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 
+@IonicPage({})
 @Component({
   selector: 'broadcast-popup',
   templateUrl: 'broadcast-popup.html'
@@ -48,7 +50,7 @@ export class BroadcastPopupPage {
     public deleteAlert(){
       this.http.get("/alert/remove/" + this.alert.id).subscribe
       (
-          (data) =>
+          (data) => //Success
           {
               this.presentToast("Successfully Submitted");
           },
@@ -70,17 +72,16 @@ export class BroadcastPopupPage {
             "location":""
         };
 
-        if (value == null)
+        if (value.title == null || value.title == "")
         {
-            if (value.title == null || value.description == null)
-            {
-                alert("Please complete form.");
-                return false;
-            }
-            alert("Please complete form.");
+            this.presentToast("Title empty, please complete form.");
             return false;
         }
-
+        if (value.description == null || value.description == "")
+        {
+            this.presentToast("Description empty, please complete form.");
+            return false;
+        }
         if (value.severity == null){
             jsonArr.severity = this.alert.severity;
         }
@@ -125,7 +126,6 @@ export class BroadcastPopupPage {
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
             imageData = imageData.substring('data:image/jpeg;base64,'.length);
-
             this.requestAlert.patchValue({ 'image': imageData });
         };
 
@@ -140,8 +140,7 @@ export class BroadcastPopupPage {
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-        }
-        );
+        });
         toast.present();
     }
 

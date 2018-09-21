@@ -4,7 +4,9 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 
+@IonicPage({})
 @Component({
   selector: 'alert-popup',
   templateUrl: 'alert-popup.html'
@@ -71,14 +73,14 @@ export class AlertPopupPage {
             "location":""
         };
 
-        if (value == null)
+        if (value.title == null || value.title == "")
         {
-            if (value.title == null || value.description == null)
-            {
-                alert("Please complete form.");
-                return false;
-            }
-            alert("Please complete form.");
+            this.presentToast("Title empty, please complete form.");
+            return false;
+        }
+        if (value.description == null || value.description == "")
+        {
+            this.presentToast("Description empty, please complete form.");
             return false;
         }
 

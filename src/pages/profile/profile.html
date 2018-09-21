@@ -47,12 +47,6 @@
                     <ion-label floating>Email: </ion-label>
                     <ion-input formControlName="email" type="text" value={{profile.email}}></ion-input>
                 </ion-item>
-                <!--<div *ngIf="!editPasswordMode">
-                    <button ion-button round outline offset-10 (click)="changePasswordToggle()" color="tertiray">Change Password</button>
-                </div>
-                <div *ngIf="editPasswordMode">
-                    <button ion-button round outline (click)="changePasswordToggle()">Cancel Changing Password</button>
-                </div>-->
                 <div *ngIf="editPasswordMode">
                     <ion-item>
                         <ion-label floating>Old Password</ion-label>

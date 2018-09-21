@@ -7,8 +7,10 @@ import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 declare var google;
 
+@IonicPage({})
 @Component({
   selector: 'page-alert',
   templateUrl: 'alert.html'
@@ -23,7 +25,6 @@ export class AlertPage {
   mapObj: any;
   markers: any = [];
   mapMarkers: any = [];
-  infoWindows: any = [];
   openMarker: any;
 
   requestAlert:any;
@@ -58,7 +59,7 @@ export class AlertPage {
 
   public editAlert(alert)
   {
-    let addModal = this.modalCtrl.create(AlertPopupPage, {'alert': alert});
+    let addModal = this.modalCtrl.create('AlertPopupPage', {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -71,7 +72,7 @@ export class AlertPage {
 
   public alertPopup()
   {
-      let addModal = this.modalCtrl.create(AlertPopupPage);
+      let addModal = this.modalCtrl.create('AlertPopupPage');
       addModal.present();
   }
 
@@ -98,7 +99,7 @@ export class AlertPage {
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  entry.title + "   " + new Date(entry.time),
+        title:  entry.title,
         aObject: entry
       }));
       if (entry.severity == 0){
@@ -112,29 +113,17 @@ export class AlertPage {
       }
       i++;
     }}
+    
     for (let entry of this.mapMarkers) {
-      this.closeAllInfoWindows();
-      this.addInfoWindowToMarker(entry);
+      this.addListenerToMarker(entry);
     }
   }
 
-  addInfoWindowToMarker(marker) {
-    var infoWindowContent = marker.title+'</p>'
-
-    var infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
+  addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
-    this.infoWindows.push(infoWindow);
-  }
-
-  closeAllInfoWindows() {
-    for(let window of this.infoWindows) {
-      window.close();
-    }
   }
 
   getMarkers(){
@@ -220,12 +209,12 @@ export class AlertPage {
         (
             (data) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
             }
         );
     }
@@ -243,9 +232,20 @@ export class AlertPage {
         toast.present();
     }
 
-    presentPopover()
-    {
-      const popover = this.popoverCtrl.create(PopoverPage);
-      popover.present();
-    }
+    public presentPopover(myEvent) {
+      let popover = this.popoverCtrl.create('PopoverPage');
+      popover.present({
+          ev: myEvent
+      });
+      popover.onDidDismiss(data =>
+      {
+          if (data == null)
+              return;
+          else if (data.option == 1)
+              this.refresh();
+          else if (data.option == 2)
+              this.logOut();
+
+      })
+  }
 }

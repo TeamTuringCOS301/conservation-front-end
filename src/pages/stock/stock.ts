@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
+import { IonicPage, NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
@@ -7,7 +7,11 @@ import { LoginPage } from '../login/login';
 import { StockAddPage} from '../stock-add/stock-add';
 import { StockEditPage} from '../stock-edit/stock-edit';
 import { CONFIG } from '../../app-config';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
 
+@IonicPage({
+  })
 @Component({
   selector: 'page-stock',
   templateUrl: 'stock.html'
@@ -24,7 +28,8 @@ export class StockPage {
     imageTag:any;
 
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
-         public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController)
+         public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController,
+         public popoverCtrl: PopoverController)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -40,7 +45,7 @@ export class StockPage {
 
     public editProduct(product)
     {
-        let addModal = this.modalCtrl.create(StockEditPage, {'product': product});
+        let addModal = this.modalCtrl.create('StockEditPage', {'product': product});
         addModal.onDidDismiss(result => {
             if (result)
             {
@@ -64,7 +69,7 @@ export class StockPage {
 
     public addProduct()
     {               
-        let addModal = this.modalCtrl.create(StockAddPage);
+        let addModal = this.modalCtrl.create('StockAddPage');
         addModal.onDidDismiss(result => {
             if (result) {                        
                 this.http.post("/reward/add", result).subscribe
@@ -102,7 +107,7 @@ export class StockPage {
                         elements[key].style.display = 'none';
                     });
                 }
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
@@ -125,11 +130,6 @@ export class StockPage {
                 this.stock.forEach(el =>
                 {
                     el.image = CONFIG.url + "/reward/image/" + el.id + "?" + this.imageTag;
-
-                    if (el.verified == false)
-                        el.verified = "Not Verified";                        
-                    else
-                        el.verified = "Verified";
                 });                
             },
             (error) =>
@@ -180,16 +180,30 @@ export class StockPage {
 
     presentToast(text)
     {
-        let toast = this.toastCtrl.create(
-            {
+        let toast = this.toastCtrl.create
+        ({
             message: text,
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-            }
-        );
+        });
         toast.present();
     }
 
-
+    public presentPopover(myEvent) {
+        let popover = this.popoverCtrl.create('PopoverPage');
+        popover.present({
+            ev: myEvent
+        });
+        popover.onDidDismiss(data =>
+        {
+            if (data == null)
+                return;
+            else if (data.option == 1)
+                this.refresh();
+            else if (data.option == 2)
+                this.logOut();
+            
+        })
+    }
 }

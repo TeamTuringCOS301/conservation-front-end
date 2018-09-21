@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 
+@IonicPage({})
 @Component({
   selector: 'add-broadcast-popup',
   templateUrl: 'add-broadcast-popup.html'
@@ -42,14 +43,18 @@ export class AddBroadcastPopupPage {
             "image":""
         };
 
-        if (value == null)
+        if (value.title == null || value.title == "")
         {
-            if (value.title == null || value.description == null)
-            {
-                alert("Please complete form.");
-                return false;
-            }
-            alert("Please complete form.");
+            this.presentToast("Title empty, please complete form.");
+            return false;
+        }
+        if (value.description == null || value.description == "")
+        {
+            this.presentToast("Description empty, please complete form.");
+            return false;
+        }
+        if (value.severity == null){
+            this.presentToast("Severity empty, please complete form.");
             return false;
         }
 
@@ -105,7 +110,6 @@ export class AddBroadcastPopupPage {
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
             imageData = imageData.substring('data:image/jpeg;base64,'.length);
-
             this.requestAlert.patchValue({ 'image': imageData });
         };
 
@@ -120,8 +124,7 @@ export class AddBroadcastPopupPage {
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-        }
-        );
+        });
         toast.present();
     }
 

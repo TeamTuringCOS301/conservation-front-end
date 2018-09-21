@@ -7,8 +7,12 @@ import { AlertPopupPage} from '../alert-popup/alert-popup';
 import { FormGroup, FormControl} from '@angular/forms';
 import { BroadcastPopupPage} from '../broadcast-popup/broadcast-popup';
 import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup';
+import { PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 declare var google;
 
+@IonicPage({})
 @Component({
   selector: 'page-broadcast',
   templateUrl: 'broadcast.html'
@@ -23,12 +27,12 @@ export class BroadcastPage {
   mapObj: any;
   markers: any = [];
   mapMarkers: any = [];
-  infoWindows: any = [];
   openMarker: any;
+  addAlertControl: boolean;
 
   requestAlert:any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
@@ -36,6 +40,7 @@ export class BroadcastPage {
         image: new FormControl(),
         broadcast: new FormControl()
     });
+    this.addAlertControl = true;
   }
 
   public refresh()
@@ -47,7 +52,7 @@ export class BroadcastPage {
 
   public editAlert(alert)
   {
-    let addModal = this.modalCtrl.create(BroadcastPopupPage, {'alert': alert});
+    let addModal = this.modalCtrl.create('BroadcastPopupPage', {'alert': alert});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -61,11 +66,11 @@ export class BroadcastPage {
   getInfo(){
     this.http.get("/admin/info").subscribe
     (
-        (data) => //Success
+        (data) =>
         {
-            var jsonResp = JSON.parse(data.text());
-            this.conArea = jsonResp.area;
-            this.getPolygon();
+          var jsonResp = JSON.parse(data.text());
+          this.conArea = jsonResp.area;
+          this.getPolygon();
         },
         (error) =>
         {
@@ -78,27 +83,28 @@ export class BroadcastPage {
     var i = 0;
     for (let entry of this.markers) {
       if (entry.broadcast){
+
         this.mapMarkers.push(new google.maps.Marker({
         position: entry.location,
         map: this.map,
-        title:  entry.title + "   " + new Date(entry.time),
+        title:  entry.title,
         aObject: entry
-      }));
-      console.log(entry.severity);
-      if (entry.severity == 0){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        }));
+
+        if (entry.severity == 0){
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        }
+        else if (entry.severity == 1){
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+        }
+        else{
+          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+        }
+        i++;
       }
-      else if (entry.severity == 1){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
-      }
-      else{
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
-      }
-      i++;
-    }}
+    }
     for (let entry of this.mapMarkers) {
-      this.closeAllInfoWindows();
-      this.addInfoWindowToMarker(entry);
+      this.addListenerToMarker(entry);
     }
   }
 
@@ -113,23 +119,11 @@ export class BroadcastPage {
       }
   }
 
-  addInfoWindowToMarker(marker) {
-    var infoWindowContent = marker.title+'</p>'
-
-    var infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
+  addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
       this.editAlert(this.openMarker.aObject);
     });
-    this.infoWindows.push(infoWindow);
-  }
-
-  closeAllInfoWindows() {
-    for(let window of this.infoWindows) {
-      window.close();
-    }
   }
 
   getMarkers(){
@@ -212,7 +206,7 @@ export class BroadcastPage {
 
   public addAlert(latlng)
   {
-    let addModal = this.modalCtrl.create(AddBroadcastPopupPage, {'latlng': latlng});
+    let addModal = this.modalCtrl.create('AddBroadcastPopupPage', {'latlng': latlng});
     addModal.onDidDismiss(newEditedAlert => {
       this.refresh();
       })
@@ -221,12 +215,28 @@ export class BroadcastPage {
 
   public enableAddAlert()
   {
+    if (this.addAlertControl == true){
+      let toast = this.toastCtrl.create(
+          {
+          message: "Click anywhere in the Conservation Area to add Alert.",
+          duration: 2300,
+          position: 'bottom',
+          dismissOnPageChange: false
+          }
+      );
+      toast.present();
+      this.addAlertControl = false;
       google.maps.event.addListenerOnce(this.map, 'click', e => {
-        console.log(e);
-        console.log(e.latLng);
-      this.addAlert(e.latLng);
+        if (google.maps.geometry.poly.containsLocation(e.latLng, this.mapObj)){
+          this.addAlertControl = true;
+          this.addAlert(e.latLng);
+        }
+        else{
+          this.presentToast("Cannot add Alert outside of Conservation area.");
+          this.addAlertControl = true;
+        }
     });
-
+  }
   }
 
   public logOut()
@@ -235,12 +245,12 @@ export class BroadcastPage {
         (
             (data) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
                 this.presentToast("Logged Out");
             },
             (error) =>
             {
-                this.navCtrl.push(LoginPage);
+                this.navCtrl.push('LoginPage');
             }
         );
     }
@@ -257,4 +267,21 @@ export class BroadcastPage {
         );
         toast.present();
     }
+
+    public presentPopover(myEvent) {
+      let popover = this.popoverCtrl.create('PopoverPage');
+      popover.present({
+          ev: myEvent
+      });
+      popover.onDidDismiss(data =>
+      {
+          if (data == null)
+              return;
+          else if (data.option == 1)
+              this.refresh();
+          else if (data.option == 2)
+              this.logOut();
+
+      })
+  }
 }

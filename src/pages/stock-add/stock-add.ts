@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, ModalController, ViewController} from 'ionic-angular';
+import { NavController, ToastController, ModalController, ViewController, IonicPage} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 
+@IonicPage({})
 @Component({
   selector: 'page-stock-add',
   templateUrl: 'stock-add.html'
@@ -12,9 +14,10 @@ export class StockAddPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
-
+    enableSubmit:boolean = true;
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController,
-        public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController)
+        public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
+        public ng2ImgToolsService: Ng2ImgToolsService)
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -42,7 +45,7 @@ export class StockAddPage {
 
         if (value == null)
         {
-            if (value.name == null || value.price == null || value.description == null || value.amount == null || value.image == null)
+            if (value.name.length == 0 || value.price == 0 || value.description.length == 0 || value.amount == 0 || value.image == null)
             {
                 alert("Please complete form.");
                 return false;
@@ -61,20 +64,34 @@ export class StockAddPage {
         this.viewCtrl.dismiss(jsonArr);
     }
 
-    public processWebImage(event)
+    public processWebImage(event) 
     {
+        this.enableSubmit = false;
+
         if (event.target.files[0] == null)
             return false;
-
         let reader = new FileReader();
-        reader.onload = (readerEvent) => {
+        reader.onload = (readerEvent) => 
+        {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
             this.requestProduct.patchValue({ 'image': imageData });
         };
-
-        reader.readAsDataURL(event.target.files[0]);
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
+        (
+            (res) => 
+            {
+                reader.readAsDataURL(res);
+                this.enableSubmit = true;
+            }, 
+            (error) => 
+            {
+                alert("Error" + error);
+                this.enableSubmit = true;
+            }
+        );
     }
 
     presentToast(text)

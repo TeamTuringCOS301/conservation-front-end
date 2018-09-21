@@ -1,3 +1,6 @@
 page-stock {
-
+    .cardImage {
+        object-fit: contain;
+        object-position: 50% 0%;
+    }
 }
