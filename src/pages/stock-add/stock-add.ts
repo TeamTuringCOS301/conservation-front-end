@@ -79,7 +79,7 @@ export class StockAddPage {
             imageData = imageData.slice(position+1);
             this.requestProduct.patchValue({ 'image': imageData });
         };
-        this.ng2ImgToolsService.resize([event.target.files[0]], 10000, 540).subscribe
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
         (
             (res) => 
             {

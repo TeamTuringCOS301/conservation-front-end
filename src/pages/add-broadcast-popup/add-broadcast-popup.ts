@@ -110,7 +110,6 @@ export class AddBroadcastPopupPage {
         reader.onload = (readerEvent) => {
             let imageData = (readerEvent.target as any).result;
             imageData = imageData.substring('data:image/jpeg;base64,'.length);
-
             this.requestAlert.patchValue({ 'image': imageData });
         };
 
@@ -125,8 +124,7 @@ export class AddBroadcastPopupPage {
             duration: 1500,
             position: 'bottom',
             dismissOnPageChange: false
-        }
-        );
+        });
         toast.present();
     }
 
