@@ -103,17 +103,17 @@ export class AlertPage {
         aObject: entry
       }));
       if (entry.severity == 0){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
       }
       else if (entry.severity == 1){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
       }
       else{
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/orange-dot.png');
       }
       i++;
     }}
-    
+
     for (let entry of this.mapMarkers) {
       this.addListenerToMarker(entry);
     }
@@ -204,20 +204,27 @@ export class AlertPage {
   }
 
   public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                this.navCtrl.push('LoginPage');
-                this.presentToast("Logged Out");
-            },
-            (error) =>
-            {
-                this.navCtrl.push('LoginPage');
-            }
-        );
-    }
+  {
+      this.http.get("/admin/logout").subscribe
+      (
+          (data) =>
+          {
+              let elements = document.querySelectorAll(".tabbar");
+
+              if (elements != null) {
+                  Object.keys(elements).map((key) => {
+                      elements[key].style.display = 'none';
+                  });
+              }
+              this.navCtrl.push('LoginPage');
+              this.presentToast("Logged Out");
+          },
+          (error) =>
+          {
+              alert("Error: " + error);
+          }
+      );
+  }
 
     presentToast(text)
     {
