@@ -92,13 +92,13 @@ export class BroadcastPage {
         }));
 
         if (entry.severity == 0){
-          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+          this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
         }
         else if (entry.severity == 1){
-          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+          this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
         }
         else{
-          this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+          this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/orange-dot.png');
         }
         i++;
       }
