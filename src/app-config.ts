@@ -4,4 +4,4 @@ export let CONFIG = {
 // https://erpcoin.duckdns.org:80
 // http://localhost:8080
 // https://192.168.137.73:8080
-// haha
+// https://erpcoin.westeurope.cloudapp.azure.com/api
