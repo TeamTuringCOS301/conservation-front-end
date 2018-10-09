@@ -69,13 +69,13 @@ export class ProfilePage {
         }
         else if (this.editPasswordMode)
         {
-            if (value.newPassword == null || value.password.length == 0)
+            if (value.newPassword == null || value.newPassword == null || value.newPassword.length == 0)
             {
                 this.presentToast("Please enter a password");
             }
             else if (value.newPassword !== value.confirmNewPassword)
             {
-                this.presentToast("New password and confrim password do not password");
+                this.presentToast("New password and confrim password do not match");
             }
             else
             {
