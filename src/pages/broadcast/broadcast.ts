@@ -240,20 +240,27 @@ export class BroadcastPage {
   }
 
   public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                this.navCtrl.push('LoginPage');
-                this.presentToast("Logged Out");
-            },
-            (error) =>
-            {
-                this.navCtrl.push('LoginPage');
-            }
-        );
-    }
+  {
+      this.http.get("/admin/logout").subscribe
+      (
+          (data) =>
+          {
+              let elements = document.querySelectorAll(".tabbar");
+
+              if (elements != null) {
+                  Object.keys(elements).map((key) => {
+                      elements[key].style.display = 'none';
+                  });
+              }
+              this.navCtrl.push('LoginPage');
+              this.presentToast("Logged Out");
+          },
+          (error) =>
+          {
+              alert("Error: " + error);
+          }
+      );
+  }
 
     presentToast(text)
     {
