@@ -11,7 +11,7 @@
 <ion-content padding>
   <ion-list>
     <ion-grid>
-      <ion-row>
+      <ion-row class="pins">
         <ion-col *ngFor="let product of stock" col-12 col-sm-9 col-md-6 col-lg-4>
         <ion-card>
             <img src={{product.image}} height="256" class="cardImage" imageViewer/>
@@ -21,22 +21,18 @@
             </ion-card-title>
             <p padding><b>{{product.description}}</b></p>
             <ion-item>
-                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
                 Value
                 <ion-badge item-end color="primary">{{product.randValue}} Rand</ion-badge>
             </ion-item>
             <ion-item>
-                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
                 Coin Price
                 <ion-badge item-end color="secondary">{{product.coinValue}} ERP</ion-badge>
             </ion-item>
             <ion-item>
-                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
                 Stock
                 <ion-badge item-end color="tertiary">{{product.amount}} Units</ion-badge>
             </ion-item>
             <ion-item>
-                <!--<ion-icon name="logo-twitter" item-start></ion-icon>-->
                 Verified
                 <ion-icon *ngIf="product.verified" name="checkmark-circle" item-end [hidden]="product.verified == 'Unverified'" color="safe"></ion-icon>
                 <ion-icon *ngIf="!product.verified" name="close-circle" item-end [hidden]="product.verified == 'Verified'" color="danger"></ion-icon>
@@ -50,9 +46,39 @@
     </ion-grid>
   </ion-list>
 
-  <div padding>
-
+<!--
+  <div class="pins">
+    <div class="pin" *ngFor="let product of stock">
+      <ion-card>
+          <img src={{product.image}} height="256" imageViewer/>
+        <ion-card-content>
+          <ion-card-title>
+            <b>{{product.name}}</b>
+          </ion-card-title>
+          <p padding><b>{{product.description}}</b></p>
+          <ion-item>
+              Value
+              <ion-badge item-end color="primary">{{product.randValue}} Rand</ion-badge>
+          </ion-item>
+          <ion-item>
+              Coin Price
+              <ion-badge item-end color="secondary">{{product.coinValue}} ERP</ion-badge>
+          </ion-item>
+          <ion-item>
+              Stock
+              <ion-badge item-end color="tertiary">{{product.amount}} Units</ion-badge>
+          </ion-item>
+          <ion-item>
+              Verified
+              <ion-icon *ngIf="product.verified" name="checkmark-circle" item-end [hidden]="product.verified == 'Unverified'" color="safe"></ion-icon>
+              <ion-icon *ngIf="!product.verified" name="close-circle" item-end [hidden]="product.verified == 'Verified'" color="danger"></ion-icon>
+          </ion-item>
+          <button ion-button round (click)="editProduct(product)" color="orange">Edit</button>
+          <button ion-button round (click)="presentDeleteConfirm(product)" color="danger">Delete</button>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 
-
+  -->
 </ion-content>
