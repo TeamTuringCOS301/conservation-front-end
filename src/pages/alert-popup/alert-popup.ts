@@ -16,6 +16,7 @@ export class AlertPopupPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
+    enableSubmit:boolean = true;
 
     alert:any;
 
@@ -122,18 +123,32 @@ export class AlertPopupPage {
 
     public processWebImage(event)
     {
+        this.enableSubmit = false;
+
         if (event.target.files[0] == null)
             return false;
-
         let reader = new FileReader();
-        reader.onload = (readerEvent) => {
+        reader.onload = (readerEvent) =>
+        {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
             this.requestAlert.patchValue({ 'image': imageData });
         };
-
-        reader.readAsDataURL(event.target.files[0]);
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
+        (
+            (res) =>
+            {
+                reader.readAsDataURL(res);
+                this.enableSubmit = true;
+            },
+            (error) =>
+            {
+                handleError(this.navCtrl, error, this.toastCtrl);
+                this.enableSubmit = true;
+            }
+        );
     }
 
     presentToast(text)
