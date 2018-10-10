@@ -12,7 +12,6 @@ import { presentToast, handleError } from '../../app-functions';
 })
 export class LoginPage {
   
-  invalidMsg: any = "";
   adminUser: any;
   constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
     this.adminUser = new FormGroup({user: new FormControl(), pass: new FormControl()});
@@ -39,8 +38,7 @@ export class LoginPage {
         }
         else
         {
-          this.invalidMsg = "Invalid username/password combination";
-          presentToast(this.toastCtrl, this.invalidMsg);
+          presentToast(this.toastCtrl, "Invalid username/password combination");
         }
       },
       (error) =>

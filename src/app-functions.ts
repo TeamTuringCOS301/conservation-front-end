@@ -1,23 +1,3 @@
-export function checkLoggedIn(storage, toastCtrl, navCtrl)
-{
-  storage.get('loggedIn').then(
-    (val) =>
-    {
-      if(val != true)
-      {
-        presentToast(toastCtrl, "Please log in");
-        navCtrl.push('login');
-        return false;
-      }
-      else
-      {
-        return true;
-      }
-    }
-  );
-  return false;
-}
-
 export function presentToast(toastCtrl, text)
 {
   let toast = toastCtrl.create(
@@ -42,33 +22,12 @@ export function presentLongToast(toastCtrl, text)
   toast.present();
 }
 
-export function addCloseListener(viewCtrl, curWin, events)
-{
-  curWin.addEventListener('popstate', () =>
-  {
-    events.publish("Reload Balance");
-    viewCtrl.dismiss();
-  });
-}
-
-export function openModal(modalPage, curWin)
-{
-  modalPage.present();
-  curWin.location.href = curWin.location.href +"/#";
-}
-
-export function closeModal(viewCtrl, events)
-{
-  events.publish("Reload Balance");
-  viewCtrl.dismiss();
-}
-
 export function handleError(navCtrl, error, toastCtrl)
 {
   var msg = "";
   if(error.status == 401)
   {
-    navCtrl.setRoot('login');
+    navCtrl.setRoot('LoginPage');
     msg = "Please log in";
   }
   else if(error.status == 500)
