@@ -3,7 +3,6 @@ import { NavController, ToastController, ModalController, IonicPage} from 'ionic
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
-import { LoginPage } from '../login/login';
 import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
@@ -61,22 +60,34 @@ export class ProfilePage {
             email: value.email
         };
         var regexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (value.name.length == 0 || value.surname.length == 0 || value.email.length == 0)
+        if (value.name == null || value.name == "")
         {
-            presentToast(this.toastCtrl, "Please dont leave any field empty");
+            presentToast(this.toastCtrl, "Name field is empty.");
+            return false;
+        }
+        else if (value.surname == null || value.surname == "")
+        {
+            presentToast(this.toastCtrl, "Surname field is empty.");
+            return false;
+        }
+        else if (value.email == null || value.email == "")
+        {
+            presentToast(this.toastCtrl, "Email field is empty.");
+            return false;
         }
         else if (!regexEmail.test(value.email)) {
-            presentToast(this.toastCtrl, "Please enter a valid email address");
+            presentToast(this.toastCtrl, "Please enter a valid email address.");
+            return false;
         }
         else if (this.editPasswordMode)
         {
-            if (value.newPassword == null || value.newPassword == null || value.newPassword.length == 0)
+            if (value.newPassword == null || value.newPassword.length == 0)
             {
-                presentToast(this.toastCtrl, "Please enter a password");
+                presentToast(this.toastCtrl, "Please enter a password.");
             }
-            else if (value.newPassword !== value.confirmNewPassword)
+            else if (value.newPassword != value.confirmNewPassword)
             {
-                presentToast(this.toastCtrl,"New password and confrim password do not match");
+                presentToast(this.toastCtrl, "New password and Confirm password do not match.");
             }
             else
             {
@@ -133,30 +144,7 @@ export class ProfilePage {
             );
         }        
     }
-
-    public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                let elements = document.querySelectorAll(".tabbar");
-
-                if (elements != null) {
-                    Object.keys(elements).map((key) => {
-                        elements[key].style.display = 'none';
-                    });
-                }
-                this.navCtrl.push('LoginPage');
-                presentToast(this.toastCtrl,"Logged Out");
-            },
-            (error) =>
-            {
-                alert("Error: " + error);
-            }            
-        );        
-    }
-
+    
     public getInformation()
     {
         this.http.get("/admin/info").subscribe

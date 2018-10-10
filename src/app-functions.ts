@@ -47,3 +47,26 @@ export function handleError(navCtrl, error, toastCtrl)
     presentLongToast(toastCtrl, msg);
   }
 }
+
+export function logOut(navCtrl, http, toastCtrl)
+  {
+      http.get("/admin/logout").subscribe
+      (
+        (data) =>
+        {
+          let elements = document.querySelectorAll(".tabbar");
+
+          if (elements != null) {
+              Object.keys(elements).map((key) => {
+                  elements[key].style.display = 'none';
+              });
+          }
+          navCtrl.push('LoginPage');
+          presentToast(toastCtrl,"Logged Out");
+        },
+        (error) =>
+        {
+          handleError(navCtrl, error, toastCtrl);
+        }            
+    );        
+  }

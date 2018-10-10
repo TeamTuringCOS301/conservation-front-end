@@ -37,28 +37,28 @@
             <ion-list>
                 <ion-item>
                     <ion-label floating>Name: </ion-label>
-                    <ion-input formControlName="name" type="text" value={{profile.name}}></ion-input>
+                    <ion-input formControlName="name" type="text" value={{profile.name}} maxlength="40"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Surame: </ion-label>
-                    <ion-input formControlName="surname" type="text" value={{profile.surname}}></ion-input>
+                    <ion-input formControlName="surname" type="text" value={{profile.surname}} maxlength="80"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Email: </ion-label>
-                    <ion-input formControlName="email" type="text" value={{profile.email}}></ion-input>
+                    <ion-input formControlName="email" type="text" value={{profile.email}} maxlength="100"></ion-input>
                 </ion-item>
                 <div *ngIf="editPasswordMode">
                     <ion-item>
                         <ion-label floating>Old Password</ion-label>
-                        <ion-input formControlName="oldPassword" type="password"></ion-input>
+                        <ion-input formControlName="oldPassword" type="password" maxlength="32"></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label floating>New Password</ion-label>
-                        <ion-input formControlName="newPassword" type="password"></ion-input>
+                        <ion-input formControlName="newPassword" type="password" maxlength="32"></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label floating>Confirm new Password</ion-label>
-                        <ion-input formControlName="confirmNewPassword" type="password"></ion-input>
+                        <ion-input formControlName="confirmNewPassword" type="password" maxlength="32"></ion-input>
                     </ion-item>
                 </div>
                 <ion-row justify-content-end>
