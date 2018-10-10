@@ -22,7 +22,8 @@ export class AlertPopupPage {
     alert:any;
 
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
-         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
+         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
+         public ng2ImgToolsService: Ng2ImgToolsService )
     {
         this.requestAlert = new FormGroup({
             title: new FormControl(),
