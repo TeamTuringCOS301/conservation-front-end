@@ -5,6 +5,7 @@ import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
