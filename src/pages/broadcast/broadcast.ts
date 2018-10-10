@@ -10,6 +10,7 @@ import { AddBroadcastPopupPage} from '../add-broadcast-popup/add-broadcast-popup
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { presentToast, handleError } from '../../app-functions';
 declare var google;
 
 @IonicPage({})
@@ -74,7 +75,7 @@ export class BroadcastPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -137,7 +138,7 @@ export class BroadcastPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -171,7 +172,7 @@ export class BroadcastPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -257,7 +258,7 @@ export class BroadcastPage {
           },
           (error) =>
           {
-              alert("Error: " + error);
+              handleError(this.navCtrl, error, this.toastCtrl);
           }
       );
   }

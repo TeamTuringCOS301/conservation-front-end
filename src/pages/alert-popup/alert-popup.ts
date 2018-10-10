@@ -5,6 +5,7 @@ import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -57,7 +58,7 @@ export class AlertPopupPage {
           },
           (error) =>
           {
-              this.presentToast("Error: " + error);
+              handleError(this.navCtrl, error, this.toastCtrl);
           }
       );
       this.cancel();
@@ -104,7 +105,7 @@ export class AlertPopupPage {
             },
             (error) =>
             {
-                this.presentToast("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
 

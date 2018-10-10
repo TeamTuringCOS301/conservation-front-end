@@ -34,10 +34,10 @@
                 <ion-option value="2" selected={{alert.isTwo}}>Critical Alert</ion-option>
               </ion-select>
             </ion-item>
-            <!--<ion-item>
+            <ion-item>
                 <ion-label>Select Image<span style="color:red">*</span></ion-label>
-                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
-            </ion-item>-->
+                <input item-end type="file" accept="image/*" (change)="processWebImage($event)"/>
+            </ion-item>
               <button ion-button round outline color="primary" block type="submit">Broadcast Alert</button>
               <button ion-button round outline color="primary" block type = "button" (click)="deleteAlert()">Remove Alert</button>
         </ion-list>

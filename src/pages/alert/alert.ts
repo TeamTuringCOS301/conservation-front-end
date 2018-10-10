@@ -8,6 +8,7 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { presentToast, handleError } from '../../app-functions';
 declare var google;
 
 @IonicPage({})
@@ -64,10 +65,12 @@ export class AlertPage {
       this.refresh();
       })
     addModal.present();
+    this.refresh();
   }
 
   ionViewDidLoad(){
       this.LoadMap();
+
   }
 
   public alertPopup()
@@ -87,7 +90,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -137,7 +140,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -171,7 +174,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -221,7 +224,7 @@ export class AlertPage {
           },
           (error) =>
           {
-              alert("Error: " + error);
+              handleError(this.navCtrl, error, this.toastCtrl);
           }
       );
   }
