@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController, ViewController, NavPar
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -43,10 +44,10 @@ export class StockEditPage {
         {
             if (value.name == null || value.price == null || value.description == null || value.amount == null)
             {
-                alert("Please complete form.");
+                presentToast(this.toastCtrl, "Please complete form.");
                 return false;
             }
-            alert("Please complete form.");
+            presentToast(this.toastCtrl,"Please complete form.");
             return false;
         }
 
@@ -83,18 +84,4 @@ export class StockEditPage {
 
         reader.readAsDataURL(event.target.files[0]);
     }
-
-    presentToast(text)
-    {
-        let toast = this.toastCtrl.create(
-        {
-            message: text,
-            duration: 1500,
-            position: 'bottom',
-            dismissOnPageChange: false
-        }
-        );
-        toast.present();
-    }
-
 }

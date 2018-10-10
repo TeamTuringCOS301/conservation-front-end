@@ -4,6 +4,7 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -47,10 +48,10 @@ export class StockAddPage {
         {
             if (value.name.length == 0 || value.price == 0 || value.description.length == 0 || value.amount == 0 || value.image == null)
             {
-                alert("Please complete form.");
+                presentToast(this.toastCtrl, "Please complete form.");
                 return false;
             }
-            alert("Please complete form.");
+            presentToast(this.toastCtrl, "Please complete form.");
             return false;
         }
 
@@ -88,22 +89,9 @@ export class StockAddPage {
             }, 
             (error) => 
             {
-                alert("Error" + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
                 this.enableSubmit = true;
             }
         );
-    }
-
-    presentToast(text)
-    {
-        let toast = this.toastCtrl.create(
-            {
-            message: text,
-            duration: 1500,
-            position: 'bottom',
-            dismissOnPageChange: false
-            }
-        );
-        toast.present();
     }
 }

@@ -9,6 +9,8 @@ import { StockEditPage} from '../stock-edit/stock-edit';
 import { CONFIG } from '../../app-config';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
+import { presentToast, handleError } from '../../app-functions';
+
 
 @IonicPage({
   })
@@ -53,13 +55,13 @@ export class StockPage {
                 (
                     (data) =>
                     {
-                        this.presentToast("Successfully Submitted");
+                        presentToast(this.toastCtrl, "Successfully Submitted");
                         this.imageTag += 1;
                         this.updateProductList();
                     },
                     (error) =>
                     {
-                        this.presentToast("Error: " + error);
+                        handleError(this.navCtrl, error, this.toastCtrl);
                     }
                 );
             }
@@ -76,12 +78,12 @@ export class StockPage {
                 (
                     (data) =>
                     {
-                        this.presentToast("Successfully Submitted");
+                        presentToast(this.toastCtrl, "Successfully Submitted");
                         this.updateProductList();
                     },
                     (error) =>
                     {
-                        this.presentToast("Error: " + error);
+                        handleError(this.navCtrl, error, this.toastCtrl);
                     }
                 );            
             }
@@ -108,11 +110,11 @@ export class StockPage {
                     });
                 }
                 this.navCtrl.push('LoginPage');
-                this.presentToast("Logged Out");
+                presentToast(this.toastCtrl,"Logged Out");
             },
             (error) =>
             {
-                alert("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }            
         );        
     }
@@ -134,7 +136,7 @@ export class StockPage {
             },
             (error) =>
             {
-                alert("Error" + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
     }
@@ -145,13 +147,13 @@ export class StockPage {
         (
             (data) =>
             {
-                this.presentToast("Successfully Deleted");
+                presentToast(this.toastCtrl, "Successfully Deleted");
                 let index = this.stock.indexOf(product);
                 this.stock.splice(index,1);        
             },
             (error) =>
             {
-                this.presentToast("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
     }
@@ -176,18 +178,6 @@ export class StockPage {
             ]
         });
         alert.present();
-    }
-
-    presentToast(text)
-    {
-        let toast = this.toastCtrl.create
-        ({
-            message: text,
-            duration: 1500,
-            position: 'bottom',
-            dismissOnPageChange: false
-        });
-        toast.present();
     }
 
     public presentPopover(myEvent) {

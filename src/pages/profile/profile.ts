@@ -4,6 +4,7 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { LoginPage } from '../login/login';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -62,20 +63,20 @@ export class ProfilePage {
         var regexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (value.name.length == 0 || value.surname.length == 0 || value.email.length == 0)
         {
-            this.presentToast("Please dont leave any field empty");
+            presentToast(this.toastCtrl, "Please dont leave any field empty");
         }
         else if (!regexEmail.test(value.email)) {
-            this.presentToast("Please enter a valid email address");
+            presentToast(this.toastCtrl, "Please enter a valid email address");
         }
         else if (this.editPasswordMode)
         {
             if (value.newPassword == null || value.newPassword == null || value.newPassword.length == 0)
             {
-                this.presentToast("Please enter a password");
+                presentToast(this.toastCtrl, "Please enter a password");
             }
             else if (value.newPassword !== value.confirmNewPassword)
             {
-                this.presentToast("New password and confrim password do not match");
+                presentToast(this.toastCtrl,"New password and confrim password do not match");
             }
             else
             {
@@ -89,28 +90,28 @@ export class ProfilePage {
                     {
                         var jsonResp = JSON.parse(data.text());
                         if (!jsonResp.success)    
-                            this.presentToast("Old password Incorrect");
+                            presentToast(this.toastCtrl,"Old password Incorrect");
                         else
                         {
                             this.http.post('/admin/update', jsonInfoSend).subscribe
                             (
                                 (data) =>
                                 {
-                                    this.presentToast("Successfully Submitted");
+                                    presentToast(this.toastCtrl, "Successfully Submitted");
                                     this.editMode = false;
                                     this.editPasswordMode = false;
                                     this.getInformation();   
                                 },
                                 (error) =>
                                 {
-                                    this.presentToast("Error: " + error);
+                                    handleError(this.navCtrl, error, this.toastCtrl);
                                 }
                             );                             
                         }
                     },
                     (error) =>
                     {
-                        alert("Error: " + error);
+                        handleError(this.navCtrl, error, this.toastCtrl);
                     }
                 );                                 
             }
@@ -121,13 +122,13 @@ export class ProfilePage {
             (
                 (data) =>
                 {
-                    this.presentToast("Successfully Submitted");
+                    presentToast(this.toastCtrl,"Successfully Submitted");
                     this.editMode = false;
                     this.getInformation();   
                 },
                 (error) =>
                 {
-                    this.presentToast("Error: " + error);
+                    presentToast(this.toastCtrl,"Error: " + error);
                 }
             );
         }        
@@ -147,7 +148,7 @@ export class ProfilePage {
                     });
                 }
                 this.navCtrl.push('LoginPage');
-                this.presentToast("Logged Out");
+                presentToast(this.toastCtrl,"Logged Out");
             },
             (error) =>
             {
@@ -166,23 +167,8 @@ export class ProfilePage {
             },
             (error) =>
             {
-                alert("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
     }
-
-    presentToast(text)
-    {
-        let toast = this.toastCtrl.create(
-            {
-            message: text,
-            duration: 1500,
-            position: 'bottom',
-            dismissOnPageChange: false
-            }
-        );
-        toast.present();
-    }
-
-
 }
