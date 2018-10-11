@@ -18,7 +18,7 @@ export const initializeFirebase = () => {
         firebase.messaging().useServiceWorker(registration);
       }).catch((err)=>{console.log(err)});
   }
-    askForPermissioToReceiveNotifications();
+    return askForPermissionToReceiveNotifications();
 }
 
 export const enableMessages = (toastCtrl) =>
@@ -29,13 +29,12 @@ export const enableMessages = (toastCtrl) =>
   });
 }
 
-export const askForPermissioToReceiveNotifications = async () => {
+export const askForPermissionToReceiveNotifications = async () => {
   try {
     const messaging = firebase.messaging();
     await messaging.requestPermission();
     const token = await messaging.getToken();
     console.log('Token:', token);
-    alert(token);
     return token;
   } catch (error) {
     console.error(error);

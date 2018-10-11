@@ -3,6 +3,7 @@ import { NavController, ToastController, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Http } from '../../http-api';
 import { presentToast, handleError } from '../../app-functions';
+import {Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ import { presentToast, handleError } from '../../app-functions';
 export class LoginPage {
 
   adminUser: any;
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
+  constructor(public storage: Storage, public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
     this.adminUser = new FormGroup({user: new FormControl(), pass: new FormControl()});
   }
 
@@ -33,6 +34,13 @@ export class LoginPage {
         if(jsonResp.success)
         {
           presentToast(this.toastCtrl, "Logged in!");
+          var notificationToken: any = {}
+          this.storage.get('pushToken').then((token) =>
+          {
+            console.log("Sent token is: "+token);
+            notificationToken.token = token;
+            this.http.post("/admin/token", notificationToken);
+          })
           this.navCtrl.push('TabsPage');
         }
         else

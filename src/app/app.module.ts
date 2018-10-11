@@ -14,6 +14,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { Ng2ImgToolsModule } from 'ng2-img-tools';
 import { PopoverController } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PopoverController } from 'ionic-angular';
     IonicModule.forRoot(MyApp),
     HttpModule,
     IonicImageViewerModule,
-    Ng2ImgToolsModule
+    Ng2ImgToolsModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
