@@ -1,3 +1,4 @@
+// tslint:disable: no-unused-variable
 import { Component, ViewChild } from '@angular/core';
 import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
@@ -6,6 +7,7 @@ import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { presentToast, handleError } from '../../app-functions';
+// tslint:enable: no-unused-variable
 
 @IonicPage({})
 @Component({
@@ -13,7 +15,6 @@ import { presentToast, handleError } from '../../app-functions';
   templateUrl: 'broadcast-popup.html'
 })
 export class BroadcastPopupPage {
-    @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
     enableSubmit:boolean = true;

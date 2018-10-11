@@ -1,3 +1,4 @@
+// tslint:disable: no-unused-variable
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
@@ -6,6 +7,7 @@ import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { handleError } from '../../app-functions';
+// tslint:enable: no-unused-variable
 
 @IonicPage({})
 @Component({

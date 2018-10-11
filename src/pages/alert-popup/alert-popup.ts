@@ -1,3 +1,4 @@
+// tslint:disable: no-unused-variable
 import { Component, ViewChild } from '@angular/core';
 import { NavController, ToastController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
@@ -8,6 +9,7 @@ import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { presentToast, handleError } from '../../app-functions';
 import { Events } from 'ionic-angular';
+// tslint:enable: no-unused-variable
 
 @IonicPage({})
 @Component({
@@ -15,7 +17,6 @@ import { Events } from 'ionic-angular';
   templateUrl: 'alert-popup.html'
 })
 export class AlertPopupPage {
-    @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
     enableSubmit:boolean = true;
