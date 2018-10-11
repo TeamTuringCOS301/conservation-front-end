@@ -30,6 +30,7 @@ export class BroadcastPage {
   mapMarkers: any = [];
   openMarker: any;
   addAlertControl: boolean;
+  refreshInterval: any;
 
   requestAlert:any;
 
@@ -62,6 +63,10 @@ export class BroadcastPage {
 
   ionViewDidLoad(){
       this.LoadMap();
+      this.refreshInterval = setInterval(() =>
+      {
+        this.refresh();
+      }, 10000);
   }
 
   getInfo(){

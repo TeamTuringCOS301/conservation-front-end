@@ -27,6 +27,7 @@ export class AlertPage {
   markers: any = [];
   mapMarkers: any = [];
   openMarker: any;
+  refreshInterval: any;
 
   requestAlert:any;
 
@@ -69,7 +70,10 @@ export class AlertPage {
 
   ionViewDidLoad(){
       this.LoadMap();
-
+      this.refreshInterval = setInterval(() =>
+      {
+        this.refresh();
+      }, 10000);
   }
 
   public alertPopup()
