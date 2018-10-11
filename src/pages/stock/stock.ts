@@ -3,13 +3,9 @@ import { IonicPage, NavController, ToastController, ModalController, AlertContro
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
-import { LoginPage } from '../login/login';
-import { StockAddPage} from '../stock-add/stock-add';
-import { StockEditPage} from '../stock-edit/stock-edit';
 import { CONFIG } from '../../app-config';
 import { PopoverController } from 'ionic-angular';
-import { PopoverPage } from '../popover/popover';
-import { presentToast, handleError } from '../../app-functions';
+import { presentToast, handleError, logOut } from '../../app-functions';
 
 
 @IonicPage({
@@ -91,34 +87,6 @@ export class StockPage {
         addModal.present();
     }
 
-    public refresh()
-    {
-        this.updateProductList();
-    }
-
-    public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                let elements = document.querySelectorAll(".tabbar");
-
-                if (elements != null) {
-                    Object.keys(elements).map((key) => {
-                        elements[key].style.display = 'none';
-                    });
-                }
-                this.navCtrl.push('LoginPage');
-                presentToast(this.toastCtrl,"Logged Out");
-            },
-            (error) =>
-            {
-                handleError(this.navCtrl, error, this.toastCtrl);
-            }            
-        );        
-    }
-
     public updateProductList()
     {
         this.stock = [];
@@ -180,6 +148,35 @@ export class StockPage {
         alert.present();
     }
 
+    
+    public refresh()
+    {
+        this.updateProductList();
+    }
+
+    public logOut()
+    {
+        this.http.get("/admin/logout").subscribe
+        (
+            (data) =>
+            {
+                let elements = document.querySelectorAll(".tabbar");
+
+                if (elements != null) {
+                    Object.keys(elements).map((key) => {
+                        elements[key].style.display = 'none';
+                    });
+                }
+                this.navCtrl.push('LoginPage');
+                presentToast(this.toastCtrl,"Logged Out");
+            },
+            (error) =>
+            {
+                handleError(this.navCtrl, error, this.toastCtrl);
+            }            
+        );        
+    }
+
     public presentPopover(myEvent) {
         let popover = this.popoverCtrl.create('PopoverPage');
         popover.present({
@@ -192,7 +189,7 @@ export class StockPage {
             else if (data.option == 1)
                 this.refresh();
             else if (data.option == 2)
-                this.logOut();
+                logOut(this.navCtrl, this.http, this.toastCtrl);
             
         })
     }

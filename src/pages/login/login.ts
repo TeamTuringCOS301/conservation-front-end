@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
-import { TabsPage } from '../tabs/tabs';
 import { Http } from '../../http-api';
 import { presentToast, handleError } from '../../app-functions';
 

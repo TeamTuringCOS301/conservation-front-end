@@ -12,7 +12,6 @@ import { presentToast, handleError } from '../../app-functions';
   templateUrl: 'stock-add.html'
 })
 export class StockAddPage {
-    @ViewChild('fileInput') private fileInput: any;
 
     requestProduct:any;
     enableSubmit:boolean = true;
@@ -44,25 +43,42 @@ export class StockAddPage {
             "image":""
         };
 
-        if (value == null)
-        {
-            if (value.name.length == 0 || value.price == 0 || value.description.length == 0 || value.amount == 0 || value.image == null)
-            {
-                presentToast(this.toastCtrl, "Please complete form.");
-                return false;
-            }
-            presentToast(this.toastCtrl, "Please complete form.");
+        if (value.name == null || value.name == "")
+        {   
+            presentToast(this.toastCtrl, "Title field is empty.");
             return false;
         }
+        else if (value.description == null || value.description == "")
+        {
+            presentToast(this.toastCtrl, "Description field is empty.");
+            return false;
+        }
+        else if (value.price == null || value.price == 0)
+        {
+            presentToast(this.toastCtrl, "The given value cannot be 0.");
+            return false;
+        }
+        else if (value.amount == null || value.amount == 0 )
+        {
+            presentToast(this.toastCtrl, "The given amount cannot be 0.");
+            return false;
+        }
+        else if (value.image == null)
+        {
+            presentToast(this.toastCtrl, "No image added.");
+            return false;
+        }
+        else
+        {
+            jsonArr.name = value.name;
+            jsonArr.randValue = parseInt(value.price);
+            jsonArr.description = value.description;
+            jsonArr.amount = parseInt(value.amount);
+            jsonArr.image = value.image;
 
-        jsonArr.name = value.name;
-        jsonArr.randValue = parseInt(value.price);
-        jsonArr.description = value.description;
-        jsonArr.amount = parseInt(value.amount);
-        jsonArr.image = value.image;
-
-        this.requestProduct.reset();
-        this.viewCtrl.dismiss(jsonArr);
+            this.requestProduct.reset();
+            this.viewCtrl.dismiss(jsonArr);
+        }        
     }
 
     public processWebImage(event) 

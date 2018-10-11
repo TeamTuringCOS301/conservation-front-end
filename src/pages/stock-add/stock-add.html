@@ -17,7 +17,7 @@
             </ion-item>       
             <ion-item>
                 <ion-label floating>Name<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="name" type="text"></ion-input>
+                <ion-input formControlName="name" type="text" maxlength="30"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Price in Rand<span style="color:red">*</span></ion-label>
@@ -25,7 +25,7 @@
             </ion-item>
             <ion-item>
                 <ion-label floating>Description<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="description" type="textarea"></ion-input>
+                <ion-textarea formControlName="description" type="textarea" maxlength="255"></ion-textarea> 
             </ion-item>
             <ion-item>
                 <ion-label floating>Amount in Stock<span style="color:red">*</span></ion-label>

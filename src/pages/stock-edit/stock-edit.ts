@@ -3,6 +3,7 @@ import { NavController, ToastController, ModalController, ViewController, NavPar
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
@@ -15,9 +16,11 @@ export class StockEditPage {
     requestProduct:any;
 
     product:any;
-
-    constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
-         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
+    enableSubmit:boolean = true;
+    constructor(public http: Http, public navCtrl: NavController,
+        public toastCtrl: ToastController, public params: NavParams,
+        public camera: Camera, public modalCtrl: ModalController,
+        public viewCtrl: ViewController, public ng2ImgToolsService: Ng2ImgToolsService )
     {
         this.requestProduct = new FormGroup({
             name: new FormControl(),
@@ -40,26 +43,38 @@ export class StockEditPage {
             "image":""
         };
 
-        if (value == null)
-        {
-            if (value.name == null || value.price == null || value.description == null || value.amount == null)
-            {
-                presentToast(this.toastCtrl, "Please complete form.");
-                return false;
-            }
-            presentToast(this.toastCtrl,"Please complete form.");
+        if (value.name == null || value.name == "")
+        {   
+            presentToast(this.toastCtrl, "Title field is empty.");
             return false;
         }
+        else if (value.description == null || value.description == "")
+        {
+            presentToast(this.toastCtrl, "Description field is empty.");
+            return false;
+        }
+        else if (value.price == null || value.price == 0)
+        {
+            presentToast(this.toastCtrl, "The given value cannot be 0.");
+            return false;
+        }
+        else if (value.amount == null || value.amount == 0 )
+        {
+            presentToast(this.toastCtrl, "The given amount cannot be 0.");
+            return false;
+        }
+        else
+        {
+            jsonArr.name = value.name;
+            jsonArr.randValue = parseInt(value.price);
+            jsonArr.description = value.description;
+            jsonArr.amount = parseInt(value.amount);
 
-        jsonArr.name = value.name;
-        jsonArr.randValue = parseInt(value.price);
-        jsonArr.description = value.description;
-        jsonArr.amount = parseInt(value.amount);
+            if (value.image != null)
+                jsonArr.image = value.image;
 
-        if (value.image != null)
-            jsonArr.image = value.image;
-
-        this.viewCtrl.dismiss(jsonArr);
+            this.viewCtrl.dismiss(jsonArr);
+        }
     }
 
     public cancel()
@@ -69,19 +84,33 @@ export class StockEditPage {
         this.viewCtrl.dismiss(null);
     }
 
-    public processWebImage(event)
+    public processWebImage(event) 
     {
+        this.enableSubmit = false;
+
         if (event.target.files[0] == null)
             return false;
-
         let reader = new FileReader();
-        reader.onload = (readerEvent) => {
+        reader.onload = (readerEvent) => 
+        {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
             this.requestProduct.patchValue({ 'image': imageData });
         };
-
-        reader.readAsDataURL(event.target.files[0]);
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
+        (
+            (res) => 
+            {
+                reader.readAsDataURL(res);
+                this.enableSubmit = true;
+            }, 
+            (error) => 
+            {
+                handleError(this.navCtrl, error, this.toastCtrl);
+                this.enableSubmit = true;
+            }
+        );
     }
 }
