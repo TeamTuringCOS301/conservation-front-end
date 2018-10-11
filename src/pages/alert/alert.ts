@@ -82,12 +82,6 @@ export class AlertPage {
 
   ionViewDidLoad(){
     var notificationToken: any = {};
-    this.storage.get('pushToken').then((token) =>
-    {
-      console.log("Sent token is: "+token);
-      notificationToken.token = token;
-      this.http.post("/admin/token", notificationToken);
-    })
       this.LoadMap();
       this.refreshInterval = setInterval(() =>
       {

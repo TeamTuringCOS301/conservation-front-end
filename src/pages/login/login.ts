@@ -39,8 +39,8 @@ export class LoginPage {
           {
             //console.log("Sent token is: "+token);
             notificationToken.token = token;
-            this.http.post("/admin/token", notificationToken);
-          })
+            this.http.post("/admin/token", notificationToken).subscribe((data) => {console.log(data);}, (err) => {console.log(err);});
+          });
           this.navCtrl.push('TabsPage');
         }
         else
