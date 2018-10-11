@@ -29,6 +29,7 @@ export class AlertPage {
   mapMarkers: any = [];
   openMarker: any;
   refreshInterval: any;
+  lock: boolean = false;
 
   requestAlert:any;
 
@@ -40,17 +41,22 @@ export class AlertPage {
         image: new FormControl(),
         broadcast: new FormControl()
     });
+    this.lock = false;
     events.subscribe('alert:broadcasted', () => {
-      console.log('b');
       this.refresh();
     });
   }
 
   public refresh()
   {
-    this.clearAll();
-    this.mapMarkers = [];
-    this.getMarkers();
+    if (this.lock){
+      return;
+    }
+      this.lock = true;
+      this.clearAll();
+      this.mapMarkers = [];
+      this.getMarkers();
+      this.lock = false;
   }
 
   deleteMarker(){
