@@ -25,6 +25,7 @@ export const enableMessages = (toastCtrl) =>
 {
   const messaging = firebase.messaging();
   messaging.onMessage((payload) => {
+    console.log("Message received");
     presentToast(toastCtrl, "A new alert has been added");
   });
 }
