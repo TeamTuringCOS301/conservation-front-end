@@ -9,6 +9,7 @@ import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { presentToast, handleError } from '../../app-functions';
+import { Events } from 'ionic-angular';
 declare var google;
 
 @IonicPage({})
@@ -31,13 +32,17 @@ export class AlertPage {
 
   requestAlert:any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
+  constructor(public http: Http, public events: Events,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
         severity: new FormControl(),
         image: new FormControl(),
         broadcast: new FormControl()
+    });
+    events.subscribe('alert:broadcasted', () => {
+      console.log('b');
+      this.refresh();
     });
   }
 

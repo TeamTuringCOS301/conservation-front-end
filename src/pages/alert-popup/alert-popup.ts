@@ -7,6 +7,7 @@ import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { presentToast, handleError } from '../../app-functions';
+import { Events } from 'ionic-angular';
 
 @IonicPage({})
 @Component({
@@ -23,7 +24,7 @@ export class AlertPopupPage {
 
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
          public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
-         public ng2ImgToolsService: Ng2ImgToolsService )
+         public ng2ImgToolsService: Ng2ImgToolsService, public events: Events )
     {
         this.requestAlert = new FormGroup({
             title: new FormControl(),
@@ -105,7 +106,10 @@ export class AlertPopupPage {
         (
             (data) =>
             {
+                console.log('a');
                 this.presentToast("Successfully Submitted");
+                this.events.publish('alert:broadcasted');
+                console.log('c');
             },
             (error) =>
             {
