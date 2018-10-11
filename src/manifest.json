@@ -1,6 +1,6 @@
 {
-  "name": "ERP Admin Portal",
-  "short_name": "ERP Admin Portal",
+  "name": "ERP Coin Admin",
+  "short_name": "ERP Coin Admin",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
