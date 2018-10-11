@@ -1,3 +1,4 @@
+// tslint:disable: no-unused-variable
 import { NavController } from 'ionic-angular';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ToastController, ModalController} from 'ionic-angular';
@@ -11,6 +12,7 @@ import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { presentToast, handleError } from '../../app-functions';
 import { Events } from 'ionic-angular';
 declare var google;
+// tslint:enable: no-unused-variable
 
 @IonicPage({})
 @Component({
