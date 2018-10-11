@@ -103,7 +103,7 @@ export class BroadcastPage {
         }
         i++;
       }
-    }Add
+    }
     for (let entry of this.mapMarkers) {
       this.addListenerToMarker(entry);
     }
@@ -123,6 +123,7 @@ export class BroadcastPage {
   addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
+      this.openMarker.aObject.time = new Date(this.openMarker.aObject.time).toLocaleString();
       this.editAlert(this.openMarker.aObject);
     });
   }
