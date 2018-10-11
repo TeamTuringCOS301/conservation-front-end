@@ -37,7 +37,7 @@ export class LoginPage {
           var notificationToken: any = {}
           this.storage.get('pushToken').then((token) =>
           {
-            console.log("Sent token is: "+token);
+            //console.log("Sent token is: "+token);
             notificationToken.token = token;
             this.http.post("/admin/token", notificationToken);
           })
