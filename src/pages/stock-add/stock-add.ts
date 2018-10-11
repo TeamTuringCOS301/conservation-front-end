@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ToastController, ModalController, ViewController, IonicPage} from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
@@ -66,6 +66,26 @@ export class StockAddPage {
         else if (value.image == null)
         {
             presentToast(this.toastCtrl, "No image added.");
+            return false;
+        }
+        else if (value.price > 2147483647)
+        {
+            presentToast(this.toastCtrl, "Price is too large.");
+            return false;
+        }
+        else if (value.amount > 2147483647)
+        {
+            presentToast(this.toastCtrl, "Amount is too large.");
+            return false;
+        }
+        else if (value.price < 1)
+        {
+            presentToast(this.toastCtrl, "Price is too small.");
+            return false;
+        }
+        else if (value.amount < 1)
+        {
+            presentToast(this.toastCtrl, "Amount is too small.");
             return false;
         }
         else

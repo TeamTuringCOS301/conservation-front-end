@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ToastController, ModalController, ViewController, NavParams, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
@@ -12,7 +12,6 @@ import { presentToast, handleError } from '../../app-functions';
   templateUrl: 'stock-edit.html'
 })
 export class StockEditPage {
-    @ViewChild('fileInput') private fileInput: any;
     requestProduct:any;
 
     product:any;
@@ -61,6 +60,26 @@ export class StockEditPage {
         else if (value.amount == null || value.amount == 0 )
         {
             presentToast(this.toastCtrl, "The given amount cannot be 0.");
+            return false;
+        }
+        else if (value.price > 2147483647)
+        {
+            presentToast(this.toastCtrl, "Price is too large.");
+            return false;
+        }
+        else if (value.amount > 2147483647)
+        {
+            presentToast(this.toastCtrl, "Amount is too large.");
+            return false;
+        }
+        else if (value.price < 1)
+        {
+            presentToast(this.toastCtrl, "Price is too small.");
+            return false;
+        }
+        else if (value.amount < 1)
+        {
+            presentToast(this.toastCtrl, "Amount is too small.");
             return false;
         }
         else

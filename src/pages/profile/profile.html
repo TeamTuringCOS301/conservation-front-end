@@ -3,7 +3,7 @@
         <ion-title>Profile</ion-title>
         <ion-buttons end>
             <button *ngIf="!editMode" ion-button round outline (click)="editToggle()">Edit<ion-icon name="create"></ion-icon></button>
-            <button *ngIf="editMode" [hidden]="editPasswordMode" ion-button round outline offset-10 (click)="changePasswordToggle()">Change Password<ion-icon
+            <button *ngIf="editMode" [hidden]="editPasswordMode" ion-button round outline offset-10 (click)="editPasswordMode = !editPasswordMode">Change Password<ion-icon
                     name="lock"></ion-icon></button>
         </ion-buttons>
     </ion-navbar>
@@ -37,11 +37,11 @@
             <ion-list>
                 <ion-item>
                     <ion-label floating>Name: </ion-label>
-                    <ion-input formControlName="name" type="text" value={{profile.name}} maxlength="40"></ion-input>
+                    <ion-input formControlName="name" type="text" value={{profile.name}} maxlength="50"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Surame: </ion-label>
-                    <ion-input formControlName="surname" type="text" value={{profile.surname}} maxlength="80"></ion-input>
+                    <ion-input formControlName="surname" type="text" value={{profile.surname}} maxlength="50"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Email: </ion-label>
@@ -67,7 +67,7 @@
                     </ion-col>
                     <ion-col col-2>
                         <button ion-button round outline color="primary" block (click)="editToggle()" color="tertiary" [hidden]="editPasswordMode">Cancel</button>
-                        <button ion-button round outline color="primary" block (click)="editToggle(); changePasswordToggle()" color="tertiary" [hidden]="!editPasswordMode">Cancel</button>
+                        <button ion-button round outline color="primary" block (click)="editToggle(); editPasswordMode = !editPasswordMode" color="tertiary" [hidden]="!editPasswordMode">Cancel</button>
                     </ion-col>
                 </ion-row>
             </ion-list>

@@ -7,9 +7,7 @@ import { CONFIG } from '../../app-config';
 import { PopoverController } from 'ionic-angular';
 import { presentToast, handleError, logOut } from '../../app-functions';
 
-
-@IonicPage({
-  })
+@IonicPage({})
 @Component({
   selector: 'page-stock',
   templateUrl: 'stock.html'

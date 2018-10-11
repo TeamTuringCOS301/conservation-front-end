@@ -14,34 +14,10 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { Http } from '../http-api';
 import { Ng2ImgToolsModule } from 'ng2-img-tools';
 import { PopoverController } from 'ionic-angular';
-//import { AlertPage } from '../pages/alert/alert';
-//import { TabsPage } from '../pages/tabs/tabs';
-//import { BroadcastPage } from '../pages/broadcast/broadcast';
-//import { LoginPage } from '../pages/login/login';
-//import { StockAddPage} from '../pages/stock-add/stock-add';
-//import { AlertPopupPage} from '../pages/alert-popup/alert-popup';
-//import { BroadcastPopupPage} from '../pages/broadcast-popup/broadcast-popup';
-//import { StockEditPage} from '../pages/stock-edit/stock-edit';
-//import { StockPage } from '../pages/stock/stock';
-//import { ProfilePage } from "../pages/profile/profile";
-//import { AddBroadcastPopupPage} from '../pages/add-broadcast-popup/add-broadcast-popup';
-//import { PopoverPage } from '../pages/popover/popover';
 
 @NgModule({
   declarations: [
-    MyApp//,
-    //AlertPage,
-    //TabsPage,
-    //LoginPage,
-    //StockPage,
-    //StockAddPage,
-    //AlertPopupPage,
-    //StockEditPage,
-    //BroadcastPage,
-    //BroadcastPopupPage,
-    //ProfilePage,
-    //AddBroadcastPopupPage,
-    //PopoverPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -52,19 +28,7 @@ import { PopoverController } from 'ionic-angular';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    //AlertPage,
-    //TabsPage,
-    //LoginPage,
-    //StockPage,
-    //StockAddPage,
-    //AlertPopupPage,
-    //StockEditPage,
-    //BroadcastPage,
-    //BroadcastPopupPage,
-    //ProfilePage,
-    //AddBroadcastPopupPage,
-    //PopoverPage
+    MyApp
   ],
   providers: [
     StatusBar,
