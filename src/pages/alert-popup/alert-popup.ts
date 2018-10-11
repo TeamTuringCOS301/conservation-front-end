@@ -51,7 +51,6 @@ export class AlertPopupPage {
         this.alert.image = CONFIG.url + "/alert/image/" + this.alert.id;
     }
 
-
     public deleteAlert(){
       this.http.get("/alert/remove/" + this.alert.id).subscribe
       (
@@ -66,6 +65,7 @@ export class AlertPopupPage {
               this.cancel();
           }
       );
+      //this.cancel();
     }
 
     public requestEditAlert(value: any)

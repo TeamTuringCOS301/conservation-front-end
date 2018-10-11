@@ -123,7 +123,7 @@ export class BroadcastPage {
   addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
-      this.openMarker.aObject.time = new Date(this.openMarker.aObject.time).toLocaleString();
+      this.openMarker.aObject.time = new Date(this.openMarker.aObject.time).toString();
       this.editAlert(this.openMarker.aObject);
     });
   }
