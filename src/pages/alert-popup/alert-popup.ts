@@ -106,10 +106,8 @@ export class AlertPopupPage {
         (
             (data) =>
             {
-                console.log('a');
                 this.presentToast("Successfully Submitted");
                 this.events.publish('alert:broadcasted');
-                console.log('c');
             },
             (error) =>
             {

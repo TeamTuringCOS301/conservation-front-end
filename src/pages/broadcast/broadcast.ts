@@ -31,6 +31,7 @@ export class BroadcastPage {
   openMarker: any;
   addAlertControl: boolean;
   refreshInterval: any;
+  lock: boolean = false;
 
   requestAlert:any;
 
@@ -43,13 +44,19 @@ export class BroadcastPage {
         broadcast: new FormControl()
     });
     this.addAlertControl = true;
+    this.lock = false;
   }
 
   public refresh()
   {
-    this.clearAll();
-    this.mapMarkers = [];
-    this.getMarkers();
+    if (this.lock){
+      return;
+    }
+      this.lock = true;
+      this.clearAll();
+      this.mapMarkers = [];
+      this.getMarkers();
+      this.lock = false;
   }
 
   public editAlert(alert)
