@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import {presentToast} from './app-functions';
 export const initializeFirebase = () => {
   firebase.initializeApp({
     apiKey: "AIzaSyByeLQjds_lkRg1q347VvmxIWUNxutFvkE",
@@ -17,12 +18,15 @@ export const initializeFirebase = () => {
         firebase.messaging().useServiceWorker(registration);
       }).catch((err)=>{console.log(err)});
   }
-
-  const messaging = firebase.messaging();
-  messaging.onMessage(function(payload) {
-    console.log('Message received. ', payload);
-  });
     askForPermissioToReceiveNotifications();
+}
+
+export const enableMessages = (toastCtrl) =>
+{
+  const messaging = firebase.messaging();
+  messaging.onMessage((payload) => {
+    presentToast(toastCtrl, "A new alert has been added");
+  });
 }
 
 export const askForPermissioToReceiveNotifications = async () => {
