@@ -65,7 +65,6 @@ export class AlertPage {
       this.refresh();
       })
     addModal.present();
-    this.refresh();
   }
 
   ionViewDidLoad(){
@@ -125,6 +124,7 @@ export class AlertPage {
   addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
+      this.openMarker.aObject.time = new Date(this.openMarker.aObject.time).toLocaleString();
       this.editAlert(this.openMarker.aObject);
     });
   }
