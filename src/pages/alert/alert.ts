@@ -8,6 +8,8 @@ import { FormGroup, FormControl} from '@angular/forms';
 import { PopoverController } from 'ionic-angular';
 import { PopoverPage } from '../popover/popover';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { presentToast, handleError } from '../../app-functions';
+import { Events } from 'ionic-angular';
 declare var google;
 
 @IonicPage({})
@@ -26,16 +28,21 @@ export class AlertPage {
   markers: any = [];
   mapMarkers: any = [];
   openMarker: any;
+  refreshInterval: any;
 
   requestAlert:any;
 
-  constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
+  constructor(public http: Http, public events: Events,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
         severity: new FormControl(),
         image: new FormControl(),
         broadcast: new FormControl()
+    });
+    events.subscribe('alert:broadcasted', () => {
+      console.log('b');
+      this.refresh();
     });
   }
 
@@ -68,6 +75,10 @@ export class AlertPage {
 
   ionViewDidLoad(){
       this.LoadMap();
+      this.refreshInterval = setInterval(() =>
+      {
+        this.refresh();
+      }, 10000);
   }
 
   public alertPopup()
@@ -87,7 +98,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -103,17 +114,17 @@ export class AlertPage {
         aObject: entry
       }));
       if (entry.severity == 0){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png');
       }
       else if (entry.severity == 1){
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
       }
       else{
-        this.mapMarkers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/orange-dot.png');
+        this.mapMarkers[i].setIcon('https://maps.google.com/mapfiles/ms/icons/orange-dot.png');
       }
       i++;
     }}
-    
+
     for (let entry of this.mapMarkers) {
       this.addListenerToMarker(entry);
     }
@@ -122,6 +133,7 @@ export class AlertPage {
   addListenerToMarker(marker) {
     marker.addListener('click', () => {
       this.openMarker = marker;
+      this.openMarker.aObject.time = new Date(this.openMarker.aObject.time).toString();
       this.editAlert(this.openMarker.aObject);
     });
   }
@@ -137,7 +149,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -171,7 +183,7 @@ export class AlertPage {
         },
         (error) =>
         {
-          alert("Error: " + error);
+          handleError(this.navCtrl, error, this.toastCtrl);
         }
     );
   }
@@ -204,20 +216,27 @@ export class AlertPage {
   }
 
   public logOut()
-    {
-        this.http.get("/admin/logout").subscribe
-        (
-            (data) =>
-            {
-                this.navCtrl.push('LoginPage');
-                this.presentToast("Logged Out");
-            },
-            (error) =>
-            {
-                this.navCtrl.push('LoginPage');
-            }
-        );
-    }
+  {
+      this.http.get("/admin/logout").subscribe
+      (
+          (data) =>
+          {
+              let elements = document.querySelectorAll(".tabbar");
+
+              if (elements != null) {
+                  Object.keys(elements).map((key) => {
+                      elements[key].style.display = 'none';
+                  });
+              }
+              this.navCtrl.push('LoginPage');
+              this.presentToast("Logged Out");
+          },
+          (error) =>
+          {
+              handleError(this.navCtrl, error, this.toastCtrl);
+          }
+      );
+  }
 
     presentToast(text)
     {

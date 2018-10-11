@@ -17,11 +17,11 @@
             </ion-item>
             <ion-item>
                 <ion-label floating>Title<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="title" type="text"></ion-input>
+                <ion-input formControlName="title" type="text" maxlength="30"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Description<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="description" type="text"></ion-input>
+                <ion-textarea formControlName="description" type="textarea" maxlength="255"></ion-textarea>
             </ion-item>
             <p></p>
             <ion-item>
@@ -33,11 +33,11 @@
               </ion-select>
             </ion-item>
             <ion-item>
-                <ion-label>Select Image<span style="color:red">*</span></ion-label>
-                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)"/>
+              <ion-label>Select Image<span style="color:red">*</span></ion-label>
+              <input item-end type="file" accept="image/*" (change)="processWebImage($event)"/>
             </ion-item>
               <button ion-button round outline color="primary" block type="submit">Confirm</button>
-              <button ion-button round outline color="primary" block type = "button" (click)="cancel()">Cancel</button>
+              <button ion-button round outline color="primary" block type="button" (click)="cancel()">Cancel</button>
         </ion-list>
     </form>
 

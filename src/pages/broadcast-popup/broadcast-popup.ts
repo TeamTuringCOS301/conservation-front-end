@@ -5,6 +5,7 @@ import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -15,6 +16,7 @@ export class BroadcastPopupPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
+    enableSubmit:boolean = true;
 
     alert:any;
 
@@ -53,13 +55,14 @@ export class BroadcastPopupPage {
           (data) => //Success
           {
               this.presentToast("Successfully Submitted");
+              this.cancel();
           },
           (error) =>
           {
-              this.presentToast("Error: " + error);
+              handleError(this.navCtrl, error, this.toastCtrl);
+              this.cancel();
           }
       );
-      this.cancel();
     }
 
     public requestEditAlert(value: any)
@@ -69,7 +72,8 @@ export class BroadcastPopupPage {
             "description":"",
             "severity":0,
             "broadcast":false,
-            "location":""
+            "location":"",
+            "image":""
         };
 
         if (value.title == null || value.title == "")
@@ -93,6 +97,7 @@ export class BroadcastPopupPage {
         jsonArr.description = value.description;
         jsonArr.broadcast = this.alert.broadcast;
         jsonArr.location = this.alert.location;
+        jsonArr.image = value.image;
 
         this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
@@ -102,7 +107,7 @@ export class BroadcastPopupPage {
             },
             (error) =>
             {
-                this.presentToast("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
 
@@ -117,20 +122,37 @@ export class BroadcastPopupPage {
         this.viewCtrl.dismiss(null);
     }
 
+/**
     public processWebImage(event)
     {
+        this.enableSubmit = false;
+
         if (event.target.files[0] == null)
             return false;
-
         let reader = new FileReader();
-        reader.onload = (readerEvent) => {
+        reader.onload = (readerEvent) =>
+        {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
-            this.requestAlert.patchValue({ 'image': imageData });
-        };
 
-        reader.readAsDataURL(event.target.files[0]);
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
+            this.requestProduct.patchValue({ 'image': imageData });
+        };
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
+        (
+            (res) =>
+            {
+                reader.readAsDataURL(res);
+                this.enableSubmit = true;
+            },
+            (error) =>
+            {
+                alert("Error" + error);
+                this.enableSubmit = true;
+            }
+        );
     }
+    */
 
     presentToast(text)
     {

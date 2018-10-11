@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl} from '@angular/forms';
-import { TabsPage } from '../tabs/tabs';
 import { Http } from '../../http-api';
+import { presentToast, handleError } from '../../app-functions';
 
 @IonicPage()
 @Component({
@@ -10,7 +10,7 @@ import { Http } from '../../http-api';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-
+  
   adminUser: any;
   constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController) {
     this.adminUser = new FormGroup({user: new FormControl(), pass: new FormControl()});
@@ -32,31 +32,18 @@ export class LoginPage {
         var jsonResp = JSON.parse(data.text());
         if(jsonResp.success)
         {
-          this.presentToast("Logged in!");
+          presentToast(this.toastCtrl, "Logged in!");
           this.navCtrl.push('TabsPage');
         }
         else
         {
-          alert("Invalid Login. Try Again.");
+          presentToast(this.toastCtrl, "Invalid username/password combination");
         }
       },
       (error) =>
       {
-        alert("Error: " + error);         
+        handleError(this.navCtrl, error, this.toastCtrl);         
       }
     );
   }
-
-  presentToast(text){
-    let toast = this.toastCtrl.create(
-      {
-        message: text,
-        duration: 1500,
-        position: 'bottom',
-        dismissOnPageChange: false
-      }
-    );
-    toast.present();
-  }
-
 }

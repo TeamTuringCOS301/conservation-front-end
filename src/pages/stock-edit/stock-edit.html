@@ -19,25 +19,26 @@
             </ion-item>       
             <ion-item>
                 <ion-label floating>Name<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="name" type="text" value={{product.name}}></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label floating>Price in Rand<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="price" type="number" value={{product.randValue}}></ion-input>
+                <ion-input formControlName="name" type="text" value={{product.name}} maxlength="30"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Description<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="description" type="textarea" value={{product.description}}></ion-input>
+                <ion-textarea formControlName="description" type="textarea" value={{product.description}} maxlength="255"></ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Price in Rand<span style="color:red">*</span></ion-label>
+                <ion-input formControlName="price" type="number" value={{product.randValue}} min="1" max="2147483647"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Amount in Stock<span style="color:red">*</span></ion-label>
-                <ion-input formControlName="amount" type="number" value={{product.amount}}></ion-input>
+                <ion-input formControlName="amount" type="number" value={{product.amount}} min="1" max="2147483647"></ion-input>
             </ion-item>
             <ion-item>               
-                <ion-label>Change Image</ion-label>
-                <input item-end type="file" accept=".jpg, .jpeg, .png" (change)="processWebImage($event)" />
+                <ion-label>Select Image</ion-label>
+                <input item-end type="file" accept="image/*" (change)="processWebImage($event)" />
             </ion-item>
-            <button ion-button round outline color="primary" block type="submit">Submit</button>
+            <button *ngIf="enableSubmit" ion-button round outline color="primary" block type="submit">Submit</button>
+            <ion-label *ngIf="!enableSubmit">Loading...</ion-label>
         </ion-list>
     </form>
 

@@ -5,6 +5,9 @@ import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
+import { presentToast, handleError } from '../../app-functions';
+import { Events } from 'ionic-angular';
 
 @IonicPage({})
 @Component({
@@ -15,11 +18,13 @@ export class AlertPopupPage {
     @ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
+    enableSubmit:boolean = true;
 
     alert:any;
 
     constructor(public http: Http, public navCtrl: NavController, public toastCtrl: ToastController, public params: NavParams,
-         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController )
+         public camera: Camera, public modalCtrl: ModalController, public viewCtrl: ViewController,
+         public ng2ImgToolsService: Ng2ImgToolsService, public events: Events )
     {
         this.requestAlert = new FormGroup({
             title: new FormControl(),
@@ -47,20 +52,21 @@ export class AlertPopupPage {
         this.alert.image = CONFIG.url + "/alert/image/" + this.alert.id;
     }
 
-
     public deleteAlert(){
       this.http.get("/alert/remove/" + this.alert.id).subscribe
       (
           (data) =>
           {
               this.presentToast("Successfully Submitted");
+              this.cancel();
           },
           (error) =>
           {
-              this.presentToast("Error: " + error);
+              handleError(this.navCtrl, error, this.toastCtrl);
+              this.cancel();
           }
       );
-      this.cancel();
+      //this.cancel();
     }
 
     public requestEditAlert(value: any)
@@ -100,11 +106,14 @@ export class AlertPopupPage {
         (
             (data) =>
             {
+                console.log('a');
                 this.presentToast("Successfully Submitted");
+                this.events.publish('alert:broadcasted');
+                console.log('c');
             },
             (error) =>
             {
-                this.presentToast("Error: " + error);
+                handleError(this.navCtrl, error, this.toastCtrl);
             }
         );
 
@@ -121,18 +130,32 @@ export class AlertPopupPage {
 
     public processWebImage(event)
     {
+        this.enableSubmit = false;
+
         if (event.target.files[0] == null)
             return false;
-
         let reader = new FileReader();
-        reader.onload = (readerEvent) => {
+        reader.onload = (readerEvent) =>
+        {
             let imageData = (readerEvent.target as any).result;
-            imageData = imageData.substring('data:image/jpeg;base64,'.length);
 
+            var position = imageData.indexOf(",");
+            imageData = imageData.slice(position+1);
             this.requestAlert.patchValue({ 'image': imageData });
         };
-
-        reader.readAsDataURL(event.target.files[0]);
+        this.ng2ImgToolsService.resize([event.target.files[0]], 512, 512).subscribe
+        (
+            (res) =>
+            {
+                reader.readAsDataURL(res);
+                this.enableSubmit = true;
+            },
+            (error) =>
+            {
+                handleError(this.navCtrl, error, this.toastCtrl);
+                this.enableSubmit = true;
+            }
+        );
     }
 
     presentToast(text)
