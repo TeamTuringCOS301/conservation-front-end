@@ -6,7 +6,7 @@ export const initializeFirebase = () => {
     authDomain: "erp-coin-2680b.firebaseapp.com",
     databaseURL: "https://erp-coin-2680b.firebaseio.com",
     projectId: "erp-coin-2680b",
-    storageBucket: "",
+    storageBucket: "erp-coin-2680b.appspot.com",
     messagingSenderId: "912610128669"
   });
 
