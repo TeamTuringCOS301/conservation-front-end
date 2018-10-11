@@ -33,14 +33,6 @@ export class ProfilePage {
         this.getInformation();      
     }
 
-    public changePasswordToggle()
-    {
-        if (!this.editPasswordMode)
-            this.editPasswordMode = true;
-        else
-            this.editPasswordMode = false;
-    }
-
     public editToggle()
     {
         if (!this.editMode)
@@ -133,9 +125,9 @@ export class ProfilePage {
             (
                 (data) =>
                 {
-                    presentToast(this.toastCtrl,"Successfully Submitted");
                     this.editMode = false;
-                    this.getInformation();   
+                    this.getInformation();
+                    presentToast(this.toastCtrl,"Successfully Submitted");
                 },
                 (error) =>
                 {
