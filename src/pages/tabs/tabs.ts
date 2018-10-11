@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-
-import { AlertPage } from '../alert/alert';
-import { StockPage } from '../stock/stock';
-import { BroadcastPage } from '../broadcast/broadcast';
-import { ProfilePage } from "../profile/profile" 
 import { IonicPage } from 'ionic-angular';
 
 @IonicPage()

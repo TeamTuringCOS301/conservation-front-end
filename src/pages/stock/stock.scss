@@ -3,4 +3,15 @@ page-stock {
         object-fit: contain;
         object-position: 50% 0%;
     }
+
+    .pins {
+        column-count: 3;
+    }
+
+    .pin {
+        display: inline-block;
+        margin: 0 2px 10px;
+        padding: 5px;
+
+    }
 }
