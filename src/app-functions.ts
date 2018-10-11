@@ -28,6 +28,7 @@ export function handleError(navCtrl, error, toastCtrl)
   if(error.status == 401)
   {
     navCtrl.setRoot('LoginPage');
+    hideTabs();
     msg = "Please log in";
   }
   else if(error.status == 500)
@@ -54,13 +55,7 @@ export function logOut(navCtrl, http, toastCtrl)
       (
         (data) =>
         {
-          let elements = document.querySelectorAll(".tabbar");
-
-          if (elements != null) {
-              Object.keys(elements).map((key) => {
-                  elements[key].style.display = 'none';
-              });
-          }
+          hideTabs();
           navCtrl.push('LoginPage');
           presentToast(toastCtrl,"Logged Out");
         },
@@ -69,4 +64,14 @@ export function logOut(navCtrl, http, toastCtrl)
           handleError(navCtrl, error, toastCtrl);
         }            
     );        
+  }
+
+  function hideTabs()
+  {
+    let elements = document.querySelectorAll(".tabbar");
+    if (elements != null) {
+        Object.keys(elements).map((key) => {
+            elements[key].style.display = 'none';
+        });
+    }
   }

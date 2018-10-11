@@ -1,5 +1,6 @@
 import { Component, } from '@angular/core';
 import { IonicPage, NavController, ToastController, ModalController, AlertController} from 'ionic-angular';
+import { ImageViewerController } from 'ionic-img-viewer';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
@@ -22,11 +23,13 @@ export class StockPage {
     imageURI:any;
     imageFileName:any;
     imageTag:any;
+    _imageViewerCtrl:any;
 
     constructor(public http: Http,  public navCtrl: NavController, public toastCtrl: ToastController,
          public camera: Camera, public modalCtrl: ModalController, private alertCtrl: AlertController,
-         public popoverCtrl: PopoverController)
+         public popoverCtrl: PopoverController, imageViewerCtrl: ImageViewerController)
     {
+        this._imageViewerCtrl = imageViewerCtrl;
         this.requestProduct = new FormGroup({
             name: new FormControl(),
             price: new FormControl(),
@@ -188,7 +191,11 @@ export class StockPage {
                 this.refresh();
             else if (data.option == 2)
                 logOut(this.navCtrl, this.http, this.toastCtrl);
-            
         })
     }
+
+    presentImage(myImage) {
+        const imageViewer = this._imageViewerCtrl.create(myImage);
+        imageViewer.present();
+      }
 }

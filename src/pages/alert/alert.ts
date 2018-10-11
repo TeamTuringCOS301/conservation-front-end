@@ -11,6 +11,7 @@ import { PopoverPage } from '../popover/popover';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { presentToast, handleError } from '../../app-functions';
 import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 declare var google;
 // tslint:enable: no-unused-variable
 
@@ -35,7 +36,7 @@ export class AlertPage {
 
   requestAlert:any;
 
-  constructor(public http: Http, public events: Events,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
+  constructor(public storage: Storage, public http: Http, public events: Events,  public navCtrl: NavController, public toastCtrl: ToastController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.requestAlert = new FormGroup({
         title: new FormControl(),
         description: new FormControl(),
@@ -82,6 +83,7 @@ export class AlertPage {
   }
 
   ionViewDidLoad(){
+    var notificationToken: any = {};
       this.LoadMap();
       this.refreshInterval = setInterval(() =>
       {
