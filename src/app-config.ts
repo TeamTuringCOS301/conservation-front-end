@@ -1,5 +1,5 @@
 export let CONFIG = {
-    url: "/api"
+    url: "https://erpcoin.westeurope.cloudapp.azure.com/api"
 }
 // https://erpcoin.duckdns.org:80
 // http://localhost:8080
