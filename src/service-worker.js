@@ -29,3 +29,27 @@ self.toolbox.router.any('/*', self.toolbox.fastest);
 // for any other requests go to the network, cache,
 // and then only use that cached resource if your user goes offline
 self.toolbox.router.default = self.toolbox.networkFirst;
+
+ importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
+ importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
+
+ firebase.initializeApp({
+   'messagingSenderId': 'YOUR-SENDER-ID'
+ });
+ // Retrieve an instance of Firebase Messaging so that it can handle background
+ // messages.
+ const messaging = firebase.messaging();
+
+messaging.setBackgroundMessageHandler(function(payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  var notificationTitle = 'Background Message Title';
+  var notificationOptions = {
+    body: 'Background Message body.',
+    icon: '/assets/img/icon.png'
+  };
+
+  return self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});
+// [END background_handler]

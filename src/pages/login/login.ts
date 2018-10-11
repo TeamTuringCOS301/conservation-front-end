@@ -28,7 +28,7 @@ export class LoginPage {
     this.http.post("/admin/login", jsonArr).subscribe
     (
       (data) =>
-      {      
+      {
         var jsonResp = JSON.parse(data.text());
         if(jsonResp.success)
         {
@@ -42,7 +42,7 @@ export class LoginPage {
       },
       (error) =>
       {
-        alert("Error: " + error);         
+        alert("Error: " + error);
       }
     );
   }
