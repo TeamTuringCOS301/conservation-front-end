@@ -101,23 +101,17 @@ export class AlertPopupPage {
         jsonArr.broadcast = true;
         jsonArr.location = this.alert.location;
 
-        let contin = false;
-
         this.http.post("/alert/update/" + this.alert.id, jsonArr).subscribe
         (
             (data) =>
             {
                 this.presentToast("Successfully Submitted");
-                contin = true;
             },
             (error) =>
             {
                 handleError(this.navCtrl, error, this.toastCtrl);
-                contin = true;
             }
         );
-
-        while(!contin){console.log("yo")}
 
         this.requestAlert.reset();
         this.viewCtrl.dismiss(value);
