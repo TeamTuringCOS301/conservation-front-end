@@ -103,7 +103,7 @@ export class BroadcastPage {
         }
         i++;
       }
-    }
+    }Add
     for (let entry of this.mapMarkers) {
       this.addListenerToMarker(entry);
     }

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Broadcasted Alerts</ion-title>
+        <ion-title>Broadcasted Alert</ion-title>
         <ion-buttons start>
             <button ion-button (click)="cancel()">
                 <ion-icon name="close"></ion-icon>
@@ -12,9 +12,11 @@
 <ion-content padding>
     <form (submit)="requestEditAlert(requestAlert.value)" [formGroup]="requestAlert">
         <ion-list>
-            <ion-item>
+            <ion-item text-center>
                 <img src= {{alert.image}} imageViewer/>
-                <p>{{alert.time}}.</p>
+            </ion-item>
+            <ion-item text-center>
+                {{alert.time}}
             </ion-item>
             <ion-item>
                 <ion-label floating>Title<span style="color:red">*</span></ion-label>

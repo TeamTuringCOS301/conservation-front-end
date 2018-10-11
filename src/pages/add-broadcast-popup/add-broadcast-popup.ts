@@ -5,7 +5,7 @@ import { Camera } from '@ionic-native/camera';
 import { Http } from '../../http-api';
 import { CONFIG } from '../../app-config';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
-import { presentToast, handleError } from '../../app-functions';
+import { handleError } from '../../app-functions';
 
 @IonicPage({})
 @Component({
@@ -13,7 +13,7 @@ import { presentToast, handleError } from '../../app-functions';
   templateUrl: 'add-broadcast-popup.html'
 })
 export class AddBroadcastPopupPage {
-    @ViewChild('fileInput') private fileInput: any;
+    //@ViewChild('fileInput') private fileInput: any;
 
     requestAlert:FormGroup;
     enableSubmit:boolean = true;

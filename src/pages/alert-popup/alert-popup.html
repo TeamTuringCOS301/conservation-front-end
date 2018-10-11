@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Add Alert</ion-title>
+        <ion-title>New Alert</ion-title>
         <ion-buttons start>
             <button ion-button (click)="cancel()">
                 <ion-icon name="close"></ion-icon>
@@ -34,10 +34,10 @@
                 <ion-option value="2" selected={{alert.isTwo}}>Critical Alert</ion-option>
               </ion-select>
             </ion-item>
-            <ion-item>
+            <!--<ion-item>
                 <ion-label>Change Image<span style="color:red">*</span></ion-label>
                 <input item-end type="file" accept="image/*" (change)="processWebImage($event)"/>
-            </ion-item>
+            </ion-item>-->
               <button ion-button round outline color="primary" block type="submit">Broadcast Alert</button>
               <button ion-button round outline color="primary" block type = "button" (click)="deleteAlert()">Remove Alert</button>
         </ion-list>

@@ -58,13 +58,14 @@ export class AlertPopupPage {
           (data) =>
           {
               this.presentToast("Successfully Submitted");
+              this.cancel();
           },
           (error) =>
           {
               handleError(this.navCtrl, error, this.toastCtrl);
+              this.cancel();
           }
       );
-      this.cancel();
     }
 
     public requestEditAlert(value: any)
